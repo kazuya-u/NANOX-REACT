@@ -1,5 +1,5 @@
-import React from 'react';
 import { createGlobalStyle } from 'styled-components';
+import React, { useState } from 'react';
 import reset from 'styled-reset';
 
 const GlobalStyle = createGlobalStyle`
@@ -13,31 +13,42 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 interface SquareProps {
-  value: string;
+  value?: string;
 }
 
-const Square: React.FC<SquareProps> = ({value}) => {
-  return <button className='square'>{value}</button>;
+const Square: React.FC<SquareProps> = ({ value = '' }) => {
+  const [squareValue, setSquarevalue] = useState<string | null>(null);
+  function handleClick() {
+    setSquarevalue('x');
+  }
+  return (
+    <button
+     className='square'
+     onClick={handleClick}
+    >
+      {squareValue || value}
+    </button>
+  )
 }
 
 const App: React.FC = () => {
   return (
     <>
       <GlobalStyle />
-      <div className='board-row"'>
-        <Square value='1' />
-        <Square value='2' />
-        <Square value='3' />
+      <div className='board-row'>
+        <Square />
+        <Square />
+        <Square />
       </div>
-      <div className='board-row"'>
-        <Square value='4' />
-        <Square value='5' />
-        <Square value='6' />
+      <div className='board-row'>
+        <Square />
+        <Square />
+        <Square />
       </div>
-      <div className='board-row"'>
-        <Square value='7' />
-        <Square value='8' />
-        <Square value='9' />
+      <div className='board-row'>
+        <Square />
+        <Square />
+        <Square />
       </div>
     </>
   );
