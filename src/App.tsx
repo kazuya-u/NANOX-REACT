@@ -12,23 +12,24 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-function Square({value, onSquareClick}) {
+interface SquareProps {
+  value: string | null;
+  onSquareClick: () => void;
+}
+
+const Square: React.FC<SquareProps> = ({ value, onSquareClick }) => {
   return <button className='square' onClick={onSquareClick}>{value}</button>
 }
 
 const App: React.FC = () => {
-  const [squares, setSquares] = useState(Array(9).fill(null));
+  const [squares, setSquares] = useState<Array<string | null>>(Array(9).fill(null));
   const [xIsNext, setXIsNext] = useState(true);
-  function handleClick(i) {
+  const handleClick = (i: number): void => {
     if (squares[i]) {
       return;
     }
     const nextSquares = squares.slice();
-    if (xIsNext) {
-      nextSquares[i] = 'X';
-    } else {
-      nextSquares[i] = 'o';
-    }
+    nextSquares[i] = xIsNext ? 'x' : 'o';
     setSquares(nextSquares);
     setXIsNext(!xIsNext);
   }
