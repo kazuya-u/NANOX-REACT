@@ -25,7 +25,7 @@ const Square: React.FC<SquareProps> = ({ value, onSquareClick }) => {
   );
 };
 
-function calculateWinner(squares) {
+function calculateWinner(squares: Array<string | null>): string | null {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
