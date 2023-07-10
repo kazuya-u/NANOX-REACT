@@ -1,3 +1,4 @@
+import { Link, Outlet } from "react-router-dom";
 import styled from "styled-components";
 
 const Sidebar = styled.div`
@@ -48,14 +49,14 @@ const NavigationItem = styled.li`
   margin-bottom: 10px;
 `;
 
-const NavigationLink = styled.a`
-  color: #333;
-  text-decoration: none;
+// const Link = styled.a`
+//   color: #333;
+//   text-decoration: none;
 
-  &:hover {
-    text-decoration: underline;
-  }
-`;
+//   &:hover {
+//     text-decoration: underline;
+//   }
+// `;
 
 
 
@@ -90,15 +91,17 @@ export default function Root() {
         <Navigation>
           <NavigationList>
             <NavigationItem>
-              <NavigationLink href={`/contacts/1`}>Your Name</NavigationLink>
+              <Link to={`contacts/1`}>Kazuya Umeki</Link>
             </NavigationItem>
             <NavigationItem>
-              <NavigationLink href={`/contacts/2`}>Your Friend</NavigationLink>
+              <Link to={`contacts/2`}>Friend's name</Link>
             </NavigationItem>
           </NavigationList>
         </Navigation>
       </Sidebar>
-      <div id="detail"></div>
+      <div id="detail">
+        <Outlet />
+      </div>
     </>
   );
 }
