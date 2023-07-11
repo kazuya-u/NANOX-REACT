@@ -12,6 +12,7 @@ import Posts from "./routes/Posts";
 import ErrorPage from "./routes/ErrorPage";
 import Post from "./routes/Post";
 
+// To style the "isActive" ones.
 function CustomLink({ children, to, ...props }) {
   let resolved = useResolvedPath(to);
 
