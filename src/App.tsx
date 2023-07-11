@@ -1,10 +1,29 @@
-import { Route, Routes, NavLink } from 'react-router-dom';
-import Home from './routes/Home';
-import About from './routes/About';
-import Contact from './routes/Contact';
-import ErrorPage from './routes/ErrorPage';
+import {
+  Route,
+  Routes,
+  Link,
+  useResolvedPath,
+  useMatch,
+} from "react-router-dom";
+import Home from "./routes/Home";
+import About from "./routes/About";
+import Contact from "./routes/Contact";
+import ErrorPage from "./routes/ErrorPage";
 
-
+function CustomLink({ children, to }) {
+  let resolved = useResolvedPath(to);
+  let match = useMatch({
+    path: resolved.pathname,
+    end: true,
+  });
+  return (
+    <div>
+      <Link style={{ color: match ? "blue" : "" }} to={to}>
+        {children}
+      </Link>
+    </div>
+  );
+}
 
 const App: React.FC = () => {
   return (
@@ -12,13 +31,13 @@ const App: React.FC = () => {
       <h1>PoC React Router</h1>
       <ul>
         <li>
-          <NavLink className={({ isActive }) => (isActive ? 'active' : undefined)} style={({ isActive }) => (isActive ? { color: 'blue'} : undefined)} to="/">Home</NavLink>
+          <CustomLink to={"/"}>Home</CustomLink>
         </li>
         <li>
-          <NavLink className={({ isActive }) => (isActive ? 'active' : undefined)} to="/about">About</NavLink>
+          <CustomLink to={"/about"}>About</CustomLink>
         </li>
         <li>
-          <NavLink className={({ isActive }) => (isActive ? 'active' : undefined)} to="/contact">Contact</NavLink>
+          <CustomLink to={"/contact"}>Contact</CustomLink>
         </li>
       </ul>
       <Routes>
@@ -29,6 +48,6 @@ const App: React.FC = () => {
       </Routes>
     </div>
   );
-}
+};
 
 export default App;
