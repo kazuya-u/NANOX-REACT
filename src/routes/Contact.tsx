@@ -1,6 +1,6 @@
 const Contact: React.FC = () => {
   return (
-    <h2>Home</h2>
+    <h2>Contact</h2>
   );
 }
 
