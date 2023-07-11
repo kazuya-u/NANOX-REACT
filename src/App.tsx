@@ -4,6 +4,7 @@ import {
   Link,
   useResolvedPath,
   useMatch,
+  Outlet,
 } from "react-router-dom";
 import Home from "./routes/Home";
 import About from "./routes/About";
@@ -30,10 +31,17 @@ function CustomLink({ children, to, ...props }) {
   );
 }
 
+const Layout = () => {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center'}}>
+      <Outlet />
+    </div>
+  );
+};
+
 const App: React.FC = () => {
   return (
     <div>
-      <h1>PoC React Router</h1>
       <ul>
         <li>
           <CustomLink to={"/"}>Home</CustomLink>
@@ -49,9 +57,11 @@ const App: React.FC = () => {
         </li>
       </ul>
       <Routes>
-        <Route index element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
+        <Route element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+        </Route>
         <Route path="/posts" element={<Posts />}>
           <Route index element={<PostIndex />} />
           <Route path=":postId" element={<Post />} />
