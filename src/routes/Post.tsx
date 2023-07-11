@@ -3,13 +3,8 @@ import { useParams } from "react-router-dom";
 import { Stringifier } from "styled-components/dist/types";
 
 const Post: React.FC = () => {
-  type Data = {
-    id: number,
-    title: string,
-    body: string,
-  }
   const { postId } = useParams();
-  const [post, setPost] = useState<Data[]>([]);
+  const [post, setPost] = useState([]);
   
   useEffect(() => {
     const fetchPost = async () => {
