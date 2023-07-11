@@ -6,7 +6,7 @@ const About: React.FC = () => {
   return (
     <>
       <h2>About</h2>
-      <button onClick={() => navigate('/contact')}>Contactへ</button>
+      <button onClick={() => navigate('/contact?key=umeki', { state: 'test'})}>Contactへ</button>
     </>
   );
 }
