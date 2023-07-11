@@ -10,15 +10,16 @@ import About from "./routes/About";
 import Contact from "./routes/Contact";
 import ErrorPage from "./routes/ErrorPage";
 
-function CustomLink({ children, to }) {
+function CustomLink({ children, to, ...props }) {
   let resolved = useResolvedPath(to);
+  
   let match = useMatch({
     path: resolved.pathname,
     end: true,
   });
   return (
     <div>
-      <Link style={{ color: match ? "blue" : "" }} to={to}>
+      <Link style={{ color: match ? "blue" : "" }} to={to} {...props}>
         {children}
       </Link>
     </div>
