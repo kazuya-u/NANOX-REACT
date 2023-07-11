@@ -1,13 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 import Home from './routes/Home';
 import About from './routes/About';
-import Contact from './routes/contact';
+import Contact from './routes/Contact';
 import ErrorPage from './routes/ErrorPage';
-
-interface RouteProps {
-  path: string;
-  element: React.ReactNode;
-}
 
 const App: React.FC = () => {
   return (
