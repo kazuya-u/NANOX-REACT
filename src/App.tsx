@@ -8,11 +8,13 @@ import {
 import Home from "./routes/Home";
 import About from "./routes/About";
 import Contact from "./routes/Contact";
+import Posts from "./routes/Posts";
 import ErrorPage from "./routes/ErrorPage";
+import Post from "./routes/Post";
 
 function CustomLink({ children, to, ...props }) {
   let resolved = useResolvedPath(to);
-  
+
   let match = useMatch({
     path: resolved.pathname,
     end: true,
@@ -35,6 +37,9 @@ const App: React.FC = () => {
           <CustomLink to={"/"}>Home</CustomLink>
         </li>
         <li>
+          <CustomLink to={"/posts"}>Posts</CustomLink>
+        </li>
+        <li>
           <CustomLink to={"/about"}>About</CustomLink>
         </li>
         <li>
@@ -45,6 +50,9 @@ const App: React.FC = () => {
         <Route index element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/posts" element={<Posts />}>
+          <Route path=":postId" element={<Post />} />
+        </Route>
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </div>
