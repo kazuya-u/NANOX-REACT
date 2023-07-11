@@ -11,6 +11,7 @@ import Contact from "./routes/Contact";
 import Posts from "./routes/Posts";
 import ErrorPage from "./routes/ErrorPage";
 import Post from "./routes/Post";
+import PostIndex from "./routes/PostIndex";
 
 // To style the "isActive" ones.
 function CustomLink({ children, to, ...props }) {
@@ -52,6 +53,7 @@ const App: React.FC = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/posts" element={<Posts />}>
+          <Route index element={<PostIndex />} />
           <Route path=":postId" element={<Post />} />
         </Route>
         <Route path="*" element={<ErrorPage />} />
