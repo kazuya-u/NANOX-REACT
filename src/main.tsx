@@ -6,11 +6,13 @@ import Home from "./routes/Home";
 import About from "./routes/About";
 import Contact from "./routes/Contact";
 import Posts from "./routes/Posts";
+import ErrorPage from "./routes/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
