@@ -8,7 +8,7 @@ const Root: React.FC = () => {
           <Link to={"/"}>Home</Link>
         </li>
         <li>
-          <Link to={"/props"}>Props</Link>
+          <Link to={"/posts"}>Posts</Link>
         </li>
         <li>
           <Link to={"/about"}>About</Link>

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Stringifier } from "styled-components/dist/types";
 
 const Post: React.FC = () => {
   const { postId } = useParams();

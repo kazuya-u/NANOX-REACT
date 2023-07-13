@@ -1,13 +1,25 @@
-import { Outlet } from "react-router-dom";
+import { useLoaderData } from 'react-router-dom';
+
+export async function loader() {
+  const res = await fetch(`https://jsonplaceholder.typicode.com/posts`);
+  const posts = await res.json();
+  return posts;
+}
 
 const Posts: React.FC = () => {
-  
+  const posts = useLoaderData();
   return (
     <>
-      <h2>記事一覧</h2>
-      <Outlet />
+      <h2>Posts</h2>
+      <ul>
+        {posts.map((post) => (
+          <li key={post.id}>
+            {post.id}:{post.title}
+          </li>
+        ))}
+      </ul>
     </>
   );
-};
+}
 
 export default Posts;
