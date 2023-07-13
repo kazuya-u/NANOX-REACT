@@ -1,12 +1,16 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Root from "./routes/Root";
-import Home from "./routes/Home";
-import About from "./routes/About";
-import Contact from "./routes/Contact";
-import Posts from "./routes/Posts";
-import ErrorPage from "./routes/ErrorPage";
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { loader as postLoader } from "./routes/Post"
+import { loader as postsLoader } from "./routes/PostIndex"
+import About from "./routes/About"
+import Contact from "./routes/Contact"
+import ErrorPage from "./routes/ErrorPage"
+import Home from "./routes/Home"
+import Post from "./routes/Post"
+import Posts from "./routes/Posts"
+import React from "react"
+import ReactDOM from "react-dom/client"
+import Root from "./routes/Root"
+import PostIndex from "./routes/PostIndex"
 
 const router = createBrowserRouter([
   {
@@ -24,7 +28,20 @@ const router = createBrowserRouter([
       },
       {
         path: 'posts',
-        element: <Posts />
+        element: <Posts />,
+        children: [
+          {
+            index: true,
+            element: <PostIndex />,
+            loader: postsLoader,
+          },
+          {
+            path: ':postId',
+            element: <Post />,
+            loader: postLoader,
+            errorElement: <ErrorPage />,
+          },
+        ],
       },
       {
         path: 'contact',
