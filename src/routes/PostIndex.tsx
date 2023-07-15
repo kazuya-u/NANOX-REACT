@@ -1,8 +1,14 @@
 import { Link, useLoaderData } from "react-router-dom";
 
+const baseURL = "https://drupal.sandbox.dev.lando/task";
+const baseQueryParam = "?_format=json";
+
 export async function loader() {
-  const res = await fetch(`https://jsonplaceholder.typicode.com/posts`);
+  const res = await fetch(
+    `${baseURL}${baseQueryParam}`
+  );
   const posts = await res.json();
+  
   return { posts };
 }
 
@@ -12,9 +18,9 @@ const PostIndex: React.FC = () => {
   return (
     <ul>
       {posts.map((post) => (
-        <li key={post.id}>
-          <Link to={`/posts/${post.id}`}>
-            {post.id}:{post.title}
+        <li key={post.nid[0].value}>
+          <Link to={`/posts/${post.nid[0].value}`}>
+          {post.title[0].value}
           </Link>
         </li>
       ))}
