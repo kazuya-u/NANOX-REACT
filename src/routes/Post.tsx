@@ -1,30 +1,38 @@
-import { useLoaderData } from 'react-router-dom';
-
-export async function loader({ params }) {
-  const res = await fetch(
-    `https://jsonplaceholder.typicode.com/posts/${params.postId}`
-  );
-  const post = await res.json();
-  
-  if (!res.ok) {
-    throw Error('Not Found!!');
-  }
-  
-  return { post };
-}
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 const Post: React.FC = () => {
-  const { post } = useLoaderData();
+  
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://drupal.sandbox.dev.lando/node/8?_format=json"
+        );
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+  console.log("data", data.nid[0].value);
   return (
     <>
       <h2>Single Post</h2>
       <div>
-        <p>ID:{post.id}</p>
-        <p>タイトル:{post.title}</p>
-        <p>内容:{post.body}</p>
+        <p>ID:{data.nid[0].value}</p>
+        <p>タイトル:{data.title[0].value}</p>
       </div>
     </>
   );
-}
+};
 
 export default Post;
+
