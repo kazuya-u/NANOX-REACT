@@ -1,12 +1,10 @@
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData } from "react-router-dom";
 
 const baseURL = "https://drupal.sandbox.dev.lando/node/";
 const baseQueryParam = "?_format=json";
 
 export async function loader({ params }) {
-  const res = await fetch(
-    `${baseURL}${params.postId}${baseQueryParam}`
-  );
+  const res = await fetch(`${baseURL}${params.postId}${baseQueryParam}`);
   if (res.status === 404) {
     throw new Response("Not Found", { status: 404 });
   }
@@ -16,7 +14,6 @@ export async function loader({ params }) {
 }
 
 const Post: React.FC = () => {
-
   const { post } = useLoaderData();
   if (!post) {
     return <div>Loading...</div>;
@@ -34,4 +31,3 @@ const Post: React.FC = () => {
 };
 
 export default Post;
-
