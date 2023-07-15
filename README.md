@@ -16,3 +16,30 @@
 - `npm run lint`
 - `npm run preview`
 - `npm upgrade-interactive`
+
+## Drupalからデータの取得について
+### React側の設定
+1. axios の導入
+2. axios の get メソッドでJSONを取得できる
+
+### Drupal側の設定
+1. Rest の設定
+     - 「Rest UI」モジュールにて、JSON出力したい項目を「リソース」で設定
+2. CORSの設定
+   - **core.services.yml**より。
+  ```
+  cors.config:
+    enabled: true
+    # Specify allowed headers, like 'x-allowed-header'.
+    allowedHeaders: ['content-type', 'authorization', 'x-csrf-token', 'access-control-allow-origin', 'access-control-allow-creedntials', 'content-disposition']
+    # Specify allowed request methods, specify ['*'] to allow all possible ones.
+    allowedMethods: ['*']
+    # Configure requests allowed from specific origins.
+    allowedOrigins: ['*']
+    # Sets the Access-Control-Expose-Headers header.
+    exposedHeaders: false
+    # Sets the Access-Control-Max-Age header.
+    maxAge: false
+    # Sets the Access-Control-Allow-Credentials header.
+    supportsCredentials: true
+    ```
