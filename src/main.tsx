@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { loader as postsLoader } from "./routes/PostIndex"
+import { loader as postLoader } from "./routes/Post"
 import About from "./routes/About"
 import Contact from "./routes/Contact"
 import ErrorPage from "./routes/ErrorPage"
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
           {
             path: ':postId',
             element: <Post />,
+            loader: postLoader,
             errorElement: <ErrorPage />,
           },
         ],

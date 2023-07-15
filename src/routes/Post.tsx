@@ -1,34 +1,30 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useLoaderData } from 'react-router-dom';
+
+const baseURL = "https://drupal.sandbox.dev.lando/node/";
+const baseQueryParam = "?_format=json";
+
+export async function loader({ params }) {
+  const res = await fetch(
+    `${baseURL}${params.postId}${baseQueryParam}`
+  );
+  const post = await res.json();
+  console.log(post);
+  return { post };
+}
 
 const Post: React.FC = () => {
-  
-  const [data, setData] = useState(null);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://drupal.sandbox.dev.lando/node/8?_format=json"
-        );
-        setData(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
 
-    fetchData();
-  }, []);
-
-  if (!data) {
+  const { post } = useLoaderData();
+  if (!post) {
     return <div>Loading...</div>;
   }
-  console.log("data", data.nid[0].value);
+
   return (
     <>
       <h2>Single Post</h2>
       <div>
-        <p>ID:{data.nid[0].value}</p>
-        <p>タイトル:{data.title[0].value}</p>
+        <p>ID:{post.nid[0].value}</p>
+        <p>タイトル:{post.title[0].value}</p>
       </div>
     </>
   );
