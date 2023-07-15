@@ -1,4 +1,4 @@
-import { Link, useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from "react-router-dom";
 
 export async function loader() {
   const res = await fetch(`https://jsonplaceholder.typicode.com/posts`);
@@ -20,6 +20,6 @@ const PostIndex: React.FC = () => {
       ))}
     </ul>
   );
-}
+};
 
 export default PostIndex;
