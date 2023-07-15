@@ -7,6 +7,9 @@ export async function loader({ params }) {
   const res = await fetch(
     `${baseURL}${params.postId}${baseQueryParam}`
   );
+  if (res.status === 404) {
+    throw new Response("Not Found", { status: 404 });
+  }
   const post = await res.json();
   console.log(post);
   return { post };
@@ -21,10 +24,10 @@ const Post: React.FC = () => {
 
   return (
     <>
-      <h2>Single Post</h2>
+      <h2>{post.title[0].value}</h2>
       <div>
-        <p>ID:{post.nid[0].value}</p>
-        <p>タイトル:{post.title[0].value}</p>
+        <p>プロジェクト:{post.nid[0].value}</p>
+        <p>nodeID:{post.nid[0].value}</p>
       </div>
     </>
   );
