@@ -1,9 +1,13 @@
 # React学習リポジトリ
 ## やりたいこと
-- 公式Tutorialの実施
-- 環境構築の手順確立
-- React開発でのDevopsの確立
-- TypeScriptの習得
+- [x] 公式Tutorialの実施
+- [x] 環境構築の手順確立
+- [ ] React開発でのDevopsの確立
+- [ ] TypeScriptの習得
+- [x] Axios を使って Drupal から記事の取得
+- [x] Loader関数 を使って Drupal から記事の取得
+- [ ] Axios を使って Drupal へ記事投稿
+- [ ] ReactRouterの機能のみで Drupal へ記事投稿
 
 ## 環境構築
 1. `git clone`
