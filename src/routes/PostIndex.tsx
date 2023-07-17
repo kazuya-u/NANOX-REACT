@@ -1,5 +1,6 @@
 import { Link, useLoaderData } from "react-router-dom";
 
+// const baseURL = "https://drupal.sandbox.dev.lando/test_rest";
 const baseURL = "https://drupal.sandbox.dev.lando/task";
 const baseQueryParam = "?_format=json";
 
@@ -8,6 +9,7 @@ export async function loader() {
     `${baseURL}${baseQueryParam}`
   );
   const posts = await res.json();
+  console.log(posts);
   
   return { posts };
 }
