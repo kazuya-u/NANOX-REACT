@@ -16,19 +16,15 @@ const DrupalNodePost = () => {
   const handleSubmit = async () => {
     const nodeData = {
       "data": {
-        "type": "node--article",
+        "type": "node--task",
         "attributes": {
-          "title": "Reactからついに",
-          "body": {
-            "value": "タスクを追加しました。",
-            "format": "plain_text"
-          }
+          "title": "Reactからついに"
         }
       }
     };
 
     try {
-      const response = await axios.post('https:/drupal.sandbox.dev.lando/jsonapi/node/article', nodeData, {
+      const response = await axios.post('https:/drupal.sandbox.dev.lando/jsonapi/node/task', nodeData, {
         headers: {
           'Content-Type': 'application/vnd.api+json',
           'Accept': 'application/vnd.api+json'
