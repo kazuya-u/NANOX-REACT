@@ -11,6 +11,7 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import Root from "./routes/Root"
 import PostIndex from "./routes/PostIndex"
+import Login from "./routes/Login"
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: 'contact',
         element: <Contact />
+      },
+      {
+        path: 'login',
+        element: <Login />
       },
     ],
   },
