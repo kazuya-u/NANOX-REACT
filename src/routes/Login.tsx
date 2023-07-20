@@ -1,25 +1,24 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import styled from "styled-components";
 
+interface FormData {
+  email: string;
+  password: string;
+}
+
 const Login: React.FC = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [formData, setFormData] = useState<FormData>({
+    email: '', password: ''
+  });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({
-      email,
-      password,
-    });
+    console.log({formData});
   };
   
-  const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    // console.log(e.target.value);
-    setEmail(e.target.value);
-  };
-  
-  const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   return (
@@ -29,11 +28,11 @@ const Login: React.FC = () => {
         <Form onSubmit={handleSubmit}>
           <InputWrapper>
             <InputLabel>Email</InputLabel>
-            <InputField id="email" name="email" value={email} onChange={handleChangeEmail} />
+            <InputField id="email" name="email" value={formData.email} onChange={handleChange} />
           </InputWrapper>
           <InputWrapper>
             <InputLabel htmlFor="password">パスワード</InputLabel>
-            <InputField id="password" name="password" type="password" value={password} onChange={handleChangePassword} />
+            <InputField id="password" name="password" type="password" value={formData.password} onChange={handleChange} />
           </InputWrapper>
           <InputWrapper>
             <SubmitButton type="submit">ログイン</SubmitButton>
