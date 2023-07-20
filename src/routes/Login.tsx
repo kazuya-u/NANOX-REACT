@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import styled from "styled-components";
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log({
       email,
@@ -13,12 +13,12 @@ const Login: React.FC = () => {
     });
   };
   
-  const handleChangeEmail = (e) => {
+  const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     // console.log(e.target.value);
     setEmail(e.target.value);
   };
   
-  const handleChangePassword = (e) => {
+  const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
