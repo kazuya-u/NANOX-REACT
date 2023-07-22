@@ -1,7 +1,7 @@
 import { Link, LoaderFunction, useLoaderData } from "react-router-dom";
+import styled from "styled-components";
 
-const baseURL = "https://drupal.sandbox.dev.lando/test_rest";
-// const baseURL = "https://drupal.sandbox.dev.lando/task";
+const baseURL = "https://drupal.sandbox.dev.lando/tasks";
 
 export const loader: LoaderFunction = async () => {
   const res = await fetch(baseURL);
@@ -10,30 +10,80 @@ export const loader: LoaderFunction = async () => {
   return { posts };
 }
 
-const PostIndex: React.FC = () => {
-  const { posts } = useLoaderData();
+type LoaderData = {
+  posts: Post[];
+}
 
+type Post = {
+  nid: string;
+  title: string;
+  name: string;
+};
+
+const PostIndex: React.FC = () => {
+  const { posts } = useLoaderData() as LoaderData;
   return (
     <>
-    <div>
-      <Link to={'/addtask'}>
-        Taskの追加
-      </Link>
-    </div>
-    <ul>
-      {posts.map((post) => (
-        <li key={post.nid}>
-          <Link to={`/posts/${post.nid}`}>
-          Project:{post.name}
-          <br />
-          {post.title}
-          </Link>
-        </li>
-      ))}
-    </ul>
-    
+      <Container>
+        <StyledLink to={'/addtask'}>
+          Taskの追加
+        </StyledLink>
+      </Container>
+      <Container>
+        <List>
+          {posts.map((post) => (
+            <ListItem key={post.nid}>
+              <StyledLink to={`/posts/${post.nid}`}>
+                <TaskName>{post.title}</TaskName>
+                <ProjectName>Project:{post.name}</ProjectName>
+              </StyledLink>
+            </ListItem>
+          ))}
+        </List>
+      </Container>
     </>
   );
-};
+}
+
+const Container = styled.div`
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const List = styled.ul`
+  list-style: none;
+  padding: 0;
+  width: 520px;
+`;
+
+const ListItem = styled.li`
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+`;
+
+const TaskName = styled.h3`
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 5px;
+`;
+
+const ProjectName = styled.p`
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 0;
+`;
 
 export default PostIndex;
