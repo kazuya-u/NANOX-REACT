@@ -1,11 +1,6 @@
-import React from "react";
-import { Path, useForm, SubmitHandler, UseFormRegister } from "react-hook-form";
+import { Path, useForm, UseFormRegister } from "react-hook-form";
+import axios from 'axios';
 import styled from "styled-components";
-
-type ButtonDisabledProps = {
-  disabled?: boolean
-}
-
 interface IFormValues {
   firstName: string;
   lastName: string;
@@ -18,104 +13,140 @@ type InputProps = {
   required: boolean;
 };
 
-const Input = ({ label, register, required }: InputProps) => (
-  <>
-    <InputWrapper>
-      <InputLabel>{label}</InputLabel>
-      <InputField {...register(label, { required })} />
-    </InputWrapper>
-  </>
-);
-
-const Select = React.forwardRef<
-  HTMLSelectElement,
-  { label: string } & ReturnType<UseFormRegister<IFormValues>>
->(({ onChange, onBlur, name, label }, ref) => (
-  <>
-    <InputWrapper>
-      <InputLabel>{label}</InputLabel>
-      <SelectWrapper name={name} ref={ref} onChange={onChange} onBlur={onBlur}>
-        <option value="10">10</option>
-        <option value="20">20</option>
-        <option value="30">30</option>
-      </SelectWrapper>
-
-    </InputWrapper>
-  </>
-));
-
-
-const TaskForm: React.FC = () => {
+const TaskForm = () => {
+  const endpoint = 'https:/drupal.sandbox.dev.lando/jsonapi/node/task';
   const {
     register,
     handleSubmit,
     formState: { isDirty, isValid }
-  } = useForm<IFormValues>({
+  } = useForm({
     mode: 'onChange',
     criteriaMode: 'all',
   });
-  const onSubmit: SubmitHandler<IFormValues> = data => {
-    alert(JSON.stringify(data));
-  };
 
+  const onsubmit = async (data) => {
+    const nodeData = {
+      "data": {
+        "type": "node--task",
+        "attributes": {
+          "title": data.title,
+          "field_description": data.description
+        },
+        // "relationships": {
+        //   "field_ref_project": {
+        //     "data": {
+        //       "meta": {
+        //         "id": 6
+        //       }
+        //     }
+        //   }
+        // },
+
+      }
+    }
+    console.log(nodeData);
+    try {
+      const response = await axios.post(endpoint, nodeData, {
+        headers: {
+          'Content-Type': 'application/vnd.api+json',
+          'Accept': 'application/vnd.api+json'
+        },
+      });
+      console.log('Nodeが投稿されました。', response.data);
+    } catch (error) {
+      console.error('Nodeの投稿に失敗しました。', error);
+    }
+  };
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <Input label="firstName" register={register} required />
-      <Input label="lastName" register={register} required />
-      <Select label="Age" {...register("age")} />
-      <SubmitButton type="submit" disabled={!isDirty || !isValid}>送信</SubmitButton>
-    </Form >
+    <>
+      <Form onSubmit={handleSubmit(onsubmit)}>
+        <Heading>Taskの追加</Heading>
+        <Input type="text" {...register('title')} placeholder="Title..." />
+        <Textarea {...register('description')} placeholder="This is a ..." />
+        <SubmitButton disabled={!isDirty || !isValid}>投稿する</SubmitButton>
+      </Form>
+    </>
   );
-}
+
+};
+
+
+
+
+// const TaskForm: React.FC = () => {
+//   const {
+//     register,
+//     handleSubmit,
+//     formState: { isDirty, isValid }
+//   } = useForm<IFormValues>({
+//     mode: 'onChange',
+//     criteriaMode: 'all',
+//   });
+//   const onSubmit: SubmitHandler<IFormValues> = data => {
+//     alert(JSON.stringify(data));
+//   };
+
+//   return (
+//     <Form onSubmit={handleSubmit(onSubmit)}>
+//       <Input label="firstName" register={register} required />
+//       <Input label="lastName" register={register} required />
+//       <Select label="Age" {...register("age")} />
+//       <SubmitButton type="submit" disabled={!isDirty || !isValid}>送信</SubmitButton>
+//     </Form >
+//   );
+// }
 
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 500px;
-  border: 1px solid #ccc;
-  padding: 20px 20px 32px;
-  background-color: #fff;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  margin: 0 auto;
 `;
 
-const InputWrapper = styled.div`
-  margin-top: 12px;
-  display: flex;
-  flex-direction: column;
-  width: 60%;
+const Heading = styled.h2`
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
 `;
 
-const InputLabel = styled.label`
-  font-size: 14px;
-  margin-bottom: 5px;
-  /* width: 100px; */
-`;
-
-const InputField = styled.input`
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+const Input = styled.input`
+  padding: 10px;
+  width: 100%;
   margin-bottom: 10px;
-`;
-
-const SelectWrapper = styled.select`
-  padding: 8px;
-  margin-bottom: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 16px;
 `;
 
-const SubmitButton = styled.button<ButtonDisabledProps>`
-  padding: 10px 20px;
+const Textarea = styled.textarea`
+  padding: 10px;
+  width: 100%;
+  height: 120px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   font-size: 16px;
-  font-weight: bold;
+`;
+
+const SubmitButton = styled.button`
+  padding: 10px 20px;
+  background-color: #007bff;
   color: #fff;
   border: none;
   border-radius: 4px;
+  font-size: 16px;
   cursor: pointer;
-  background-color: ${({ disabled }) => disabled ? '#f2f2f2' : '#333'};
-`;
+  transition: background-color 0.3s ease;
 
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+`;
 export default TaskForm;
