@@ -12,6 +12,7 @@ import Posts from "./pages/Posts"
 import React from "react"
 import ReactDOM from "react-dom/client"
 import Root from "./pages/Root"
+import TaskForm from "./feature/TaskForm"
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: 'login',
         element: <Login />
+      },
+      {
+        path: 'addtask',
+        element: <TaskForm />
       },
     ],
   },
