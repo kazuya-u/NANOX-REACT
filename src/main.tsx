@@ -1,17 +1,17 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import { loader as postsLoader } from "./routes/PostIndex"
 import { loader as postLoader } from "./routes/Post"
+import { loader as postsLoader } from "./routes/PostIndex"
 import About from "./routes/About"
 import Contact from "./routes/Contact"
 import ErrorPage from "./routes/ErrorPage"
 import Home from "./routes/Home"
+import Login from "./routes/Login"
 import Post from "./routes/Post"
+import PostIndex from "./routes/PostIndex"
 import Posts from "./routes/Posts"
 import React from "react"
 import ReactDOM from "react-dom/client"
 import Root from "./routes/Root"
-import PostIndex from "./routes/PostIndex"
-import Login from "./routes/Login"
 
 const router = createBrowserRouter([
   {
