@@ -18,6 +18,12 @@ const PostIndex: React.FC = () => {
   const { posts } = useLoaderData();
 
   return (
+    <>
+    <div>
+      <Link to={'/add-task'}>
+        Taskの追加
+      </Link>
+    </div>
     <ul>
       {posts.map((post) => (
         // <li key={post.nid[0].value}>
@@ -35,6 +41,8 @@ const PostIndex: React.FC = () => {
         </li>
       ))}
     </ul>
+    
+    </>
   );
 };
 
