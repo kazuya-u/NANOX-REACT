@@ -1,37 +1,29 @@
-import { FormEvent, useRef } from "react";
+import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
 const Login: React.FC = () => {
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (emailRef.current && passwordRef.current) {
-      console.log(emailRef);
-
-      console.log({
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-      });
-    }
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (data) => {
+    console.log(data);
   };
-
+  
   return (
     <>
       <Container>
         <Title>Login</Title>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <InputWrapper>
-            <InputLabel>Email</InputLabel>
-            <InputField id="email" name="email" ref={emailRef} />
+            <InputLabel htmlFor="email">Email</InputLabel>
+            <InputField
+              id="email"
+              {...register('email')}
+            />
           </InputWrapper>
           <InputWrapper>
             <InputLabel htmlFor="password">パスワード</InputLabel>
-            <InputField
+            <InputField 
               id="password"
-              name="password"
-              ref={passwordRef}
+              {...register('password')}
               type="password"
             />
           </InputWrapper>
