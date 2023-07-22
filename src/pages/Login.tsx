@@ -1,4 +1,4 @@
-import LoginForm from "../components/LoginForm";
+import LoginForm from "../feature/LoginForm"
 import styled from "styled-components";
 
 const Login: React.FC = () => {

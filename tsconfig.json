@@ -20,8 +20,11 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     
-    /* Writing */
-    "baseUrl": "."
+    /* About path settings */
+    "baseUrl": ".",
+    "paths": {
+      "@features/*": ["src/feature/*"]
+    }    
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
