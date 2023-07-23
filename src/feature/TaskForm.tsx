@@ -32,16 +32,6 @@ const TaskForm = () => {
           "title": data.title,
           "field_description": data.description
         },
-        // "relationships": {
-        //   "field_ref_project": {
-        //     "data": {
-        //       "meta": {
-        //         "id": 6
-        //       }
-        //     }
-        //   }
-        // },
-
       }
     }
     console.log(nodeData);
@@ -69,32 +59,6 @@ const TaskForm = () => {
   );
 
 };
-
-
-
-
-// const TaskForm: React.FC = () => {
-//   const {
-//     register,
-//     handleSubmit,
-//     formState: { isDirty, isValid }
-//   } = useForm<IFormValues>({
-//     mode: 'onChange',
-//     criteriaMode: 'all',
-//   });
-//   const onSubmit: SubmitHandler<IFormValues> = data => {
-//     alert(JSON.stringify(data));
-//   };
-
-//   return (
-//     <Form onSubmit={handleSubmit(onSubmit)}>
-//       <Input label="firstName" register={register} required />
-//       <Input label="lastName" register={register} required />
-//       <Select label="Age" {...register("age")} />
-//       <SubmitButton type="submit" disabled={!isDirty || !isValid}>送信</SubmitButton>
-//     </Form >
-//   );
-// }
 
 
 const Form = styled.form`
