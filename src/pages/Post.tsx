@@ -17,6 +17,8 @@ type LoaderData = {
     data: {
       attributes: {
         title: string;
+        field_description: string;
+        created: string;
       }
     }
   };
@@ -32,8 +34,9 @@ const Post: React.FC = () => {
     <>
       <h2>{post.data.attributes.title}</h2>
       <div>
-        <p>プロジェクト:{post.data.attributes.title}</p>
-        <p>作成日：</p>
+        <p>本文:{post.data.attributes.field_description}</p>
+        {/* <p>プロジェクト:{post.data.attributes.title}</p> */}
+        <p>作成日：{post.data.attributes.created}</p>
       </div>
     </>
   );
