@@ -1,4 +1,4 @@
-import { Form, LoaderFunction, useLoaderData } from "react-router-dom";
+import { ActionFunction, Form, LoaderFunction, useLoaderData } from "react-router-dom";
 
 const baseURL = "https://drupal.sandbox.dev.lando/jsonapi/node/task/";
 
@@ -23,7 +23,7 @@ export const loader: LoaderFunction = async ({ params }) => {
   return { post };
 }
 
-export async function action({ request, params }) {
+export const action: ActionFunction = async ({ request, params }) => {
   const data = Object.fromEntries(await request.formData());
 
   const res = await fetch(`${baseURL}${params.postId}`, {
@@ -44,9 +44,7 @@ export async function action({ request, params }) {
     }
     ),
   });
-  console.log(res);
   const post = await res.json();
-
   return { post };
 }
 
