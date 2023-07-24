@@ -1,4 +1,5 @@
-import { Form, LoaderFunction, useLoaderData } from "react-router-dom";
+import { ActionFunction, Form, LoaderFunction, useLoaderData } from "react-router-dom";
+import styled from "styled-components";
 
 const baseURL = "https://drupal.sandbox.dev.lando/jsonapi/node/task/";
 
@@ -23,7 +24,7 @@ export const loader: LoaderFunction = async ({ params }) => {
   return { post };
 }
 
-export async function action({ request, params }) {
+export const action: ActionFunction = async ({ request, params }) => {
   const data = Object.fromEntries(await request.formData());
 
   const res = await fetch(`${baseURL}${params.postId}`, {
@@ -44,9 +45,7 @@ export async function action({ request, params }) {
     }
     ),
   });
-  console.log(res);
   const post = await res.json();
-
   return { post };
 }
 
@@ -60,11 +59,11 @@ const Post: React.FC = () => {
 
     <>
       <Form method="post">
-        <input name="title" placeholder="title" />
+        <Input name="title" placeholder="title" />
         <br />
-        <textarea name="description" id="" cols="30" rows="10"></textarea>
+        <Textarea name="description" id=""></Textarea>
         <br />
-        <button type="submit">Submit</button>
+        <SubmitButton type="submit">Submit</SubmitButton>
       </Form>
       <h2>{post.data.attributes.title}</h2>
       <div>
@@ -74,5 +73,45 @@ const Post: React.FC = () => {
     </>
   );
 };
+
+
+const Input = styled.input`
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+`;
+
+const Textarea = styled.textarea`
+  padding: 10px;
+  width: 100%;
+  height: 120px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+`;
+
+const SubmitButton = styled.button`
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+`;
 
 export default Post;
