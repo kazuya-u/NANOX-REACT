@@ -56,7 +56,6 @@ const Post: React.FC = () => {
   }
 
   return (
-
     <>
       <Form method="post">
         <Input name="title" placeholder="title" />

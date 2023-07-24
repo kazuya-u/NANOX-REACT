@@ -1,6 +1,7 @@
+import { action as patchAction } from "./pages/Post"
+import { action as postAction } from "./feature/TaskForm"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { loader as postLoader } from "./pages/Post"
-import { action as postAction } from "./pages/Post"
 import { loader as postsLoader } from "./pages/PostIndex"
 import About from "./pages/About"
 import Contact from "./pages/Contact"
@@ -44,7 +45,7 @@ const router = createBrowserRouter([
             path: ':postId',
             element: <Post />,
             loader: postLoader,
-            action: postAction,
+            action: patchAction,
           },
         ],
       },
@@ -58,7 +59,8 @@ const router = createBrowserRouter([
       },
       {
         path: 'addtask',
-        element: <TaskForm />
+        element: <TaskForm />,
+        action: postAction,
       },
     ],
   },
