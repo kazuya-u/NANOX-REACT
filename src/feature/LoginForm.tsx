@@ -1,16 +1,23 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
+type FormData = {
+  data: [
+    email: string,
+    password: string
+  ]
+};
+
 const LoginForm: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isDirty, isValid }
-  } = useForm({
+  } = useForm<FormData>({
     mode: 'onChange',
     criteriaMode: 'all',
   });
-  const onSubmit = (data) => {
+  const onSubmit = (data: FormData) => {
     console.log(data);
   };
   return (
