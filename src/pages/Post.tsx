@@ -57,13 +57,13 @@ const Post: React.FC = () => {
 
   return (
     <>
-      <Form method="post">
+      <FormWrapper method="post">
         <Input name="title" placeholder="title" />
         <br />
         <Textarea name="description" id=""></Textarea>
         <br />
         <SubmitButton type="submit">Submit</SubmitButton>
-      </Form>
+      </FormWrapper>
       <h2>{post.data.attributes.title}</h2>
       <div>
         <p>内容:{post.data.attributes.field_description}</p>
@@ -73,6 +73,13 @@ const Post: React.FC = () => {
   );
 };
 
+const FormWrapper = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  margin: 0 auto;
+`;
 
 const Input = styled.input`
   padding: 10px;
