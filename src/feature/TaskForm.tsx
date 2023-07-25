@@ -42,25 +42,25 @@ const TaskForm = () => {
 
   return (
     <>
-      <Form method="post">
+      <FormWrapper method="post">
         <Heading>Taskの追加</Heading>
         <Input type="text" {...register('title')} placeholder="Title..." />
         <Textarea {...register('description')} placeholder="This is a ..." />
         <SubmitButton disabled={!isDirty || !isValid}>投稿する</SubmitButton>
-      </Form>
+      </FormWrapper>
     </>
   );
 
 };
 
 
-// const Form = styled.form`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   width: 300px;
-//   margin: 0 auto;
-// `;
+const FormWrapper = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  margin: 0 auto;
+`;
 
 const Heading = styled.h2`
   font-size: 24px;
