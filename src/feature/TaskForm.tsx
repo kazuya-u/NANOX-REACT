@@ -1,16 +1,9 @@
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
+import { TextAreaItem, TextInputContainer } from "../components/FormItem";
 import styled from "styled-components";
 
-
 const TaskForm = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { isDirty, isValid }
-  } = useForm({
-    mode: 'onChange',
-    criteriaMode: 'all',
-  });
+  const methods = useForm();
   const onSubmit = async (data) => {
     console.log(data);
     const endpoint = 'https:/drupal.sandbox.dev.lando/jsonapi/node/task';
@@ -39,14 +32,17 @@ const TaskForm = () => {
       console.error('Nodeの投稿に失敗しました。');
     }
   }
+  
   return (
     <>
-      <FormWrapper method="post" onSubmit={handleSubmit(onSubmit)}>
+    <FormProvider {...methods} >
+      <FormWrapper method="post" onSubmit={methods.handleSubmit(onSubmit)}>
         <Heading>Add Task</Heading>
-        <Input type="text" {...register('title')} placeholder="Please enter title." />
-        <Textarea {...register('description')} placeholder="This is a ..." />
-        <SubmitButton disabled={!isDirty || !isValid}>投稿する</SubmitButton>
+        <TextInputContainer name="title" />
+        <TextAreaItem name="description" />
+        <SubmitButton>投稿する</SubmitButton>
       </FormWrapper>
+    </FormProvider>
     </>
   );
 
@@ -65,25 +61,6 @@ const Heading = styled.h2`
   font-size: 24px;
   color: #333;
   margin-bottom: 20px;
-`;
-
-const Input = styled.input`
-  padding: 10px;
-  width: 100%;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-`;
-
-const Textarea = styled.textarea`
-  padding: 10px;
-  width: 100%;
-  height: 120px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
 `;
 
 const SubmitButton = styled.button`
@@ -105,5 +82,6 @@ const SubmitButton = styled.button`
     background-color: #0056b3;
   }
 `;
+
 
 export default TaskForm;
