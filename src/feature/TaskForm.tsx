@@ -1,50 +1,49 @@
-import { ActionFunction, Form } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
-export const action: ActionFunction = async ({ request }) => {
-  const endpoint = 'https:/drupal.sandbox.dev.lando/jsonapi/node/task';
-  const data = Object.fromEntries(await request.formData());
-  try {
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/vnd.api+json',
-        'Accept': 'application/vnd.api+json'
-      },
-      body: JSON.stringify({
-        "data": {
-          "type": "node--task",
-          "attributes": {
-            "title": data.title,
-            "field_description": data.description,
-          },
-        },
-      }
-      ),
-    });
-    const post = await res.json();
-    console.log('Nodeが投稿されました。', res.body);
-    return { post };
-  } catch {
-    console.error('Nodeの投稿に失敗しました。');
-  }
-}
 
 const TaskForm = () => {
   const {
     register,
+    handleSubmit,
     formState: { isDirty, isValid }
   } = useForm({
     mode: 'onChange',
     criteriaMode: 'all',
   });
-
+  const onSubmit = async (data) => {
+    console.log(data);
+    const endpoint = 'https:/drupal.sandbox.dev.lando/jsonapi/node/task';
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/vnd.api+json',
+          'Accept': 'application/vnd.api+json'
+        },
+        body: JSON.stringify({
+          "data": {
+            "type": "node--task",
+            "attributes": {
+              "title": data.title,
+              "field_description": data.description,
+            },
+          },
+        }
+        ),
+      });
+      const post = await res.json();
+      console.log('Nodeが投稿されました。', res.body);
+      return { post };
+    } catch {
+      console.error('Nodeの投稿に失敗しました。');
+    }
+  }
   return (
     <>
-      <FormWrapper method="post">
-        <Heading>Taskの追加</Heading>
-        <Input type="text" {...register('title')} placeholder="Title..." />
+      <FormWrapper method="post" onSubmit={handleSubmit(onSubmit)}>
+        <Heading>Add Task</Heading>
+        <Input type="text" {...register('title')} placeholder="Please enter title." />
         <Textarea {...register('description')} placeholder="This is a ..." />
         <SubmitButton disabled={!isDirty || !isValid}>投稿する</SubmitButton>
       </FormWrapper>
@@ -54,7 +53,7 @@ const TaskForm = () => {
 };
 
 
-const FormWrapper = styled(Form)`
+const FormWrapper = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -106,4 +105,5 @@ const SubmitButton = styled.button`
     background-color: #0056b3;
   }
 `;
+
 export default TaskForm;
