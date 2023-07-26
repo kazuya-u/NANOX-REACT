@@ -1,40 +1,27 @@
-import { UseFormRegisterReturn } from 'react-hook-form'
+import { FieldValues, Path, UseFormRegisterReturn, UseFormStateProps, useForm, useFormContext, useFormState } from 'react-hook-form'
 import React from 'react'
 import styled from 'styled-components'
 
 type PropsType = {
-  labelName: string
+  name: string
   register: UseFormRegisterReturn
   disabled: string
+  formState: UseFormStateProps
 }
 
+type TextInputProps = {
+  name: string;
+}
 
-type ButtonPropsType = {
-  disabled: boolean;
+export const TextInputContainer: React.FC<TextInputProps> = ({ name }) => {
+  const { register } = useFormContext();
+  return <Input type="text" {...register(name)} />;
 };
 
-
-const TextInput: React.VFC = (props: PropsType) => {
-  const { id, labelName, register } = props;
-
-  return (
-    <>
-      <label htmlFor={id}>{labelName}</label>
-      <Input id={id} type="text" {...register} />
-    </>
-  )
-}
-
-export const Textarea: React.VFC = (props: PropsType) => {
-  const { id, labelName, register } = props
-
-  return (
-    <>
-      <label htmlFor={id}>{labelName}</label>
-      <textarea id={id} {...register} />
-    </>
-  )
-}
+export const TextAreaItem: React.FC<TextInputProps> = ({ name }) => {
+  const { register } = useFormContext();
+  return <TextArea {...register(name)} />;
+};
 
 export const SelectBox: React.VFC = (props: PropsType) => {
   const { id, labelName, register } = props
@@ -50,16 +37,40 @@ export const SelectBox: React.VFC = (props: PropsType) => {
   )
 }
 
-export const SubmitButton: React.FC<ButtonPropsType> = ({ disabled }) => {
-  return (
-    <>
-    <Button disabled={disabled}>投稿する</Button>
-    </>
-  )
-}
+// export const SubmitButtonContainer: React.FC<PropsType> = ({ name }) => {
+//   const {
+//     formState: { isDirty, isValid }
+//   } = useForm({
+//     mode: 'onChange',
+//     criteriaMode: 'all',
+//   });
+//   return (
+//     <>
+//       <SubmitButton disabled={!isDirty || !isValid}>{name}</SubmitButton>
+//     </>
+//   )
+// }
 
+const Input = styled.input`
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+`;
 
-const Button = styled.button`
+const TextArea = styled.textarea`
+  padding: 10px;
+  width: 100%;
+  height: 120px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+`;
+
+const SubmitButton = styled.button`
   padding: 10px 20px;
   background-color: #007bff;
   color: #fff;
@@ -78,5 +89,3 @@ const Button = styled.button`
     background-color: #0056b3;
   }
 `;
-
-export default TextInput;
