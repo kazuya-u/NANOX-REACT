@@ -6,8 +6,9 @@
 - [ ] TypeScriptの習得
 - [x] Axios を使って Drupal から記事の取得
 - [x] Loader関数 を使って Drupal から記事の取得
-- [ ] Axios を使って Drupal へ記事投稿
-- [ ] ReactRouterの機能のみで Drupal へ記事投稿
+- [x] Axios を使って Drupal へ記事投稿
+- [x] ReactRouterの機能のみで Drupal へ記事投稿
+- [ ] Drupalを通してAPI通信を身につける
 
 ## 環境構築
 1. `git clone`
@@ -21,25 +22,23 @@
 - `npm run preview`
 - `npm upgrade-interactive`
 
-## Drupalからデータの取得について
-### React側の設定
-1. axios の導入
-2. axios の get メソッドでJSONを取得できる
-
-### Drupal側の設定
-1. Rest の設定
-     - 「Rest UI」モジュールにて、JSON出力したい項目を「リソース」で設定
+## API通信
+### 前提条件
+#### Drupal側の設定
+1. JSONAPI の設定
+   - **JSON API**モジュールのインストール
+   - （必要であれば... [JSON:API Extras](https://www.drupal.org/project/jsonapi_extras)のインストール）
 2. CORSの設定
-   - **core.services.yml**より。
+   - **services.yml**
   ```
   cors.config:
     enabled: true
     # Specify allowed headers, like 'x-allowed-header'.
-    allowedHeaders: ['content-type', 'authorization', 'x-csrf-token', 'access-control-allow-origin', 'access-control-allow-creedntials', 'content-disposition']
+    allowedHeaders: ['x-csrf-token','authorization','content-type','accept','origin','x-requested-with', 'access-control-allow-origin','x-allowed-header','*']
     # Specify allowed request methods, specify ['*'] to allow all possible ones.
     allowedMethods: ['*']
     # Configure requests allowed from specific origins.
-    allowedOrigins: ['*']
+    allowedOrigins: ['http://localhost/','http://localhost:5173','http://localhost:5173','http://localhost:5173','*']
     # Sets the Access-Control-Expose-Headers header.
     exposedHeaders: false
     # Sets the Access-Control-Max-Age header.
@@ -47,3 +46,8 @@
     # Sets the Access-Control-Allow-Credentials header.
     supportsCredentials: true
     ```
+3. 権限の設定
+     - 匿名ユーザーでのエンティティの GET,POST,PATCH,DELETE 権限付与を行う。（ユーザー認証機能未実装のため）
+### POSTについて
+FormをReact-Hook-Formにて実装。
+[Issue:React-PoC-Training/issues/9](https://github.com/kazuya-u/React-PoC-Training/issues/9)にて実装方法記載。
