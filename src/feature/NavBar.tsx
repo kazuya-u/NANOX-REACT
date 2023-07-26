@@ -32,7 +32,6 @@ const NavBar: React.FC = () => {
             </SidebarItem>
           </SideMenuWrapper>
         </SidebarWrapper>
-        <Outlet />
       </>
     );
   }
