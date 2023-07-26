@@ -1,5 +1,4 @@
 import { action as patchAction } from "./pages/Post"
-import { action as postAction } from "./feature/TaskForm"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { loader as postLoader } from "./pages/Post"
 import { loader as postsLoader } from "./pages/PostIndex"
@@ -60,7 +59,6 @@ const router = createBrowserRouter([
       {
         path: 'addtask',
         element: <TaskForm />,
-        action: postAction,
       },
     ],
   },
