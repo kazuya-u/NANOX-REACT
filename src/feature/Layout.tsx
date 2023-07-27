@@ -28,9 +28,9 @@ const Layout: React.FC = () => {
 
 const ContentWrapper = styled.div`
 display: flex;
+align-items: start;
 column-gap: 16px;
 width: 800px;
-margin: 40px 0;
 padding: 20px;
 border-radius: 8px;
 background-color: #ffffff;
