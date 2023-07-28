@@ -9,7 +9,7 @@ const root: HTMLElement | null = document.getElementById('root');
 if (root) {
   createRoot(root).render(
     <React.StrictMode>
-    <RouterProvider router={RooterConfig} />
-  </React.StrictMode>,
+      <RouterProvider router={RooterConfig} />
+    </React.StrictMode>,
   )
 }
