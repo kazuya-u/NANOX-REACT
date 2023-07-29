@@ -2,10 +2,10 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
 type FormData = {
-  data: [
-    email: string,
+  data: {
+    user: string,
     password: string
-  ]
+  }
 };
 
 const LoginForm: React.FC = () => {
@@ -13,21 +13,46 @@ const LoginForm: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors, isDirty, isValid }
-  } = useForm<FormData>({
+  } = useForm({
     mode: 'onChange',
     criteriaMode: 'all',
   });
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data:FormData) => {
     console.log(data);
-  };
+    const endpoint = 'https:/drupal.sandbox.dev.lando/user/login?_format=json';
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/vnd.api+json',
+          'Accept': 'application/vnd.api+json'
+        },
+        body: JSON.stringify({
+          name: data.user,
+          pass: '@'
+        }),
+      });
+      if (res.ok) {
+        const loginData = await res.json();
+        console.log('ログインに成功しました。', loginData);
+      } else {
+        console.error('ログインに失敗しました。', res);
+      }
+      
+      
+    } catch (error) {
+      console.error('ネットワークエラー', error);
+    }
+  }
+  
   return (
     <>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <InputWrapper>
-          <InputLabel htmlFor="email">Email</InputLabel>
+          <InputLabel htmlFor="user">User名</InputLabel>
           <InputField
-            id="email"
-            {...register('email', {
+            id="user"
+            {...register('user', {
               required: {
                 value: true,
                 message: '入力必須',
@@ -35,7 +60,7 @@ const LoginForm: React.FC = () => {
             })
             }
           />
-          {errors.email?.message && <ErrorMessage>入力が必須の項目です。</ErrorMessage>}
+          {errors.user?.message && <ErrorMessage>入力が必須の項目です。</ErrorMessage>}
         </InputWrapper>
         <InputWrapper>
           <InputLabel htmlFor="password">パスワード</InputLabel>
