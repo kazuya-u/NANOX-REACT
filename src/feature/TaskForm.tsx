@@ -12,7 +12,7 @@ const TaskForm = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/vnd.api+json',
-          'Accept': 'application/vnd.api+json'
+          'Accept': 'application/vnd.api+json',
         },
         body: JSON.stringify({
           "data": {
@@ -21,6 +21,14 @@ const TaskForm = () => {
               "title": data.title,
               "field_description": data.description,
             },
+            "relationships": {
+              "uid": {
+                "data": {
+                  "type": "user--user",
+                  "id": "570dfaca-8e38-4849-bb20-679c05c2488e"
+                }
+              }
+            }
           },
         }
         ),
