@@ -1,12 +1,12 @@
 import { Outlet } from 'react-router-dom';
 
-const Posts: React.FC = () => {
+const Tasks: React.FC = () => {
   return (
     <>
-      <h2>Posts</h2>
+      <h2>Tasks</h2>
       <Outlet />
     </>
   );
 }
 
-export default Posts;
+export default Tasks;

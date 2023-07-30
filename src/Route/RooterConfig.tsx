@@ -1,15 +1,15 @@
-import { action as patchAction } from "../pages/Post"
+import { action as patchAction } from "../pages/Task"
 import { createBrowserRouter } from "react-router-dom";
-import { loader as postLoader } from "../pages/Post"
+import { loader as postLoader } from "../pages/Task"
 import { loader as postsLoader } from "../pages/PostIndex"
 import About from "../pages/About";
 import Contact from "../pages/Contact";
 import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
-import Post from "../pages/Post";
-import PostIndex from "../pages/PostIndex";
-import Posts from "../pages/Posts";
+import Post from "../pages/Task";
+import TaskIndex from "../pages/PostIndex";
+import Tasks from "../pages/Tasks";
 import TaskForm from "../feature/TaskForm";
 import Layout from "../feature/Layout";
 
@@ -28,18 +28,18 @@ const RooterConfig = createBrowserRouter([
         element: <About />
       },
       {
-        path: 'posts',
-        element: <Posts />,
+        path: 'tasks',
+        element: <Tasks />,
         errorElement: <ErrorPage />,
         children: [
           {
             index: true,
-            element: <PostIndex />,
+            element: <TaskIndex />,
             loader: postsLoader,
             errorElement: <ErrorPage />,
           },
           {
-            path: ':postId',
+            path: ':taskId',
             element: <Post />,
             loader: postLoader,
             action: patchAction,
