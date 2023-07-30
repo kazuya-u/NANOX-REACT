@@ -1,14 +1,8 @@
+import { useEffect, useState } from "react";
 import { Link, LoaderFunction, useLoaderData } from "react-router-dom";
 import styled from "styled-components";
 
 const baseURL = "https://drupal.sandbox.dev.lando/jsonapi/node/task";
-
-export const loader: LoaderFunction = async () => {
-  const res = await fetch(baseURL);
-  const posts = await res.json();
-  console.log(posts);
-  return { posts };
-}
 
 type LoaderData = {
   posts: {
@@ -23,27 +17,57 @@ type PostData = {
   };
 }
 
-const PostIndex: React.FC = () => {
+export const loader: LoaderFunction = async () => {
+  const res = await fetch(baseURL);
+  const posts = await res.json();
+  console.log(posts);
+  return { posts };
+}
+
+const TaskIndex: React.FC = () => {
   const { posts } = useLoaderData() as LoaderData;
+  const [loading, setLoading] = useState<boolean>(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(baseURL);
+        const posts = await res.json();
+        console.log(posts);
+        setLoading(false);
+      } catch (error) {
+        console.error('データの取得に失敗しました。', error);
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <>
-      <Container>
-        <StyledLink to={'/addtask'}>
-          Taskの追加
-        </StyledLink>
-      </Container>
-      <Container>
-        <List>
-          {posts.data.map((post) => (
-            <ListItem key={post.id}>
-              <StyledLink to={`/posts/${post.id}`}>
-                <TaskName>{post.attributes.title}</TaskName>
-                <ProjectName>Project:</ProjectName>
-              </StyledLink>
-            </ListItem>
-          ))}
-        </List>
-      </Container>
+      {loading ? (
+        <p className="loader">ロード中。。。</p>
+      ) : (
+        <>
+          <Container>
+            <StyledLink to={'/addtask'}>
+              Taskの追加
+            </StyledLink>
+          </Container>
+            <Container>
+              <List>
+                {posts.data.map((post) => (
+                  <ListItem key={post.id}>
+                    <StyledLink to={`/tasks/${post.id}`}>
+                      <TaskName>{post.attributes.title}</TaskName>
+                      <ProjectName>Project:</ProjectName>
+                    </StyledLink>
+                  </ListItem>
+                ))}
+              </List>
+          </Container>
+        </>
+
+
+      )}
     </>
   );
 }
@@ -89,4 +113,4 @@ const ProjectName = styled.p`
   margin-bottom: 0;
 `;
 
-export default PostIndex;
+export default TaskIndex;

@@ -4,7 +4,7 @@ import styled from "styled-components";
 const baseURL = "https://drupal.sandbox.dev.lando/jsonapi/node/task/";
 
 type LoaderData = {
-  post: {
+  task: {
     data: {
       attributes: {
         title: string;
@@ -16,18 +16,18 @@ type LoaderData = {
 }
 
 export const loader: LoaderFunction = async ({ params }) => {
-  const res = await fetch(`${baseURL}${params.postId}`);
+  const res = await fetch(`${baseURL}${params.taskId}`);
   if (!res.ok) {
     throw Error('Not Found');
   }
-  const post = await res.json();
-  return { post };
+  const task = await res.json();
+  return { task };
 }
 
 export const action: ActionFunction = async ({ request, params }) => {
   const data = Object.fromEntries(await request.formData());
 
-  const res = await fetch(`${baseURL}${params.postId}`, {
+  const res = await fetch(`${baseURL}${params.taskId}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/vnd.api+json',
@@ -36,7 +36,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     body: JSON.stringify({
       "data": {
         "type": "node--task",
-        "id": params.postId,
+        "id": params.taskId,
         "attributes": {
           "title": data.title,
           "field_description": data.description,
@@ -45,13 +45,13 @@ export const action: ActionFunction = async ({ request, params }) => {
     }
     ),
   });
-  const post = await res.json();
-  return { post };
+  const task = await res.json();
+  return { task };
 }
 
-const Post: React.FC = () => {
-  const { post } = useLoaderData() as LoaderData;
-  if (!post) {
+const Task: React.FC = () => {
+  const { task } = useLoaderData() as LoaderData;
+  if (!task) {
     return <div>Loading...</div>;
   }
 
@@ -64,10 +64,10 @@ const Post: React.FC = () => {
         <br />
         <SubmitButton type="submit">Submit</SubmitButton>
       </FormWrapper>
-      <h2>{post.data.attributes.title}</h2>
+      <h2>{task.data.attributes.title}</h2>
       <div>
-        <p>内容:{post.data.attributes.field_description}</p>
-        <p>作成日：{post.data.attributes.created}</p>
+        <p>内容:{task.data.attributes.field_description}</p>
+        <p>作成日：{task.data.attributes.created}</p>
       </div>
     </>
   );
@@ -120,4 +120,4 @@ const SubmitButton = styled.button`
   }
 `;
 
-export default Post;
+export default Task;

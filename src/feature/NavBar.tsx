@@ -19,7 +19,7 @@ const NavBar: React.FC = () => {
               <Link to={"/"}>Home</Link>
             </SidebarItem>
             <SidebarItem>
-              <Link to={"/posts"}>Posts</Link>
+              <Link to={"/tasks"}>Tasks</Link>
             </SidebarItem>
             <SidebarItem>
               <Link to={"/about"}>About</Link>
@@ -45,7 +45,7 @@ const NavBar: React.FC = () => {
               <Link to={"/"}>Home</Link>
             </SidebarItem>
             <SidebarItem>
-              <Link to={"/posts"}>Posts</Link>
+              <Link to={"/tasks"}>Tasks</Link>
             </SidebarItem>
             <SidebarItem>
               <Link to={"/about"}>About</Link>
