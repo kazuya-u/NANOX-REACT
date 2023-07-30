@@ -1,14 +1,14 @@
 import { action as patchAction } from "../pages/Task"
 import { createBrowserRouter } from "react-router-dom";
 import { loader as postLoader } from "../pages/Task"
-import { loader as postsLoader } from "../pages/PostIndex"
+import { loader as postsLoader } from "../pages/TaskIndex"
 import About from "../pages/About";
 import Contact from "../pages/Contact";
 import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Post from "../pages/Task";
-import TaskIndex from "../pages/PostIndex";
+import TaskIndex from "../pages/TaskIndex";
 import Tasks from "../pages/Tasks";
 import TaskForm from "../feature/TaskForm";
 import Layout from "../feature/Layout";
