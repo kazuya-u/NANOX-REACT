@@ -1,27 +1,35 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
 type FormData = {
-  data: {
-    user: string,
-    password: string
-  }
+  user: string;
+  password: string;
 };
 
+interface CurrentUser {
+  type: string;
+  id: string;
+  attributes: {
+    display_name: string;
+  };
+}
+
 const LoginForm: React.FC = () => {
+  const [userId, setUserId] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
     formState: { errors, isDirty, isValid }
-  } = useForm({
+  } = useForm<FormData>({
     mode: 'onChange',
     criteriaMode: 'all',
   });
-  const onSubmit = async (data:FormData) => {
+  const onSubmit = async (data: FormData) => {
     console.log(data);
     const endpoint = 'https:/drupal.sandbox.dev.lando/user/login?_format=json';
     try {
-      const res = await fetch(endpoint, {
+      const loginResponse = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/vnd.api+json',
@@ -32,14 +40,23 @@ const LoginForm: React.FC = () => {
           pass: '@'
         }),
       });
-      if (res.ok) {
-        const loginData = await res.json();
+      if (loginResponse.ok) {
+        const loginData = await loginResponse.json();
         console.log('ログインに成功しました。', loginData);
+        const currentUserName = loginData.current_user.name;
+        const getUserResponse = await fetch('http://drupal.sandbox.dev.lando/jsonapi/user/user');
+        const users = await getUserResponse.json();
+        console.log(users.data, 'users');
+        const userInfo = users.data.find((data: CurrentUser) => data.attributes.display_name === currentUserName);
+        if (userInfo) {
+          setUserId(userInfo.id);
+        }
+        console.log(userId);
       } else {
-        console.error('ログインに失敗しました。', res);
+        console.error('ログインに失敗しました。', loginResponse);
       }
-      
-      
+
+
     } catch (error) {
       console.error('ネットワークエラー', error);
     }
@@ -121,7 +138,6 @@ const InputWrapper = styled.div`
 const InputLabel = styled.label`
   font-size: 14px;
   margin-bottom: 5px;
-  /* width: 100px; */
 `;
 
 const InputField = styled.input`
