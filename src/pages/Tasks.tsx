@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import { Oval } from 'react-loader-spinner';
 
 const Tasks: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -13,7 +14,9 @@ const Tasks: React.FC = () => {
   return (
     <>
       {loading ? (
-        <p className="loader">Loading...</p>
+        <>
+          <Oval />
+        </>
       ) : (
         <>
           <h2>Tasks</h2>
