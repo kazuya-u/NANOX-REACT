@@ -2,6 +2,8 @@ import { Outlet } from "react-router-dom";
 import NavBar from "./NavBar";
 import reset from "styled-reset";
 import { createGlobalStyle, styled } from "styled-components";
+import { useEffect, useState } from "react";
+import { Oval } from "react-loader-spinner";
 
 const Layout: React.FC = () => {
   const GlobalStyle = createGlobalStyle`
@@ -13,17 +15,34 @@ const Layout: React.FC = () => {
   }
 `;
 
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
   return (
     <>
       <GlobalStyle />
-      <ContentWrapper>
-        <NavBar />
-        <div>
-          <Outlet />
-        </div>
-      </ContentWrapper>
+      {loading ? (
+        <>
+          <Oval />
+        </>
+      ) : (
+        <>
+          <ContentWrapper>
+            <NavBar />
+            <div>
+              <Outlet />
+            </div>
+          </ContentWrapper>
+        </>
+      )}
     </>
   )
+
+
 };
 
 const ContentWrapper = styled.div`
