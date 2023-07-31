@@ -1,11 +1,11 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { TextAreaItem, TextInputContainer } from "../components/FormItem";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 const TaskForm = () => {
   const methods = useForm();
   const onSubmit = async (data) => {
-    console.log(data);
     const endpoint = 'https:/drupal.sandbox.dev.lando/jsonapi/node/task';
     try {
       const res = await fetch(endpoint, {
@@ -35,9 +35,10 @@ const TaskForm = () => {
       });
       const post = await res.json();
       console.log('Nodeが投稿されました。', res.body);
+      toast.done('タスクを追加しました。');
       return { post };
     } catch {
-      console.error('Nodeの投稿に失敗しました。');
+      console.error('タスクを追加できませんでした。');
     }
   }
   

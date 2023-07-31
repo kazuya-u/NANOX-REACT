@@ -1,9 +1,11 @@
+import { createGlobalStyle, styled } from "styled-components";
 import { Outlet } from "react-router-dom";
+import { Oval } from "react-loader-spinner";
+import { Suspense } from "react";
 import NavBar from "./NavBar";
 import reset from "styled-reset";
-import { createGlobalStyle, styled } from "styled-components";
-import { useEffect, useState } from "react";
-import { Oval } from "react-loader-spinner";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Layout: React.FC = () => {
   const GlobalStyle = createGlobalStyle`
@@ -15,30 +17,19 @@ const Layout: React.FC = () => {
   }
 `;
 
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, []);
-
   return (
     <>
       <GlobalStyle />
-      {loading ? (
-        <>
-          <Oval />
-        </>
-      ) : (
-        <>
-          <ContentWrapper>
-            <NavBar />
-            <div>
-              <Outlet />
-            </div>
-          </ContentWrapper>
-        </>
-      )}
+      <ToastContainer
+      />
+      <ContentWrapper>
+        <NavBar />
+        <Suspense fallback={<Oval />}>
+          <div>
+            <Outlet />
+          </div>
+        </Suspense>
+      </ContentWrapper>
     </>
   )
 

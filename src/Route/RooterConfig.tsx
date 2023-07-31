@@ -6,12 +6,12 @@ import About from "../pages/About";
 import Contact from "../pages/Contact";
 import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
+import Layout from "../feature/Layout";
 import Login from "../pages/Login";
 import Post from "../pages/Task";
+import TaskForm from "../feature/TaskForm";
 import TaskIndex from "../pages/TaskIndex";
 import Tasks from "../pages/Tasks";
-import TaskForm from "../feature/TaskForm";
-import Layout from "../feature/Layout";
 
 const RooterConfig = createBrowserRouter([
   {
