@@ -58,9 +58,9 @@ const Task: React.FC = () => {
   return (
     <>
       <FormWrapper method="post">
-        <Input name="title" placeholder="title" />
+        <Input name="title" placeholder="title" defaultValue={task.data.attributes.title} />
         <br />
-        <Textarea name="description" id=""></Textarea>
+        <Textarea name="description" id="" defaultValue={task.data.attributes.field_description}></Textarea>
         <br />
         <SubmitButton type="submit">Submit</SubmitButton>
       </FormWrapper>
