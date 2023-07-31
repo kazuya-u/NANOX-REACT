@@ -30,6 +30,9 @@ const NavBar: React.FC = () => {
             <SidebarItem>
               <Link to={"/login"}>Login</Link>
             </SidebarItem>
+            <SidebarItem>
+              <Link to={"/poc-context"}>Contextの勉強</Link>
+            </SidebarItem>
           </SideMenuWrapper>
         </SidebarWrapper>
       </>
@@ -55,6 +58,9 @@ const NavBar: React.FC = () => {
             </SidebarItem>
             <SidebarItem>
               <Link to={"/login"}>Login</Link>
+            </SidebarItem>
+            <SidebarItem>
+              <Link to={"/poc-context"}>Contextの勉強</Link>
             </SidebarItem>
           </SideMenuWrapper>
         </SidebarWrapper>
