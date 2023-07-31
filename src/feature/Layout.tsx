@@ -21,6 +21,15 @@ const Layout: React.FC = () => {
     <>
       <GlobalStyle />
       <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
       />
       <ContentWrapper>
         <NavBar />
