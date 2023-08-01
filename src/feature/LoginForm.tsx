@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
+import { useAuthUserContext } from "./providers";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 import styled from "styled-components";
 
 type FormData = {
@@ -9,7 +9,7 @@ type FormData = {
 };
 
 const LoginForm: React.FC = () => {
-  const [userId, setUserId] = useState<string | null>(null);
+  const AuthUser = useAuthUserContext();
   const {
     register,
     handleSubmit,
@@ -19,7 +19,6 @@ const LoginForm: React.FC = () => {
     criteriaMode: 'all',
   });
   const onSubmit = async (data: FormData) => {
-    console.log(data);
     const endpoint = 'https:/drupal.sandbox.dev.lando/user/login?_format=json';
     try {
       const loginResponse = await fetch(endpoint, {
@@ -35,10 +34,12 @@ const LoginForm: React.FC = () => {
       });
       if (loginResponse.ok) {
         const loginData = await loginResponse.json();
-        console.log(loginData);
-        
         const currentUserId = loginData.current_user.uuid;
-        setUserId(currentUserId);
+        console.log(currentUserId);
+        log(AuthUser.updateContext(currentUserId));
+        console.log('AuthUser', AuthUser);
+        
+        toast.done('ログインしました。');
         toast.success('ログインしました。');
       }
     } catch (error) {
@@ -49,6 +50,7 @@ const LoginForm: React.FC = () => {
   
   return (
     <>
+    <a href="/">Home</a>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <InputWrapper>
           <InputLabel htmlFor="user">User名</InputLabel>

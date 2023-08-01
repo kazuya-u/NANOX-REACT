@@ -1,7 +1,11 @@
+import { useAuthUserContext } from "../feature/providers";
 import LoginForm from "../feature/LoginForm"
 import styled from "styled-components";
 
 const Login: React.FC = () => {
+  const AuthInfo = useAuthUserContext();
+  console.log(AuthInfo);
+  
   return (
     <>
       <Container>

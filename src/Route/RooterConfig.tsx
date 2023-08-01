@@ -13,11 +13,16 @@ import Post from "../pages/Task";
 import TaskForm from "../feature/TaskForm";
 import TaskIndex from "../pages/TaskIndex";
 import Tasks from "../pages/Tasks";
+import { AuthUserProvider } from "../feature/providers";
 
 const RooterConfig = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: (
+      <AuthUserProvider>
+        <Layout />
+      </AuthUserProvider>
+    ),
     errorElement: <ErrorPage />,
     children: [
       {
@@ -52,10 +57,6 @@ const RooterConfig = createBrowserRouter([
         element: <Contact />
       },
       {
-        path: 'login',
-        element: <Login />
-      },
-      {
         path: 'addtask',
         element: <TaskForm />,
       },
@@ -64,6 +65,11 @@ const RooterConfig = createBrowserRouter([
         element: <ParentContext />,
       },
     ],
+  },
+  {
+    path: 'login',
+    element: <Login />,
+    errorElement: <ErrorPage />,
   },
 ]);
 
