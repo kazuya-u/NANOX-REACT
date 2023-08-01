@@ -1,12 +1,12 @@
-import { UserCount } from "../../pages/Context";
+import { useContext } from "react";
+import { Context } from "../../pages/Context";
 
 const ComponentC = () => {
+  
+  const description = useContext(Context);
+  
   return (
-    <UserCount.Consumer>
-      {(count) => {
-        return <p>{count}</p>
-      }}
-    </UserCount.Consumer>
+    <h3>{description}</h3>
   );
 };
 
