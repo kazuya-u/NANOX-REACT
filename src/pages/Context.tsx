@@ -1,12 +1,9 @@
-import { createContext, useState } from 'react';
+import { useParentContext, Context } from '../feature/context/useContext';
 import ComponentA from '../components/context/ComponentA';
 
-export type ContextType = string;
-export const Context = createContext<ContextType>("");
-
 function ParentContext() {
-  const [state, setState] = useState<ContextType>("");
-  const updateContext = () => setState("Contextを更新！");
+  const { state, updateContext } = useParentContext();
+
   return (
     <div style={{ textAlign: 'center' }}>
       <h1>Learn useContext</h1>
@@ -17,5 +14,4 @@ function ParentContext() {
     </div>
   );
 }
-
 export default ParentContext;

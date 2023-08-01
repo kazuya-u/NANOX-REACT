@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { Context } from "../../pages/Context";
+import { ContextType, Context } from "../../feature/context/useContext";
 
 const ComponentC = () => {
   
-  const description = useContext(Context);
+  const description: ContextType = useContext(Context);
   
   return (
     <h3>{description}</h3>
