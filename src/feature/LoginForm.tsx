@@ -1,20 +1,12 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
 import styled from "styled-components";
 
 type FormData = {
   user: string;
   password: string;
 };
-
-interface CurrentUser {
-  type: string;
-  id: string;
-  attributes: {
-    display_name: string;
-  };
-}
 
 const LoginForm: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
@@ -43,26 +35,12 @@ const LoginForm: React.FC = () => {
       });
       if (loginResponse.ok) {
         const loginData = await loginResponse.json();
-        const currentUserName = loginData.current_user.name;
-        const getUserResponse = await fetch('http://drupal.sandbox.dev.lando/jsonapi/user/user');
-        const users = await getUserResponse.json();
-        const currentUserInfo = users.data.find((data: CurrentUser) => data.attributes.display_name === currentUserName);
-        if (currentUserInfo.id) {
-          setUserId(currentUserInfo.id);
-          console.log(userId);
-          toast.success('ログインしました。');
-        }
-        else {
-          console.error('ログインに失敗しました。', loginResponse);
-          toast.error('ログインできませんでした。');
-          
-        }
+        console.log(loginData);
+        
+        const currentUserId = loginData.current_user.uuid;
+        setUserId(currentUserId);
+        toast.success('ログインしました。');
       }
-      else {
-        console.error('ログインに失敗しました。', loginResponse);
-        toast.error('ログインできませんでした。');
-      }
-
     } catch (error) {
       console.error('ネットワークエラー', error);
       toast.error('ネットワークエラー');
