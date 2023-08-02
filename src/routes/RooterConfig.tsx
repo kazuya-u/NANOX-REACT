@@ -7,7 +7,6 @@ import Contact from "../pages/Contact";
 import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
 import Layout from "../components/Layout";
-import Login from "../pages/Login";
 import Post from "../pages/Task";
 import TaskForm from "../feature/TaskForm/TaskForm";
 import TaskIndex from "../pages/TaskIndex";
@@ -57,12 +56,7 @@ const RooterConfig = createBrowserRouter([
         element: <TaskForm />,
       },
     ],
-  },
-  {
-    path: 'login',
-    element: <Login />,
-    errorElement: <ErrorPage />,
-  },
+  }
 ]);
 
 export default RooterConfig;
