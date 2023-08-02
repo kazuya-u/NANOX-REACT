@@ -9,7 +9,7 @@ type FormData = {
 };
 
 const LoginForm: React.FC = () => {
-  const AuthUser = useAuthUserContext();
+
   const {
     register,
     handleSubmit,
@@ -19,6 +19,7 @@ const LoginForm: React.FC = () => {
     criteriaMode: 'all',
   });
   const onSubmit = async (data: FormData) => {
+    const AuthUser = useAuthUserContext();
     const endpoint = 'https:/drupal.sandbox.dev.lando/user/login?_format=json';
     try {
       const loginResponse = await fetch(endpoint, {
@@ -36,11 +37,10 @@ const LoginForm: React.FC = () => {
         const loginData = await loginResponse.json();
         const currentUserId = loginData.current_user.uuid;
         console.log(currentUserId);
-        log(AuthUser.updateContext(currentUserId));
-        console.log('AuthUser', AuthUser);
-        
+        AuthUser.updateContext(currentUserId);
         toast.done('ログインしました。');
         toast.success('ログインしました。');
+        
       }
     } catch (error) {
       console.error('ネットワークエラー', error);

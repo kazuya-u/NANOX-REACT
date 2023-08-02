@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import Login from "../../pages/Login";
 
-export type AuthUserContextType = {
+type AuthUserContextType = {
   user: string;
   updateContext: (newUser: string) => void;
 }
@@ -12,7 +12,7 @@ const AuthUserContext = React.createContext<AuthUserContextType>({
 });
 
 export const useAuthUserContext = ():AuthUserContextType => {
-  return React.useContext<AuthUserContextType>(AuthUserContext);
+  return useContext<AuthUserContextType>(AuthUserContext);
 }
 
 type Props = {
@@ -20,14 +20,12 @@ type Props = {
 }
 
 export const AuthUserProvider = (props: Props) => {
-  const [user, setUser] = React.useState<string>("");
+  const [user, setUser] = useState<string>("");
   const updateContext = (newUser: string) => {
     setUser(newUser);
   }
-  console.log(setUser);
   
   const value:AuthUserContextType = { user, updateContext };
-  console.log(user, 'hoge');
   if (!user) {
     return <Login />;
   }
