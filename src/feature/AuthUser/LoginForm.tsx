@@ -24,11 +24,9 @@ const LoginForm: React.FC = () => {
       
       const currentUserId = await login(data.user, data.password);
       setUserIdInLocalStorage(currentUserId);
-      toast.success('ログインしました。');
-      window.location.href = "/";
+      toast.done('ログインしました。');
       
     } catch (error) {
-
         handleLoginError(error);
     }
   };
