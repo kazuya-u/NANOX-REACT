@@ -1,29 +1,15 @@
-import LoginForm from "../feature/LoginForm/LoginForm";
-import styled from "styled-components";
+import { AuthUserContainer, AuthUserTitle } from "../feature/AuthUser/StyledComponents";
+import LoginForm from "../feature/AuthUser/LoginForm";
 
 const Login: React.FC = () => {
   return (
     <>
-      <Container>
-        <Title>Login</Title>
+      <AuthUserContainer>
+        <AuthUserTitle>Login</AuthUserTitle>
         <LoginForm />
-      </Container>
+      </AuthUserContainer>
     </>
   );
 };
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-`;
-
-const Title = styled.h1`
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-`;
 
 export default Login;
