@@ -1,5 +1,4 @@
 import { toast } from "react-toastify";
-import { useAuthUserContext } from "./providers";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
@@ -19,7 +18,6 @@ const LoginForm: React.FC = () => {
     criteriaMode: 'all',
   });
   const onSubmit = async (data: FormData) => {
-    const AuthUser = useAuthUserContext();
     const endpoint = 'https:/drupal.sandbox.dev.lando/user/login?_format=json';
     try {
       const loginResponse = await fetch(endpoint, {
@@ -36,8 +34,8 @@ const LoginForm: React.FC = () => {
       if (loginResponse.ok) {
         const loginData = await loginResponse.json();
         const currentUserId = loginData.current_user.uuid;
+        localStorage.setItem('currentUserId', currentUserId);
         console.log(currentUserId);
-        AuthUser.updateContext(currentUserId);
         toast.done('ログインしました。');
         toast.success('ログインしました。');
         

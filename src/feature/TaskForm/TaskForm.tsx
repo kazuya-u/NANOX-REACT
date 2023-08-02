@@ -1,5 +1,5 @@
 import { useForm, FormProvider } from "react-hook-form";
-import { TextAreaItem, TextInputContainer } from "../components/FormItem";
+import { TextAreaItem, TextInputContainer } from "../../components/Form";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 
