@@ -6,18 +6,19 @@ import About from "../pages/About";
 import Contact from "../pages/Contact";
 import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
-import Layout from "../feature/Layout";
+import Layout from "../components/Layout";
 import Login from "../pages/Login";
-import ParentContext from "../pages/Context";
 import Post from "../pages/Task";
-import TaskForm from "../feature/TaskForm";
+import TaskForm from "../feature/TaskForm/TaskForm";
 import TaskIndex from "../pages/TaskIndex";
 import Tasks from "../pages/Tasks";
 
 const RooterConfig = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: (
+      <Layout />
+    ),
     errorElement: <ErrorPage />,
     children: [
       {
@@ -52,18 +53,15 @@ const RooterConfig = createBrowserRouter([
         element: <Contact />
       },
       {
-        path: 'login',
-        element: <Login />
-      },
-      {
         path: 'addtask',
         element: <TaskForm />,
       },
-      {
-        path: 'poc-context',
-        element: <ParentContext />,
-      },
     ],
+  },
+  {
+    path: 'login',
+    element: <Login />,
+    errorElement: <ErrorPage />,
   },
 ]);
 
