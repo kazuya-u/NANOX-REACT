@@ -24,16 +24,20 @@ const LoginForm: React.FC = () => {
       
       const currentUserId = await login(data.user, data.password);
       setUserIdInLocalStorage(currentUserId);
-      toast.success('ログインしました。');
-      console.log(currentUserId);
+      toast.done('ログインしました。');
       
     } catch (error) {
-      // handleLoginError(error);
+        handleLoginError(error);
     }
   };
-  const handleLoginError = (error: Error) => {
-    console.error('ログインできませんでした。', error);
-    toast.error('ログインできませんでした。');
+  const handleLoginError = (error: unknown) => {
+    if (error instanceof Error) {
+      console.error('ログインできませんでした。', error);
+      toast.error('ログインできませんでした。');
+    } else {
+      console.error('不明なエラーが発生しました。', error);
+      toast.error('不明なエラーが発生しました。');
+    }
   };
 
   return (

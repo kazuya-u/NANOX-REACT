@@ -1,7 +1,7 @@
-import { useForm, FormProvider } from "react-hook-form";
 import { TextAreaItem, TextInputContainer } from "../../components/Form";
-import styled from "styled-components";
 import { toast } from "react-toastify";
+import { useForm, FormProvider } from "react-hook-form";
+import styled from "styled-components";
 
 const TaskForm = () => {
   const methods = useForm();
