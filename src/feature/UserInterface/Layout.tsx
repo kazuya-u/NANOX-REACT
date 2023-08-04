@@ -1,11 +1,11 @@
 import 'react-toastify/dist/ReactToastify.css';
 import { createGlobalStyle, styled } from "styled-components";
-import { getUserIdFromLocalStorage } from "../feature/AuthUser/utils/LocalStorageUtils";
+import { getUserIdFromLocalStorage } from "../../feature/AuthUser/utils/LocalStorageUtils";
 import { Outlet } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
 import { Suspense } from "react";
 import { ToastContainer } from 'react-toastify';
-import Login from "../feature/AuthUser/Login";
+import Login from "../../feature/AuthUser/Login";
 import NavBar from "./NavBar";
 import reset from "styled-reset";
 
