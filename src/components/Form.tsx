@@ -16,6 +16,10 @@ export const TextAreaItem: React.FC<PropsType> = ({ name }) => {
   return <TextArea {...register(name)} />;
 };
 
+export const SubmitButtonContainer: React.FC<PropsType> = ({ name }) => {
+  return <SubmitButton>{name}</SubmitButton>;
+}
+
 const Input = styled.input`
   padding: 10px;
   width: 100%;

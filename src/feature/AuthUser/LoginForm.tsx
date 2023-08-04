@@ -21,7 +21,6 @@ const LoginForm: React.FC = () => {
   
   const onSubmit = async (data: FormData) => {
     try {
-      
       const currentUserId = await login(data.user, data.password);
       setUserIdInLocalStorage(currentUserId);
       toast.done('ログインしました。');

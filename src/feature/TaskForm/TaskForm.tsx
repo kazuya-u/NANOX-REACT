@@ -1,11 +1,16 @@
-import { TextAreaItem, TextInputContainer } from "../../components/Form";
+import { SubmitButtonContainer, TextAreaItem, TextInputContainer } from "../../components/Form";
 import { toast } from "react-toastify";
 import { useForm, FormProvider } from "react-hook-form";
 import styled from "styled-components";
 
+type FormData = {
+  title: string;
+  description: string;
+};
+
 const TaskForm = () => {
   const methods = useForm();
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: FormData) => {
     const endpoint = 'https:/drupal.sandbox.dev.lando/jsonapi/node/task';
     try {
       const res = await fetch(endpoint, {
@@ -35,7 +40,7 @@ const TaskForm = () => {
       });
       const post = await res.json();
       console.log('Nodeが投稿されました。', res.body);
-      toast.done('タスクを追加しました。');
+      toast.success('Nodeが投稿されました。');
       return { post };
     } catch {
       console.error('タスクを追加できませんでした。');
@@ -49,7 +54,7 @@ const TaskForm = () => {
         <Heading>Add Task</Heading>
         <TextInputContainer name="title" />
         <TextAreaItem name="description" />
-        <SubmitButton>投稿する</SubmitButton>
+        <SubmitButtonContainer name="投稿する" />
       </FormWrapper>
     </FormProvider>
     </>
@@ -71,26 +76,5 @@ const Heading = styled.h2`
   color: #333;
   margin-bottom: 20px;
 `;
-
-const SubmitButton = styled.button`
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-  }
-
-  &:hover:not(:disabled) {
-    background-color: #0056b3;
-  }
-`;
-
 
 export default TaskForm;
