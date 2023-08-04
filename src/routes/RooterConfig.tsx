@@ -6,7 +6,7 @@ import About from "../pages/About";
 import Contact from "../pages/Contact";
 import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
-import Layout from "../components/Layout";
+import Layout from "../feature/UserInterface/Layout";
 import Post from "../pages/Task";
 import TaskForm from "../feature/TaskForm/TaskForm";
 import TaskIndex from "../pages/TaskIndex";
