@@ -4,7 +4,7 @@ import useSWR from "swr";
 
 const baseUrl = "http://drupal.sandbox.dev.lando/jsonapi/node/task";
 type baseUrlType = string;
-const fetcher = url => fetch(url).then(r => r.json());
+const fetcher = (url: string) => fetch(url).then(r => r.json());
 function useTask(baseUrl: baseUrlType) {
   const { data, error } = useSWR(baseUrl, fetcher)
   return {
