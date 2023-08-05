@@ -1,13 +1,12 @@
 import 'react-toastify/dist/ReactToastify.css';
-import { createGlobalStyle, styled } from "styled-components";
 import { getUserIdFromLocalStorage } from "../../feature/AuthUser/utils/LocalStorageUtils";
 import { Outlet } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
+import { styled } from "styled-components";
 import { Suspense } from "react";
 import { ToastContainer } from 'react-toastify';
 import Login from "../../feature/AuthUser/Login";
 import NavBar from "./NavBar";
-import reset from "styled-reset";
 
 const Layout: React.FC = () => {
   const isAuth = getUserIdFromLocalStorage();
@@ -19,7 +18,6 @@ const Layout: React.FC = () => {
   else {
     return (
       <>
-        <GlobalStyle />
         <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -44,15 +42,6 @@ const Layout: React.FC = () => {
 
   }
 };
-
-const GlobalStyle = createGlobalStyle`
-${reset}
-*, *::after, *::before {
-  box-sizing: border-box;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-}
-`;
 
 const ContentWrapper = styled.div`
 display: flex;
