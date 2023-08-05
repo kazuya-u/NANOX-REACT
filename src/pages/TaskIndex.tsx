@@ -1,30 +1,13 @@
-import { Link, LoaderFunction, useLoaderData } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useFetchData } from "../utils/fetchData";
 import styled from "styled-components";
 
-const baseURL = "https://drupal.sandbox.dev.lando/jsonapi/node/task";
-
-export const loader: LoaderFunction = async () => {
-  const res = await fetch(baseURL);
-  const posts = await res.json();
-  console.log(posts);
-  return { posts };
-}
-
-type LoaderData = {
-  posts: {
-    data: PostData[],
-  }
-}
-
-type PostData = {
-  id: number;
-  attributes: {
-    title: string;
-  };
-}
+const baseUrl = "http://drupal.sandbox.dev.lando/jsonapi/node/task";
 
 const TaskIndex: React.FC = () => {
-  const { posts } = useLoaderData() as LoaderData;
+  const { data, error, isLoading } = useFetchData(baseUrl);
+
+  if (isLoading) return <div>Loading...</div>;
   return (
     <>
       <Container>
@@ -34,10 +17,10 @@ const TaskIndex: React.FC = () => {
       </Container>
       <Container>
         <List>
-          {posts.data.map((post) => (
-            <ListItem key={post.id}>
-              <StyledLink to={`/tasks/${post.id}`}>
-                <TaskName>{post.attributes.title}</TaskName>
+          {data.data.map((task) => (
+            <ListItem key={task.id}>
+              <StyledLink to={`/tasks/${task.id}`}>
+                <TaskName>{task.attributes.title}</TaskName>
                 <ProjectName>Project:</ProjectName>
               </StyledLink>
             </ListItem>
