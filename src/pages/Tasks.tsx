@@ -1,12 +1,13 @@
-import { Outlet } from 'react-router-dom';
+import List from "../feature/Task/List/List";
+
+
 
 const Tasks: React.FC = () => {
+
   return (
     <>
-      <h2>Tasks</h2>
-      <Outlet />
+      <List />
     </>
   );
 }
-
 export default Tasks;

@@ -8,7 +8,7 @@ import Home from "../pages/Home";
 import Layout from "../feature/UserInterface/Layout";
 import Post from "../pages/Task";
 import TaskForm from "../feature/TaskForm/TaskForm";
-import TaskIndex from "../pages/TaskIndex";
+import TaskLayout from "../feature/Task/Layout";
 import Tasks from "../pages/Tasks";
 
 const RooterConfig = createBrowserRouter([
@@ -29,12 +29,12 @@ const RooterConfig = createBrowserRouter([
       },
       {
         path: 'tasks',
-        element: <Tasks />,
+        element: <TaskLayout />,
         errorElement: <ErrorPage />,
         children: [
           {
             index: true,
-            element: <TaskIndex />,
+            element: <Tasks />,
             errorElement: <ErrorPage />,
           },
           {
