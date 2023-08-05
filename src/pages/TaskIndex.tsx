@@ -1,21 +1,11 @@
 import { Link } from "react-router-dom";
+import { useFetchData } from "../utils/fetchData";
 import styled from "styled-components";
-import useSWR from "swr";
 
 const baseUrl = "http://drupal.sandbox.dev.lando/jsonapi/node/task";
-type baseUrlType = string;
-const fetcher = (url: string) => fetch(url).then(r => r.json());
-function useTask(baseUrl: baseUrlType) {
-  const { data, error } = useSWR(baseUrl, fetcher)
-  return {
-    data,
-    error,
-    isLoading: !error && !data,
-  }
-}
 
 const TaskIndex: React.FC = () => {
-  const { data, isError, isLoading } = useTask(baseUrl);
+  const { data, error, isLoading } = useFetchData(baseUrl);
 
   if (isLoading) return <div>Loading...</div>;
   return (
