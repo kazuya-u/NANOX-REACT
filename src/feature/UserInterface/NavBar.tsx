@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 type NavHiddenProps = {
@@ -6,69 +6,30 @@ type NavHiddenProps = {
 }
 
 const NavBar: React.FC = () => {
-  const location = useLocation();
-  const currentPath = location.pathname;
-
-  if (currentPath === '/login') {
-    return (
-      <>
-        <SidebarWrapper>
-          <SidebarHeader>Menu</SidebarHeader>
-          <SideMenuWrapper>
-            <SidebarItem>
-              <Link to={"/"}>Home</Link>
-            </SidebarItem>
-            <SidebarItem>
-              <Link to={"/tasks"}>Tasks</Link>
-            </SidebarItem>
-            <SidebarItem>
-              <Link to={"/about"}>About</Link>
-            </SidebarItem>
-            <SidebarItem>
-              <Link to={"/contact"}>Contact</Link>
-            </SidebarItem>
-            <SidebarItem>
-              <Link to={"/login"}>Login</Link>
-            </SidebarItem>
-            <SidebarItem>
-              <Link to={"/poc-context"}>Contextの勉強</Link>
-            </SidebarItem>
-          </SideMenuWrapper>
-        </SidebarWrapper>
-      </>
-    );
-  }
-  else {
-    return (
-      <>
-        <SidebarWrapper>
-          <SidebarHeader>Menu</SidebarHeader>
-          <SideMenuWrapper>
-            <SidebarItem>
-              <Link to={"/"}>Home</Link>
-            </SidebarItem>
-            <SidebarItem>
-              <Link to={"/tasks"}>Tasks</Link>
-            </SidebarItem>
-            <SidebarItem>
-              <Link to={"/about"}>About</Link>
-            </SidebarItem>
-            <SidebarItem>
-              <Link to={"/contact"}>Contact</Link>
-            </SidebarItem>
-            <SidebarItem>
-              <Link to={"/login"}>Login</Link>
-            </SidebarItem>
-            <SidebarItem>
-              <Link to={"/poc-context"}>Contextの勉強</Link>
-            </SidebarItem>
-          </SideMenuWrapper>
-        </SidebarWrapper>
-      </>
-    );
-  }
-
-
+  return (
+    <>
+      <SidebarWrapper>
+        <SidebarHeader>Menu</SidebarHeader>
+        <SideMenuWrapper>
+          <SidebarItem>
+            <Link to={"/"}>Home</Link>
+          </SidebarItem>
+          <SidebarItem>
+            <Link to={"/tasks"}>Tasks</Link>
+          </SidebarItem>
+          <SidebarItem>
+            <Link to={"/about"}>About</Link>
+          </SidebarItem>
+          <SidebarItem>
+            <Link to={"/contact"}>Contact</Link>
+          </SidebarItem>
+          <SidebarItem>
+            <Link to={"/login"}>Login</Link>
+          </SidebarItem>
+        </SideMenuWrapper>
+      </SidebarWrapper>
+    </>
+  );
 };
 
 const SidebarWrapper = styled.div`
