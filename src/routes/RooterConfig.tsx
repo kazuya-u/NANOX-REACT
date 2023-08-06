@@ -1,6 +1,5 @@
 import { action as patchAction } from "../pages/Task"
 import { createBrowserRouter } from "react-router-dom";
-import { loader as postLoader } from "../pages/Task"
 import About from "../pages/About";
 import Contact from "../pages/Contact";
 import ErrorPage from "../pages/ErrorPage";
@@ -30,7 +29,6 @@ const RooterConfig = createBrowserRouter([
       {
         path: 'tasks',
         element: <TaskLayout />,
-        errorElement: <ErrorPage />,
         children: [
           {
             index: true,
@@ -40,7 +38,6 @@ const RooterConfig = createBrowserRouter([
           {
             path: ':taskId',
             element: <Post />,
-            loader: postLoader,
             action: patchAction,
           },
         ],
