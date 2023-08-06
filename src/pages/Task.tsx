@@ -4,16 +4,6 @@ import styled from "styled-components";
 
 const baseURL = "http://drupal.sandbox.dev.lando/jsonapi/node/task/";
 
-// type task = {
-//   data: {
-//     attributes: {
-//       title: string;
-//       field_description: string;
-//       created: string;
-//     };
-//   };
-// };
-
 export const action: ActionFunction = async ({ request, params }) => {
   const data = Object.fromEntries(await request.formData());
 
