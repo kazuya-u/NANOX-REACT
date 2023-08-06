@@ -3,6 +3,9 @@ import styled from 'styled-components';
 const FilterForm = styled.form`
   display: flex;
   flex-wrap: wrap;
+  justify-content: start;
+  align-items: center;
+  column-gap: 8px;
   padding: 16px;
   background-color: #f5f5f5;
   border: 1px solid #ccc;
@@ -10,15 +13,13 @@ const FilterForm = styled.form`
 `;
 
 const FilterSection = styled.div`
-  flex: 1;
   display: flex;
   align-items: center;
-  margin-right: 16px;
-  margin-bottom: 8px;
 `;
 
 const FilterLabel = styled.label`
   margin-right: 8px;
+  width: max-content;
   font-weight: bold;
 `;
 
@@ -28,15 +29,10 @@ const FilterSelect = styled.select`
   border-radius: 4px;
 `;
 
-const FilterCheckbox = styled.input`
-  margin-right: 4px;
-`;
-
 const SubmitButton = styled.button`
-  flex: 1;
-  padding: 10px;
+  padding: 8px;
   background-color: #007bff;
-  color: white;
+  color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -69,11 +65,7 @@ const TaskFilter = () => {
         </FilterSelect>
       </FilterSection>
       <FilterSection>
-        <FilterCheckbox type="checkbox" id="incompleteOnly" />
-        <FilterLabel htmlFor="incompleteOnly">未完了のみ</FilterLabel>
-      </FilterSection>
-      <FilterSection>
-        <SubmitButton type="submit">フィルター</SubmitButton>
+        <SubmitButton type="submit">検索</SubmitButton>
       </FilterSection>
     </FilterForm>
   );

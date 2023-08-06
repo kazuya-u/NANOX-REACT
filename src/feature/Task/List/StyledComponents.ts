@@ -57,9 +57,3 @@ export const Status = styled.p`
   font-size: 14px;
   color: #333333;
 `;
-
-export const Container = styled.div`
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: center;
-`;
