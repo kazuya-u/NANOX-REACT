@@ -1,5 +1,7 @@
+import 'github-markdown-css/github-markdown.css';
 import { ActionFunction, Form, useParams } from "react-router-dom";
 import { useFetchData } from "../utils/fetchData";
+import ReactMarkdown from 'react-markdown';
 import styled from "styled-components";
 
 const baseURL = "http://drupal.sandbox.dev.lando/jsonapi/node/task/";
@@ -27,7 +29,6 @@ export const action: ActionFunction = async ({ request, params }) => {
   const task = await res.json();
   return { task };
 };
-
 
 const Task: React.FC = () => {
   const pageParams = useParams();
@@ -61,7 +62,7 @@ const Task: React.FC = () => {
             {/* <div>{tagData[2].attributes.name}</div> */}
           </div>
         </TaskDetailWrapper>
-        <TaskBody>{data.data.attributes.field_description}</TaskBody>
+        <TaskBody className='markdown-body'><ReactMarkdown>{data.data.attributes.field_description}</ReactMarkdown></TaskBody>
       </TaskDetailContainer>
       <FormWrapper method="post">
         <Input
