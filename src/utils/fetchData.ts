@@ -1,7 +1,7 @@
-import useSWR from "swr";
+import useSWR, { Fetcher } from "swr";
 
 type baseUrlType = string;
-const fetcher = (url: string) => fetch(url).then(r => r.json());
+const fetcher: Fetcher = (url: string) => fetch(url).then(r => r.json());
 
 export function useFetchData(baseUrl: baseUrlType) {
   const { data, error } = useSWR(baseUrl, fetcher)

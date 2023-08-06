@@ -1,6 +1,8 @@
+import { PageTitle } from "../feature/UserInterface/StyledComponents";
+
 const Home: React.FC = () => {
   return (
-    <h2>Home</h2>
+    <PageTitle>Home</PageTitle>
   )
 }
 

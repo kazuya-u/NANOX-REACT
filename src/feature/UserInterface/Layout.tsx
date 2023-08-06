@@ -47,7 +47,7 @@ const ContentWrapper = styled.div`
 display: flex;
 align-items: start;
 column-gap: 16px;
-width: 800px;
+width: 1000px;
 padding: 20px;
 border-radius: 8px;
 background-color: #ffffff;
