@@ -47,17 +47,17 @@ const Task: React.FC = () => {
         </div>
         <TaskName>{data.data.attributes.title}</TaskName>
         <TaskDetailWrapper>
-        <div>
+        <TaskDetailItem>
             <TaskStatus>{data.included[0].attributes.name}</TaskStatus>
-        </div>
-          <div>
-            <div>更新時間:</div>
+        </TaskDetailItem>
+          <TaskDetailItem>
+            <TaskDetailItemLabel>更新時間:</TaskDetailItemLabel>
             <div>{data.data.attributes.created}</div>
-          </div>
-          <div>
-            <div>期限:</div>
+          </TaskDetailItem>
+          <TaskDetailItem>
+            <TaskDetailItemLabel>期限:</TaskDetailItemLabel>
             <div>{data.data.attributes.field_deadline}</div>
-          </div>
+          </TaskDetailItem>
           <div>
             {/* <div>{tagData[2].attributes.name}</div> */}
           </div>
@@ -89,8 +89,22 @@ const TaskDetailContainer = styled.div`
 `;
 
 const TaskDetailWrapper = styled.div`
-  padding: 20px 0 5px;
+  padding: 0 0 5px;
   border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+`;
+
+const TaskDetailItem = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  font-weight: 500;
+`;
+const TaskDetailItemLabel = styled.div`
+  color: #797575;
+  font-weight: 400;
 `;
 
 const TaskName = styled.h2`
@@ -128,7 +142,9 @@ const TaskStatus = styled.div`
 `;
 
 const TaskBody = styled.div`
-  padding: 0 20px;
+  padding: 24px 32px;
+  border: 1px solid #20252c;
+  border-radius: 6px;
 `;
 
 const FormWrapper = styled(Form)`
