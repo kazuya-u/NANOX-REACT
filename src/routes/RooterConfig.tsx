@@ -6,9 +6,9 @@ import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
 import Layout from "../feature/UserInterface/Layout";
 import Post from "../pages/Task";
-import TaskForm from "../feature/TaskForm/TaskForm";
 import TaskLayout from "../feature/Task/Layout";
 import Tasks from "../pages/Tasks";
+import CreateContent from "../pages/CreateContent";
 
 const RooterConfig = createBrowserRouter([
   {
@@ -21,6 +21,10 @@ const RooterConfig = createBrowserRouter([
       {
         index: true,
         element: <Home />
+      },
+      {
+        path: 'add',
+        element: <CreateContent />
       },
       {
         path: 'about',
@@ -45,10 +49,6 @@ const RooterConfig = createBrowserRouter([
       {
         path: 'contact',
         element: <Contact />
-      },
-      {
-        path: 'addtask',
-        element: <TaskForm />,
       },
     ],
   }

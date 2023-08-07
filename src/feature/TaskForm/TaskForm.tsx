@@ -8,7 +8,11 @@ type FormData = {
   description: string;
 };
 
-const TaskForm = () => {
+interface TaskFormProps {
+  onClose: () => void;
+}
+
+const TaskForm: React.FC<TaskFormProps> = ({ onClose }) => {
   const methods = useForm();
   const onSubmit = async (data: FormData) => {
     const endpoint = 'https:/drupal.sandbox.dev.lando/jsonapi/node/task';
@@ -42,26 +46,26 @@ const TaskForm = () => {
       console.log('Nodeが投稿されました。', res.body);
       toast.success('Nodeが投稿されました。');
       return { post };
+      onClose();
     } catch {
       console.error('タスクを追加できませんでした。');
     }
   }
-  
+
   return (
     <>
-    <FormProvider {...methods} >
-      <FormWrapper method="post" onSubmit={methods.handleSubmit(onSubmit)}>
-        <Heading>Add Task</Heading>
-        <TextInputContainer name="title" />
-        <TextAreaItem name="description" />
-        <SubmitButtonContainer name="投稿する" />
-      </FormWrapper>
-    </FormProvider>
+        <FormProvider {...methods} >
+          <FormWrapper method="post" onSubmit={methods.handleSubmit(onSubmit)}>
+            <Heading>Add Task</Heading>
+            <TextInputContainer name="title" />
+            <TextAreaItem name="description" />
+            <SubmitButtonContainer name="投稿する" />
+          </FormWrapper>
+        </FormProvider>
     </>
   );
 
 };
-
 
 const FormWrapper = styled.form`
   display: flex;
