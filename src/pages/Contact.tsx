@@ -21,13 +21,13 @@ const Contact: React.FC = () => {
   if (!data) {
     return <div>Loading...</div>;
   }
+  console.log(data.data);
+  
   const options = data.data.map(item => ({
-    value: item.attributes.field_machine_name || item.attributes.name,
+    value: item.id,
     label: item.attributes.name,
   }));
   console.log(options);
-  
-  
   
   return (
     <>

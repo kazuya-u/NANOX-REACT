@@ -30,8 +30,6 @@ export const action: ActionFunction = async ({ request, params }) => {
   return { task };
 };
 
-
-
 const Task: React.FC = () => {
   const pageParams = useParams();
   const dataparams =
@@ -45,6 +43,8 @@ const Task: React.FC = () => {
   if (!data) {
     return <div>Loading...</div>;
   }
+  console.log(data.data);
+  
   
   return (
     <>
