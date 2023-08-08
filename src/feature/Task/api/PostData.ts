@@ -1,10 +1,8 @@
 import { ActionFunction } from "react-router-dom";
 
-const baseURL = "http://drupal.sandbox.dev.lando/jsonapi/node/task/";
-
 export const action: ActionFunction = async ({ request, params }) => {
   const data = Object.fromEntries(await request.formData());
-
+  const baseURL = "http://drupal.sandbox.dev.lando/jsonapi/node/task/";
   const res = await fetch(`${baseURL}${params.taskId}`, {
     method: "PATCH",
     headers: {
@@ -22,6 +20,6 @@ export const action: ActionFunction = async ({ request, params }) => {
       },
     }),
   });
-  const task = await res.json();
-  return { task };
+  const patch = await res.json();
+  return { patch };
 };

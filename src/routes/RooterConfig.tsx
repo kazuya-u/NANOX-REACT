@@ -1,14 +1,15 @@
-import { action as patchAction } from "../pages/Task"
+import { action as PatchAction } from "../feature/Task/api/PostData";
 import { createBrowserRouter } from "react-router-dom";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
+import CreateContent from "../pages/CreateContent";
 import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
 import Layout from "../feature/UserInterface/Layout";
 import Post from "../pages/Task";
 import TaskLayout from "../feature/Task/Layout";
+import TaskPatch from "../pages/TaskPatch";
 import Tasks from "../pages/Tasks";
-import CreateContent from "../pages/CreateContent";
 
 const RooterConfig = createBrowserRouter([
   {
@@ -42,7 +43,11 @@ const RooterConfig = createBrowserRouter([
           {
             path: ':taskId',
             element: <Post />,
-            action: patchAction,
+          },
+          {
+            path: ':taskId/edit',
+            element: <TaskPatch />,
+            action: PatchAction,
           },
         ],
       },
