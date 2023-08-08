@@ -22,7 +22,7 @@ const List: React.FC = () => {
       <ListWrapper>
         {data.map((item: ItemType) => (
           <li key={item.nid}>
-            <StyledLink to={`/items/${item.uuid}`}>
+            <StyledLink to={`/tasks/${item.uuid}`}>
               <TaskName>{item.title}</TaskName>
               <ProjectName>Project: {item.project_name}</ProjectName>
               <TagContainer>
