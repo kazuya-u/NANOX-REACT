@@ -13,16 +13,18 @@ type ItemType = {
 
 const List: React.FC = () => {
   const { data, error } = useGetViewsData<ItemType[]>();
-  console.log(data);
-  if (!data || !error) {
+  if (!data && !error) {
     return <div>Loading...</div>
+  }
+  if (!data) {
+    return <div>Loading...</div>;
   }
   return (
     <>
       <ListWrapper>
         {data.map((item: ItemType) => (
           <li key={item.nid}>
-            <StyledLink to={`/items/${item.uuid}`}>
+            <StyledLink to={`/tasks/${item.uuid}`}>
               <TaskName>{item.title}</TaskName>
               <ProjectName>Project: {item.project_name}</ProjectName>
               <TagContainer>
