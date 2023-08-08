@@ -10,7 +10,7 @@ import { useModal } from "../../feature/Modal/utils/useModal";
 import Login from "../../feature/AuthUser/Login";
 import Modal from "../../feature/Modal/Modal";
 import NavBar from "./NavBar";
-import TaskForm from "../../feature/TaskForm/TaskForm";
+import TaskForm from "../Task/Post/TaskForm";
 
 const Layout: React.FC = () => {
   const isAuth = getUserIdFromLocalStorage();

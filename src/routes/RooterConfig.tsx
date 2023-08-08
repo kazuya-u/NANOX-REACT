@@ -2,7 +2,6 @@ import { action as PatchAction } from "../feature/Task/api/PostData";
 import { createBrowserRouter } from "react-router-dom";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
-import CreateContent from "../pages/CreateContent";
 import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
 import Layout from "../feature/UserInterface/Layout";
@@ -22,10 +21,6 @@ const RooterConfig = createBrowserRouter([
       {
         index: true,
         element: <Home />
-      },
-      {
-        path: 'add',
-        element: <CreateContent />
       },
       {
         path: 'about',
