@@ -17,7 +17,7 @@ const Contact: React.FC = () => {
   const location = useLocation();
   console.log(location);
   const baseUrl = "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/project";
-  const { data, error, isLoading } = useFetchData<TaxonomyTerm>(baseUrl);
+  const { data, error } = useFetchData<TaxonomyTerm>(baseUrl);
   if (!data) {
     return <div>Loading...</div>;
   }

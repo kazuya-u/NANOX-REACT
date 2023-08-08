@@ -1,8 +1,8 @@
-import { SubmitButtonContainer, TextAreaItem, TextInputContainer } from "../../components/Form";
+import { SubmitButtonContainer, TextAreaItem, TextInputContainer } from "../../../components/Form";
 import { toast } from "react-toastify";
 import { useForm, FormProvider } from "react-hook-form";
 import styled from "styled-components";
-import { useFetchData } from "../../utils/fetchData";
+import { useFetchData } from "../../../utils/fetchData";
 
 type FormData = {
   title: string;
@@ -11,7 +11,7 @@ type FormData = {
 
 const TaskForm: React.FC = () => {
   const baseUrl = 'http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/project';
-  const { data, error, isLoading } = useFetchData(baseUrl);
+  const { data, error } = useFetchData(baseUrl);
   console.log(data);
   
   const methods = useForm();
@@ -37,7 +37,14 @@ const TaskForm: React.FC = () => {
                   "type": "user--user",
                   "id": "570dfaca-8e38-4849-bb20-679c05c2488e"
                 }
-              }
+              },
+              "field_ref_project": {
+                "data": {
+                  "type": "taxonomy_term--project",
+                  "id": "174b380d-972a-4aaa-91be-1d990e33bc1f"
+                }
+              },
+              
             }
           },
         }
