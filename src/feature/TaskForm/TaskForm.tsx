@@ -2,17 +2,18 @@ import { SubmitButtonContainer, TextAreaItem, TextInputContainer } from "../../c
 import { toast } from "react-toastify";
 import { useForm, FormProvider } from "react-hook-form";
 import styled from "styled-components";
+import { useFetchData } from "../../utils/fetchData";
 
 type FormData = {
   title: string;
   description: string;
 };
 
-interface TaskFormProps {
-  onClose: () => void;
-}
-
-const TaskForm: React.FC<TaskFormProps> = ({ onClose }) => {
+const TaskForm: React.FC = () => {
+  const baseUrl = 'http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/project';
+  const { data, error, isLoading } = useFetchData(baseUrl);
+  console.log(data);
+  
   const methods = useForm();
   const onSubmit = async (data: FormData) => {
     const endpoint = 'https:/drupal.sandbox.dev.lando/jsonapi/node/task';
@@ -46,7 +47,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ onClose }) => {
       console.log('Nodeが投稿されました。', res.body);
       toast.success('Nodeが投稿されました。');
       return { post };
-      onClose();
     } catch {
       console.error('タスクを追加できませんでした。');
     }
@@ -54,14 +54,14 @@ const TaskForm: React.FC<TaskFormProps> = ({ onClose }) => {
 
   return (
     <>
-        <FormProvider {...methods} >
-          <FormWrapper method="post" onSubmit={methods.handleSubmit(onSubmit)}>
-            <Heading>Add Task</Heading>
-            <TextInputContainer name="title" />
-            <TextAreaItem name="description" />
-            <SubmitButtonContainer name="投稿する" />
-          </FormWrapper>
-        </FormProvider>
+      <FormProvider {...methods} >
+        <FormWrapper method="post" onSubmit={methods.handleSubmit(onSubmit)}>
+          <Heading>Add Task</Heading>
+          <TextInputContainer name="title" />
+          <TextAreaItem name="description" />
+          <SubmitButtonContainer name="投稿する" />
+        </FormWrapper>
+      </FormProvider>
     </>
   );
 
