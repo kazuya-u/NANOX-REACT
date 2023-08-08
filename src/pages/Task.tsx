@@ -1,7 +1,7 @@
-import 'github-markdown-css/github-markdown.css';
+import "github-markdown-css/github-markdown.css";
 import { ActionFunction, Form, useParams } from "react-router-dom";
 import { useFetchData } from "../utils/fetchData";
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown from "react-markdown";
 import styled from "styled-components";
 
 const baseURL = "http://drupal.sandbox.dev.lando/jsonapi/node/task/";
@@ -30,15 +30,22 @@ export const action: ActionFunction = async ({ request, params }) => {
   return { task };
 };
 
+
+
 const Task: React.FC = () => {
   const pageParams = useParams();
-  const dataparams = '?include=field_ref_status,field_ref_project,field_ref_tags'
-  const { data, error, isLoading } = useFetchData(`${baseURL}${pageParams.taskId}${dataparams}`);
-  // const tagData = data.included.filter(item => item.type === "taxonomy_term--tags");
-  // console.log(data.included[1].attributes.name);
+  const dataparams =
+    "?include=field_ref_status,field_ref_project,field_ref_tags";
+  const { data, error, isLoading } = useFetchData(
+    `${baseURL}${pageParams.taskId}${dataparams}`
+  );
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <>{error}</>;
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+  
   return (
     <>
       <TaskDetailContainer>
