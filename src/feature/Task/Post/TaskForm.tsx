@@ -12,16 +12,14 @@ type FormData = {
     label: string;
     value: string;
   };
+  status: {
+    label: string;
+    value: string;
+  };
 };
 
 const TaskForm: React.FC = () => {
-  const baseUrl =
-    "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name";
-  const { datas } = useGetOptionData(baseUrl);
-  if (!datas) {
-    <TailSpin />;
-  }
-  const options = datas;
+  
   const {
     register,
     handleSubmit,
@@ -61,18 +59,37 @@ const TaskForm: React.FC = () => {
                   id: data.project.value,
                 },
               },
+              field_ref_status: {
+                data: {
+                  type: "taxonomy_term--status",
+                  id: data.status.value,
+                },
+              },
             },
           },
         }),
       });
       const post = await res.json();
       console.log("Nodeが投稿されました。", res);
-
+      toast.success('Nodeの投稿に成功しました。')
       return { post };
     } catch {
       console.error("Nodeの投稿に失敗しました。");
     }
   };
+  
+  const projectUrl =
+    "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name";
+  const { datas: projectData } = useGetOptionData(projectUrl);
+  if (!projectData) {
+    <TailSpin />;
+  }
+  const statusUrl =
+    "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/status?fields[taxonomy_term--status]=name";
+  const { datas: statusData } = useGetOptionData(statusUrl);
+  if (!statusData) {
+    <TailSpin />;
+  }
 
   return (
     <>
@@ -88,7 +105,20 @@ const TaskForm: React.FC = () => {
               onChange={onChange}
               isClearable
               isSearchable
-              options={options}
+              options={projectData}
+              placeholder="Select an option"
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="status"
+          render={({ field: { onChange } }) => (
+            <Select
+              onChange={onChange}
+              isClearable
+              isSearchable
+              options={statusData}
               placeholder="Select an option"
             />
           )}
