@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import styled from "styled-components";
-import { useGetRelationsData } from "../utils/TaskUtils";
+import { useGetOptionsData } from "../utils/TaskUtils";
 import { TailSpin } from "react-loader-spinner";
 import Select from "react-select";
 
@@ -17,7 +17,7 @@ type FormData = {
 const TaskForm: React.FC = () => {
   const baseUrl =
     "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name";
-  const { datas } = useGetRelationsData(baseUrl);
+  const { datas } = useGetOptionsData(baseUrl);
   if (!datas) {
     <TailSpin />;
   }
@@ -109,14 +109,6 @@ const Form = styled.form`
   background-color: #fff;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 `;
-
-// const FormWrapper = styled.form`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   width: 300px;
-//   margin: 0 auto;
-// `;
 
 const Heading = styled.h2`
   font-size: 24px;
