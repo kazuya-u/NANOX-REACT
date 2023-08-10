@@ -1,43 +1,47 @@
 import { useLocation } from "react-router-dom";
 import { useFetchData } from "../utils/fetchData";
 import Select from "react-select";
+import { useGetRelationsData } from "../feature/Task/utils/TaskUtils";
 
-interface TaxonomyTerm {
-  data: {
-    type: string;
-    id: string;
-    attributes: {
-      field_machine_name: string;
-      name: string;
-    };
-  }
-}
+type ProjectDate = {
+  data: Array<ProjectItemData>;
+};
+
+type ProjectItemData = {
+  type: string;
+  id: string;
+  attributes: {
+    name: string;
+  };
+};
+
+
 
 const Contact: React.FC = () => {
+  const projectUrl =
+  "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name";
+  const { datas } = useGetRelationsData(projectUrl);
+  console.log(datas);
+  
   const location = useLocation();
   console.log(location);
-  const baseUrl = "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/project";
-  const { data, error } = useFetchData<TaxonomyTerm>(baseUrl);
+  const baseUrl =
+    "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name";
+  const { data } = useFetchData<ProjectDate>(baseUrl);
   if (!data) {
     return <div>Loading...</div>;
   }
-  console.log(data.data);
-  
-  const options = data.data.map(item => ({
-    value: item.id,
+  const options = data.data.map((item: ProjectItemData) => ({
     label: item.attributes.name,
+    value: item.id,
   }));
-  console.log(options);
-  
+
   return (
     <>
       <h2>Contact</h2>
-      <Select 
-        options={options}
-      />
-      
+      <Select options={options} />
     </>
   );
-}
+};
 
-export default Contact
+export default Contact;
