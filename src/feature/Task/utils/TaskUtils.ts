@@ -12,7 +12,7 @@ type RelationData = {
   };
 };
 
-export function useGetSelectData(baseUrl: string) {
+export function useGetOptionsData(baseUrl: string) {
   const { data, isLoading } = useFetchData<RelationsData>(baseUrl);
   if (data) {
     const datas = data.data.map((item: RelationData) => ({
