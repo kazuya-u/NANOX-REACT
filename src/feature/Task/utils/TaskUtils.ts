@@ -1,10 +1,10 @@
 import { useFetchData } from "../../../utils/fetchData";
 
-type RelationsData = {
-  data: Array<RelationData>;
+type OptionsData = {
+  data: Array<OptionData>;
 };
 
-type RelationData = {
+type OptionData = {
   type: string;
   id: string;
   attributes: {
@@ -12,10 +12,10 @@ type RelationData = {
   };
 };
 
-export function useGetOptionsData(baseUrl: string) {
-  const { data, isLoading } = useFetchData<RelationsData>(baseUrl);
+export function useGetOptionData(baseUrl: string) {
+  const { data, isLoading } = useFetchData<OptionsData>(baseUrl);
   if (data) {
-    const datas = data.data.map((item: RelationData) => ({
+    const datas = data.data.map((item: OptionData) => ({
       label: item.attributes.name,
       value: item.id,
     }));
