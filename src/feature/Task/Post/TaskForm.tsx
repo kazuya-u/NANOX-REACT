@@ -1,86 +1,122 @@
-import { SubmitButtonContainer, TextAreaItem, TextInputContainer } from "../../../components/Form";
 import { toast } from "react-toastify";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import styled from "styled-components";
-import { useFetchData } from "../../../utils/fetchData";
+import { useGetRelationsData } from "../utils/TaskUtils";
+import { TailSpin } from "react-loader-spinner";
+import Select from "react-select";
 
 type FormData = {
   title: string;
   description: string;
+  project: {
+    label: string;
+    value: string;
+  };
 };
 
 const TaskForm: React.FC = () => {
-  const baseUrl = 'http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/project';
-  const { data, error } = useFetchData(baseUrl);
-  console.log(data);
-  
-  const methods = useForm();
-  const onSubmit = async (data: FormData) => {
-    const endpoint = 'https:/drupal.sandbox.dev.lando/jsonapi/node/task';
+  const baseUrl =
+    "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name";
+  const { datas } = useGetRelationsData(baseUrl);
+  if (!datas) {
+    <TailSpin />;
+  }
+  const options = datas;
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { isDirty, isValid },
+  } = useForm<FormData>({
+    mode: "onChange",
+    criteriaMode: "all",
+  });
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    console.log("onSubmit:", data);
+    const endpoint = "https:/drupal.sandbox.dev.lando/jsonapi/node/task";
     try {
       const res = await fetch(endpoint, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/vnd.api+json',
-          'Accept': 'application/vnd.api+json',
+          "Content-Type": "application/vnd.api+json",
+          Accept: "application/vnd.api+json",
         },
         body: JSON.stringify({
-          "data": {
-            "type": "node--task",
-            "attributes": {
-              "title": data.title,
-              "field_description": data.description,
+          data: {
+            type: "node--task",
+            attributes: {
+              title: data.title,
+              field_description: data.description,
             },
-            "relationships": {
-              "uid": {
-                "data": {
-                  "type": "user--user",
-                  "id": "570dfaca-8e38-4849-bb20-679c05c2488e"
-                }
+            relationships: {
+              uid: {
+                data: {
+                  type: "user--user",
+                  id: "570dfaca-8e38-4849-bb20-679c05c2488e",
+                },
               },
-              "field_ref_project": {
-                "data": {
-                  "type": "taxonomy_term--project",
-                  "id": "174b380d-972a-4aaa-91be-1d990e33bc1f"
-                }
+              field_ref_project: {
+                data: {
+                  type: "taxonomy_term--project",
+                  id: data.project.value,
+                },
               },
-              
-            }
+            },
           },
-        }
-        ),
+        }),
       });
       const post = await res.json();
-      console.log('Nodeが投稿されました。', res.body);
-      toast.success('Nodeが投稿されました。');
+      console.log("Nodeが投稿されました。", res);
+
       return { post };
     } catch {
-      console.error('タスクを追加できませんでした。');
+      console.error("Nodeの投稿に失敗しました。");
     }
-  }
+  };
 
   return (
     <>
-      <FormProvider {...methods} >
-        <FormWrapper method="post" onSubmit={methods.handleSubmit(onSubmit)}>
-          <Heading>Add Task</Heading>
-          <TextInputContainer name="title" />
-          <TextAreaItem name="description" />
-          <SubmitButtonContainer name="投稿する" />
-        </FormWrapper>
-      </FormProvider>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Heading>Add Task</Heading>
+        <input type="text" {...register("title")} />
+        <textarea {...register("description")} />
+        <Controller
+          control={control}
+          name="project"
+          render={({ field: { onChange } }) => (
+            <Select
+              onChange={onChange}
+              isClearable
+              isSearchable
+              options={options}
+              placeholder="Select an option"
+            />
+          )}
+        />
+        <button disabled={!isDirty || !isValid}>投稿する</button>
+      </Form>
     </>
   );
-
 };
 
-const FormWrapper = styled.form`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 300px;
-  margin: 0 auto;
+  width: 500px;
+  border: 1px solid #ccc;
+  padding: 20px 20px 32px;
+  background-color: #fff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 `;
+
+// const FormWrapper = styled.form`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   width: 300px;
+//   margin: 0 auto;
+// `;
 
 const Heading = styled.h2`
   font-size: 24px;
