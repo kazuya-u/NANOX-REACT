@@ -1,9 +1,8 @@
 import { toast } from "react-toastify";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import styled from "styled-components";
-import { useGetOptionData } from "../utils/TaskUtils";
-import { TailSpin } from "react-loader-spinner";
+import { GetOptions, postData } from "../utils/TaskUtils";
 import Select from "react-select";
+import styled from "styled-components";
 
 type FormData = {
   title: string;
@@ -18,8 +17,81 @@ type FormData = {
   };
 };
 
+type BodyDataType = {
+  data: {
+    type: string,
+    attributes: {
+      title: string,
+      field_description: string,
+    },
+    relationships: {
+      uid: {
+        data: {
+          type: string,
+          id: string,
+        },
+      },
+      field_ref_project: {
+        data: {
+          type: string,
+          id: string,
+        },
+      },
+      field_ref_status: {
+        data: {
+          type: string,
+          id: string,
+        },
+      },
+    },
+  },
+}
+
+const onSubmit: SubmitHandler<FormData> = async (data) => {
+  const endpoint = "https:/drupal.sandbox.dev.lando/jsonapi/node/task";
+  const headers = {
+    "Content-Type": "application/vnd.api+json",
+    Accept: "application/vnd.api+json",
+  };
+  const bodyData: BodyDataType = {
+    data: {
+      type: "node--task",
+      attributes: {
+        title: data.title,
+        field_description: data.description,
+      },
+      relationships: {
+        uid: {
+          data: {
+            type: "user--user",
+            id: "570dfaca-8e38-4849-bb20-679c05c2488e",
+          },
+        },
+        field_ref_project: {
+          data: {
+            type: "taxonomy_term--project",
+            id: data.project.value,
+          },
+        },
+        field_ref_status: {
+          data: {
+            type: "taxonomy_term--status",
+            id: data.status.value,
+          },
+        },
+      },
+    },
+  };
+  try {
+    postData(endpoint, headers, bodyData);
+    toast.success('Nodeの投稿に成功しました。');
+  } catch (error) {
+    console.error("Nodeの投稿に失敗しました。", error);
+    toast.error('Nodeの投稿に失敗しました。');
+  }
+};
+
 const TaskForm: React.FC = () => {
-  
   const {
     register,
     handleSubmit,
@@ -29,67 +101,6 @@ const TaskForm: React.FC = () => {
     mode: "onChange",
     criteriaMode: "all",
   });
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log("onSubmit:", data);
-    const endpoint = "https:/drupal.sandbox.dev.lando/jsonapi/node/task";
-    try {
-      const res = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/vnd.api+json",
-          Accept: "application/vnd.api+json",
-        },
-        body: JSON.stringify({
-          data: {
-            type: "node--task",
-            attributes: {
-              title: data.title,
-              field_description: data.description,
-            },
-            relationships: {
-              uid: {
-                data: {
-                  type: "user--user",
-                  id: "570dfaca-8e38-4849-bb20-679c05c2488e",
-                },
-              },
-              field_ref_project: {
-                data: {
-                  type: "taxonomy_term--project",
-                  id: data.project.value,
-                },
-              },
-              field_ref_status: {
-                data: {
-                  type: "taxonomy_term--status",
-                  id: data.status.value,
-                },
-              },
-            },
-          },
-        }),
-      });
-      const post = await res.json();
-      console.log("Nodeが投稿されました。", res);
-      toast.success('Nodeの投稿に成功しました。')
-      return { post };
-    } catch {
-      console.error("Nodeの投稿に失敗しました。");
-    }
-  };
-  
-  const projectUrl =
-    "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name";
-  const { datas: projectData } = useGetOptionData(projectUrl);
-  if (!projectData) {
-    <TailSpin />;
-  }
-  const statusUrl =
-    "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/status?fields[taxonomy_term--status]=name";
-  const { datas: statusData } = useGetOptionData(statusUrl);
-  if (!statusData) {
-    <TailSpin />;
-  }
 
   return (
     <>
@@ -105,7 +116,7 @@ const TaskForm: React.FC = () => {
               onChange={onChange}
               isClearable
               isSearchable
-              options={projectData}
+              options={GetOptions('http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name')}
               placeholder="Select an option"
             />
           )}
@@ -118,7 +129,7 @@ const TaskForm: React.FC = () => {
               onChange={onChange}
               isClearable
               isSearchable
-              options={statusData}
+              options={GetOptions('http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/status?fields[taxonomy_term--status]=name')}
               placeholder="Select an option"
             />
           )}
