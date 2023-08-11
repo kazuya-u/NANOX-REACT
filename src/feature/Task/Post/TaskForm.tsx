@@ -83,7 +83,7 @@ const onSubmit: SubmitHandler<FormData> = async (data) => {
     },
   };
   try {
-    postData(endpoint, headers, bodyData);
+    await postData(endpoint, headers, bodyData);
     toast.success('Nodeの投稿に成功しました。');
   } catch (error) {
     console.error("Nodeの投稿に失敗しました。", error);
