@@ -12,16 +12,26 @@ type OptionData = {
   };
 };
 
-export function useGetOptionData(baseUrl: string) {
-  const { data, isLoading } = useFetchData<OptionsData>(baseUrl);
+type Option = {
+  label: string;
+  value: string;
+};
+
+export function GetOptions(baseUrl: string): Option[] {
+  const { data } = useFetchData<OptionsData>(baseUrl);
   if (data) {
     const datas = data.data.map((item: OptionData) => ({
       label: item.attributes.name,
       value: item.id,
     }));
-    return { datas }
+    return datas;
+  } else {
+    const datas: Option[] = [{
+      label: '読み込み中',
+      value: '',
+    }];
+    return datas;
   }
-  return { isLoading }
 }
 
 export async function postData<T>(baseUrl: string, headers: HeadersInit, bodyData: T) {

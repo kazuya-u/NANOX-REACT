@@ -1,7 +1,6 @@
-import { TailSpin } from "react-loader-spinner";
 import { toast } from "react-toastify";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { postData, useGetOptionData } from "../utils/TaskUtils";
+import { GetOptions, postData } from "../utils/TaskUtils";
 import Select from "react-select";
 import styled from "styled-components";
 
@@ -102,18 +101,6 @@ const TaskForm: React.FC = () => {
     mode: "onChange",
     criteriaMode: "all",
   });
-  const projectUrl =
-    "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name";
-  const { datas: projectData } = useGetOptionData(projectUrl);
-  if (!projectData) {
-    <TailSpin />;
-  }
-  const statusUrl =
-    "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/status?fields[taxonomy_term--status]=name";
-  const { datas: statusData } = useGetOptionData(statusUrl);
-  if (!statusData) {
-    <TailSpin />;
-  }
 
   return (
     <>
@@ -129,7 +116,7 @@ const TaskForm: React.FC = () => {
               onChange={onChange}
               isClearable
               isSearchable
-              options={projectData}
+              options={GetOptions('http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name')}
               placeholder="Select an option"
             />
           )}
@@ -142,7 +129,7 @@ const TaskForm: React.FC = () => {
               onChange={onChange}
               isClearable
               isSearchable
-              options={statusData}
+              options={GetOptions('http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/status?fields[taxonomy_term--status]=name')}
               placeholder="Select an option"
             />
           )}
