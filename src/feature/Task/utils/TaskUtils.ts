@@ -23,3 +23,11 @@ export function useGetOptionData(baseUrl: string) {
   }
   return { isLoading }
 }
+
+export async function postData<T>(baseUrl: string, headers: HeadersInit, bodyData: T) {
+  return fetch(baseUrl, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify(bodyData)
+  }).then(res => res.json());
+}
