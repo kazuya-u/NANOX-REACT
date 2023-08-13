@@ -38,8 +38,6 @@ type RelatedData = {
 };
 
 const onSubmit: SubmitHandler<FormData> = async (data) => {
-  console.log(data);
-
   const endpoint = "https:/drupal.sandbox.dev.lando/jsonapi/node/task";
   const headers = {
     "Content-Type": "application/vnd.api+json",
@@ -77,12 +75,8 @@ const onSubmit: SubmitHandler<FormData> = async (data) => {
       data: related,
     };
   });
-
-  console.log(bodyData);
   try {
     await postData(endpoint, headers, bodyData);
-    console.log(bodyData);
-
     toast.success("Nodeの投稿に成功しました。");
   } catch (error) {
     console.error("Nodeの投稿に失敗しました。", error);
