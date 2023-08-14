@@ -12,17 +12,17 @@ type DataType = {
       field_description: string;
       name: string;
       title: string;
-    }
-  },
-  included: Array<RelationData>
-}
+    };
+  };
+  included: Array<RelationData>;
+};
 
 type RelationData = {
   attributes: {
     name: string;
-  }
+  };
   type: string;
-}
+};
 
 const Detail: React.FC = () => {
   const baseURL = "http://drupal.sandbox.dev.lando/jsonapi/node/task/";
@@ -38,14 +38,23 @@ const Detail: React.FC = () => {
   if (!data) {
     return <div>Loading...</div>;
   }
-  const projectData = data.included.filter(item => item.type === "taxonomy_term--project");
-  const tagData = data.included.filter(item => item.type === "taxonomy_term--tags");
-  
-  return (  
+  const projectData = data.included.filter(
+    (item) => item.type === "taxonomy_term--project"
+  );
+  const tagData = data.included.filter(
+    (item) => item.type === "taxonomy_term--tags"
+  );
+  console.log(tagData);
+
+  return (
     <>
       <TaskDetailContainer>
         <div>
-          <TaskProject>{projectData.length > 0 ? projectData[0].attributes.name : 'No Project'}</TaskProject>
+          <TaskProject>
+            {projectData.length > 0
+              ? projectData[0].attributes.name
+              : "No Project"}
+          </TaskProject>
         </div>
         <TaskName>{data.data.attributes.title}</TaskName>
         <TaskDetailWrapper>
@@ -60,7 +69,11 @@ const Detail: React.FC = () => {
             <TaskDetailItemLabel>期限:</TaskDetailItemLabel>
             <div>{data.data.attributes.field_deadline}</div>
           </TaskDetailItem>
-          <div>{tagData.length > 0 ? tagData[0].attributes.name : 'タグなし'}</div>
+          {tagData.length > 0
+            ? tagData.map((tag) => (
+              <div key={tag.attributes.name}>{tag.attributes.name}</div>
+            ))
+            : ""}
         </TaskDetailWrapper>
         <TaskBody className="markdown-body">
           <ReactMarkdown>
