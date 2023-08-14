@@ -1,12 +1,11 @@
+import { Button, TextField } from "@mui/material";
 import { GetOptions, postData } from "../utils/Utils";
 import { toast } from "react-toastify";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import CreatableSelect from "react-select/creatable";
-import makeAnimated from "react-select/animated";
 import Select from "react-select";
 import styled from "styled-components";
-
-const animatedComponents = makeAnimated();
+import Textarea from '@mui/joy/Textarea';
 
 type FormData = {
   title: string;
@@ -43,8 +42,6 @@ type RelatedData = {
 };
 
 const onSubmit: SubmitHandler<FormData> = async (data) => {
-  console.log("form", data);
-
   const endpoint = "https:/drupal.sandbox.dev.lando/jsonapi/node/task";
   const headers = {
     "Content-Type": "application/vnd.api+json",
@@ -92,11 +89,10 @@ const onSubmit: SubmitHandler<FormData> = async (data) => {
       data: related,
     };
   });
-  console.log("bodyData", bodyData);
 
   try {
     await postData(endpoint, headers, bodyData);
-    toast.success("Nodeの投稿に成功しました。");
+    toast.success(`Nodeの投稿に成功しました。${data.title}`);
   } catch (error) {
     console.error("Nodeの投稿に失敗しました。", error);
     toast.error("Nodeの投稿に失敗しました。");
@@ -118,8 +114,7 @@ const TaskForm: React.FC = () => {
     <>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Heading>Add Task</Heading>
-        <input type="text" {...register("title")} />
-        <textarea {...register("description")} />
+        <TextField id="standard-basic" label="Title" variant="standard" {...register("title")} />
         <Controller
           control={control}
           name="project"
@@ -131,11 +126,33 @@ const TaskForm: React.FC = () => {
               options={GetOptions(
                 "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name"
               )}
-              placeholder="Select an option"
+              placeholder="Project"
             />
           )}
         />
-
+        <Textarea {...register("description")} sx={{
+          borderBottom: '2px solid',
+          borderColor: 'neutral.outlinedBorder',
+          borderRadius: '6px 6px 0 0',
+          backgroundColor: 'inherit',
+          '&:hover': {
+            borderColor: 'neutral.outlinedHoverBorder',
+          },
+          '&::before': {
+            border: '1px solid var(--Textarea-focusedHighlight)',
+            transform: 'scaleX(0)',
+            left: 0,
+            right: 0,
+            bottom: '-2px',
+            top: 'unset',
+            transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
+            borderRadius: 0,
+          },
+          '&:focus-within::before': {
+            transform: 'scaleX(1)',
+          },
+        }}
+        placeholder="タスク内容" variant="outlined" minRows={2} />
         <Controller
           control={control}
           name="status"
@@ -147,7 +164,7 @@ const TaskForm: React.FC = () => {
               options={GetOptions(
                 "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/status?fields[taxonomy_term--status]=name"
               )}
-              placeholder="Select an option"
+              placeholder="Status"
             />
           )}
         />
@@ -160,15 +177,14 @@ const TaskForm: React.FC = () => {
               isClearable
               isMulti
               isSearchable
-              components={animatedComponents}
               options={GetOptions(
                 "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/tags?fields[taxonomy_term--tags]=name"
               )}
-              placeholder="タグを選択"
+              placeholder="Tag"
             />
           )}
         />
-        <button disabled={!isDirty || !isValid}>投稿する</button>
+        <Button type="submit" disabled={!isDirty || !isValid} variant="contained" color="primary">送信する</Button>
       </Form>
     </>
   );
@@ -177,6 +193,7 @@ const TaskForm: React.FC = () => {
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  row-gap: 40px;
 `;
 
 const Heading = styled.h2`
