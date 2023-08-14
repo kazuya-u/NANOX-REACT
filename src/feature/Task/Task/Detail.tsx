@@ -45,7 +45,7 @@ const Detail: React.FC = () => {
     <>
       <TaskDetailContainer>
         <div>
-          <TaskProject>{projectData[0].attributes.name}</TaskProject>
+          <TaskProject>{projectData.length > 0 ? projectData[0].attributes.name : 'No Project'}</TaskProject>
         </div>
         <TaskName>{data.data.attributes.title}</TaskName>
         <TaskDetailWrapper>
@@ -60,7 +60,7 @@ const Detail: React.FC = () => {
             <TaskDetailItemLabel>期限:</TaskDetailItemLabel>
             <div>{data.data.attributes.field_deadline}</div>
           </TaskDetailItem>
-          <div>{<div>{tagData[0].attributes.name}</div>}</div>
+          <div>{tagData.length > 0 ? tagData[0].attributes.name : 'タグなし'}</div>
         </TaskDetailWrapper>
         <TaskBody className="markdown-body">
           <ReactMarkdown>
