@@ -8,7 +8,7 @@ import { Suspense } from "react";
 import { ToastContainer } from "react-toastify";
 import { useModal } from "../../feature/Modal/utils/useModal";
 import Login from "../../feature/AuthUser/Login";
-import Modal from "../../feature/Modal/Modal";
+import Modal from "../Modal/Index";
 import NavBar from "./NavBar";
 import TaskForm from "../Task/Post/TaskForm";
 

@@ -177,12 +177,6 @@ const TaskForm: React.FC = () => {
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 500px;
-  border: 1px solid #ccc;
-  padding: 20px 20px 32px;
-  background-color: #fff;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 const Heading = styled.h2`
