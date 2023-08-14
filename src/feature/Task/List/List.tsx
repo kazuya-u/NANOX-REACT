@@ -5,8 +5,8 @@ type ItemType = {
   field_deadline: string;
   field_ref_status: string;
   nid: string;
-  project_name: string;
-  tag_name: string;
+  ProjectName: string;
+  TagName: string;
   title: string;
   uuid: string;
 }
@@ -19,6 +19,8 @@ const List: React.FC = () => {
   if (!data) {
     return <div>Loading...</div>;
   }
+  console.log(data);
+  
   return (
     <>
       <ListWrapper>
@@ -26,10 +28,8 @@ const List: React.FC = () => {
           <li key={item.nid}>
             <StyledLink to={`/tasks/${item.uuid}`}>
               <TaskName>{item.title}</TaskName>
-              <ProjectName>Project: {item.project_name}</ProjectName>
-              <TagContainer>
-                <Tag>{item.tag_name}</Tag>
-              </TagContainer>
+              <ProjectName>Project: {item.ProjectName}</ProjectName>
+                {item.TagName ? <TagContainer><Tag>{item.TagName}</Tag></TagContainer>: ''}
               <Deadline>Due: {item.field_deadline}</Deadline>
               <Status>Status: {item.field_ref_status}</Status>
             </StyledLink>
