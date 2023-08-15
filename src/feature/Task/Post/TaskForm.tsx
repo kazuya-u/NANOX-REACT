@@ -5,7 +5,6 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import CreatableSelect from "react-select/creatable";
 import Select from "react-select";
 import styled from "styled-components";
-import Textarea from '@mui/joy/Textarea';
 
 type FormData = {
   title: string;
@@ -114,7 +113,7 @@ const TaskForm: React.FC = () => {
     <>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Heading>Add Task</Heading>
-        <TextField id="standard-basic" label="Title" variant="standard" {...register("title")} />
+        <TextField id="standard-basic" label="What is the Task's name..." variant="standard" {...register("title")} />
         <Controller
           control={control}
           name="project"
@@ -130,29 +129,15 @@ const TaskForm: React.FC = () => {
             />
           )}
         />
-        <Textarea {...register("description")} sx={{
-          borderBottom: '2px solid',
-          borderColor: 'neutral.outlinedBorder',
-          borderRadius: '6px 6px 0 0',
-          backgroundColor: 'inherit',
-          '&:hover': {
-            borderColor: 'neutral.outlinedHoverBorder',
-          },
-          '&::before': {
-            border: '1px solid var(--Textarea-focusedHighlight)',
-            transform: 'scaleX(0)',
-            left: 0,
-            right: 0,
-            bottom: '-2px',
-            top: 'unset',
-            transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-            borderRadius: 0,
-          },
-          '&:focus-within::before': {
-            transform: 'scaleX(1)',
-          },
-        }}
-        placeholder="タスク内容" variant="outlined" minRows={2} />
+        <TextField
+          id="standard-textarea"
+          label="Detail..."
+          placeholder="Placeholder"
+          multiline
+          variant="standard"
+          minRows={2}
+          {...register("description")}
+        />
         <Controller
           control={control}
           name="status"
