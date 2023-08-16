@@ -169,7 +169,7 @@ const TaskForm: React.FC = () => {
             />
           )}
         />
-        <Button type="submit" disabled={!isDirty || !isValid} variant="contained" color="primary">送信する</Button>
+        <Button type="submit" disabled={!(isDirty && isValid)} variant="contained" color="primary">送信する</Button>
       </Form>
     </>
   );
@@ -182,9 +182,9 @@ const Form = styled.form`
 `;
 
 const Heading = styled.h2`
+  text-align: center;
   font-size: 24px;
   color: #333;
-  margin-bottom: 20px;
 `;
 
 export default TaskForm;
