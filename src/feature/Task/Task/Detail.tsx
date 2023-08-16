@@ -24,6 +24,16 @@ type RelationData = {
   type: string;
 };
 
+import React from "react";
+
+function formatDate(timestamp: string): string {
+  const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "long", day: "numeric" };
+  const date = new Date(timestamp);
+  return new Intl.DateTimeFormat("ja-JP", options).format(date);
+}
+
+
+
 const Detail: React.FC = () => {
   const baseURL = "http://drupal.sandbox.dev.lando/jsonapi/node/task/";
   const pageParams = useParams();
@@ -44,7 +54,7 @@ const Detail: React.FC = () => {
   const tagData = data.included.filter(
     (item) => item.type === "taxonomy_term--tags"
   );
-  console.log(tagData);
+
 
   return (
     <>
@@ -63,11 +73,11 @@ const Detail: React.FC = () => {
           </TaskDetailItem>
           <TaskDetailItem>
             <TaskDetailItemLabel>更新時間:</TaskDetailItemLabel>
-            <div>{data.data.attributes.created}</div>
+            {formatDate(data.data.attributes.created)}
           </TaskDetailItem>
           <TaskDetailItem>
             <TaskDetailItemLabel>期限:</TaskDetailItemLabel>
-            <div>{data.data.attributes.field_deadline}</div>
+            {formatDate(data.data.attributes.field_deadline)}
           </TaskDetailItem>
           {tagData.length > 0
             ? tagData.map((tag) => (
