@@ -1,4 +1,4 @@
-import { DescriptionTextarea, StatusSelect, TagSelect, TaskSubmit, TitleInput } from "../../components/Input";
+import { DescriptionTextarea, ProjectSelect, StatusSelect, TagSelect, TaskSubmit, TitleInput } from "../../components/Input";
 import { FormProvider, useForm } from "react-hook-form";
 import { onSubmit } from "../Post";
 import { TaskFormData } from "../../type/Index";
@@ -11,6 +11,7 @@ export const TaskPostForm: React.FC = () => {
       <FormProvider {...methods}>
         <Form onSubmit={methods.handleSubmit(onSubmit)}>
           <TitleInput />
+          <ProjectSelect />
           <DescriptionTextarea />
           <StatusSelect />
           <TagSelect />
