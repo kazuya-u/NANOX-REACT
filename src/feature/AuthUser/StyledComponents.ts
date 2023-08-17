@@ -1,4 +1,5 @@
-import { styled } from "styled-components";
+import styled from "styled-components";
+
 
 type ButtonDisabledProps = {
   disabled?: boolean

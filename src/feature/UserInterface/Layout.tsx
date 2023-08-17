@@ -3,14 +3,14 @@ import { getUserIdFromLocalStorage } from "../../feature/AuthUser/utils/LocalSto
 import { GoPlus } from "react-icons/go";
 import { Outlet } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
-import { styled } from "styled-components";
+import styled from "styled-components";
 import { Suspense } from "react";
 import { ToastContainer } from "react-toastify";
 import { useModal } from "../../feature/Modal/utils/useModal";
 import Login from "../../feature/AuthUser/Login";
 import Modal from "../Modal/Index";
 import NavBar from "./NavBar";
-import TaskForm from "../Task/Post/TaskForm";
+import TaskForm from "../Task/Post/Index";
 
 const Layout: React.FC = () => {
   const isAuth = getUserIdFromLocalStorage();
