@@ -2,7 +2,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { getUserIdFromLocalStorage } from "../AuthUser/utils/LocalStorageUtils";
 import { ToastContainer } from "react-toastify";
 import Login from "../AuthUser/Login";
-import MainContent from "./MainContent";
+import MainContent from "./Main";
 
 const Layout: React.FC = () => {
   const isAuth = getUserIdFromLocalStorage();
