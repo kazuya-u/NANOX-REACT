@@ -19,12 +19,12 @@ export const StyledLink = styled(Link)`
 `;
 
 export const TaskName = styled.div`
-  font-size: 18px;
+  font-size: 14px;
   margin-bottom: 8px;
 `;
 
 export const ProjectName = styled.p`
-  font-size: 14px;
+  font-size: 12px;
   color: #555555;
   margin-bottom: 4px;
 `;
@@ -33,8 +33,6 @@ export const TagContainer = styled.div`
   padding: 4px 8px 3px;
   border-radius: 2px;
   line-height: 1.2;
-  font-size: 11px;
-  font-size: 0.6875rem;
   display: inline-block;
 `;
 
@@ -48,12 +46,12 @@ export const Tag = styled.span`
 `;
 
 export const Deadline = styled.p`
-  font-size: 14px;
+  font-size: 12px;
   color: #999999;
   margin-bottom: 4px;
 `;
 
 export const Status = styled.p`
-  font-size: 14px;
+  font-size: 12px;
   color: #333333;
 `;
