@@ -1,4 +1,3 @@
-import "./style.css";
 import { RouterProvider } from "react-router-dom";
 import React from "react";
 import RooterConfig from "./routes/RooterConfig";
