@@ -1,10 +1,9 @@
 import List from "./List";
-import TaskFilter from "./Filter";
 
 const Index: React.FC = () => {
   return (
     <>
-      <TaskFilter />
+      {/* <TaskFilter /> */}
       <List />
     </>
   );
