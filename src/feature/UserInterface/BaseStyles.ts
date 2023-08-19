@@ -17,6 +17,10 @@ html {
 
 body {
   margin: 0;
+  font-family: gillsansmt, noto sans japanese, Quicksand, 游ゴシック体,
+    yu gothic, YuGothic, ヒラギノ角ゴシック pro, hiragino kaku gothic pro,
+    メイリオ, Meiryo, Osaka, sans-serif;
+  letter-spacing: .1em;
 }
 
 main {

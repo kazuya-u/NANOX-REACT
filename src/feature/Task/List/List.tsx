@@ -1,8 +1,9 @@
-import { Deadline, ListWrapper, ProjectName, Status, StyledLink, Tag, TagContainer, TaskName } from "./StyledComponents";
+import { Deadline, ListItem, ListWrapper, ProjectName, Status, StyledLink, Tag, TagContainer, TaskDescription, TaskLeftWrapper, TaskName, TaskRightWrapper } from "./StyledComponents";
 import { useGetViewsData } from "../api/GetData";
 
 type ItemType = {
   field_deadline: string;
+  field_description: string;
   field_ref_status: string;
   nid: string;
   ProjectName: string;
@@ -19,19 +20,26 @@ const List: React.FC = () => {
   if (!data) {
     return <div>Loading...</div>;
   }
+  console.log(data);
+  
   return (
     <>
       <ListWrapper>
         {data.map((item: ItemType) => (
-          <li key={item.nid}>
+          <ListItem key={item.nid}>
             <StyledLink to={`/tasks/${item.uuid}`}>
-              <TaskName>{item.title}</TaskName>
-              <ProjectName>Project: {item.ProjectName}</ProjectName>
+              <TaskLeftWrapper>
+                <TaskName>{item.title}</TaskName>
+                <TaskDescription>{item.field_description}</TaskDescription>
                 {item.TagName ? <TagContainer><Tag>{item.TagName}</Tag></TagContainer>: ''}
-              <Deadline>Due: {item.field_deadline}</Deadline>
-              <Status>Status: {item.field_ref_status}</Status>
+              </TaskLeftWrapper>
+              <TaskRightWrapper>
+                <Deadline>Due: {item.field_deadline}</Deadline>
+                {/* <Status>Status: {item.field_ref_status}</Status> */}
+                <ProjectName>{item.ProjectName}</ProjectName>
+              </TaskRightWrapper>
             </StyledLink>
-          </li>
+          </ListItem>
         ))}
       </ListWrapper>
     </>
