@@ -8,6 +8,7 @@ import Post from "../pages/Task";
 import TaskLayout from "../feature/Task/Layout";
 import TaskPatch from "../pages/TaskPatch";
 import Tasks from "../pages/Tasks";
+import Tips from "../pages/Tips";
 
 const RooterConfig = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const RooterConfig = createBrowserRouter([
       {
         path: 'about',
         element: <About />
+      },
+      {
+        path: 'tips',
+        element: <Tips />
       },
       {
         path: 'tasks',
