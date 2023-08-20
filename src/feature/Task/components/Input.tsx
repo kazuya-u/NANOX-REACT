@@ -1,7 +1,7 @@
 import React from "react";
 import Select from "react-select";
 import { GetOptions } from "../utils/Utils";
-import { Controller, useForm, useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { Button, TextField } from "@mui/material";
 import CreatableSelect from "react-select";
 
@@ -20,33 +20,35 @@ export const TitleInput: React.FC = (
 );
 
 export const ProjectSelect: React.FC = () => {
-  const { control } = useForm();
+  const { control } = useFormContext();
   return (
     <Controller
-          control={control}
-          name="project"
-          render={() => (
-            <Select
-            isClearable
-            isSearchable
-            // onChange={onChange}
-            options={GetOptions(
-              "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name"
-            )}
-          />
+      control={control}
+      name="project"
+      render={({ field: { onChange, value } }) => (
+        <Select
+          isClearable
+          isSearchable
+          onChange={onChange}
+          value={value}
+          options={GetOptions(
+            "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name"
           )}
         />
+      )}
+    />
   )
 }
 
 export const StatusSelect: React.FC = () => {
-  const { control } = useForm();
+  const { control } = useFormContext();
   return (
     <Controller
       control={control}
       name="status"
-      render={() => (
+      render={({ field }) => (
         <Select
+          {...field}
           isClearable
           isSearchable
           options={GetOptions(
@@ -60,14 +62,14 @@ export const StatusSelect: React.FC = () => {
 }
 
 export const TagSelect: React.FC = () => {
-  const { control } = useForm();
+  const { control } = useFormContext();
   return (
     <Controller
       control={control}
       name="tags"
-      render={() => (
+      render={({ field }) => (
         <CreatableSelect
-          // onChange={onChange}
+          {...field}
           isClearable
           isMulti
           isSearchable
