@@ -1,10 +1,11 @@
-import { postData } from "../utils/Utils";
+import { patchData } from "../utils/Utils";
 import { SubmitHandler } from "react-hook-form";
 import { TaskBodyDataType, TaskFormData, TaskRelatedData } from "../type/Index";
-import { toast } from "react-toastify";
 
-export const onSubmitPostData: SubmitHandler<TaskFormData> = async (data) => {
+export const onSubmitPatchData: SubmitHandler<TaskFormData> = async (data, taskId) => {
+  console.log("aaa");
   const endpoint = "https:/drupal.sandbox.dev.lando/jsonapi/node/task";
+  const baseUrl = `${endpoint}/${taskId}`;
   const headers = {
     "Content-Type": "application/vnd.api+json",
     Accept: "application/vnd.api+json",
@@ -12,6 +13,7 @@ export const onSubmitPostData: SubmitHandler<TaskFormData> = async (data) => {
   const bodyData: TaskBodyDataType = {
     data: {
       type: "node--task",
+      id: taskId,
       attributes: {
         title: data.title,
         field_description: data.description,
@@ -35,10 +37,14 @@ export const onSubmitPostData: SubmitHandler<TaskFormData> = async (data) => {
     });
   }
 
-  const generateRelatedData = (value: string, type: string): TaskRelatedData => ({
+  const generateRelatedData = (
+    value: string,
+    type: string
+  ): TaskRelatedData => ({
     type,
     id: value,
   });
+
   if (data.tags && data.tags.length) {
     data.tags.forEach((tag) => {
       relatedData.push(generateRelatedData(tag.value, "taxonomy_term--tags"));
@@ -51,12 +57,6 @@ export const onSubmitPostData: SubmitHandler<TaskFormData> = async (data) => {
       data: related,
     };
   });
-
-  try {
-    await postData(endpoint, headers, bodyData);
-    toast.success(`Nodeの投稿に成功しました。${data.title}`);
-  } catch (error) {
-    console.error("Nodeの投稿に失敗しました。", error);
-    toast.error("Nodeの投稿に失敗しました。");
-  }
+  const patch = patchData(baseUrl, headers, bodyData);
+  return { patch };
 };
