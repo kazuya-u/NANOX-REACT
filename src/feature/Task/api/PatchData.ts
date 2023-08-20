@@ -3,7 +3,6 @@ import { SubmitHandler } from "react-hook-form";
 import { TaskBodyDataType, TaskFormData, TaskRelatedData } from "../type/Index";
 
 export const onSubmitPatchData: SubmitHandler<TaskFormData> = async (data, taskId) => {
-  console.log("aaa");
   const endpoint = "https:/drupal.sandbox.dev.lando/jsonapi/node/task";
   const baseUrl = `${endpoint}/${taskId}`;
   const headers = {

@@ -5,7 +5,7 @@ import {
   ListItemIcon,
 } from "@mui/material";
 import { Link } from 'react-router-dom';
-import { GoHome, GoPerson, GoQuestion, GoTasklist } from "react-icons/go";
+import { GoBook, GoHome, GoPerson, GoQuestion, GoTasklist } from "react-icons/go";
 import styled from "styled-components";
 
 export default function Navbar() {
@@ -23,8 +23,7 @@ export default function Navbar() {
             </ListItemButton>
           </StyledLink>
         </StyledListItem>
-
-<StyledListItem>
+        <StyledListItem>
           <StyledLink to="tasks">
             <ListItemButton>
               <ListItemIcon>
@@ -33,8 +32,18 @@ export default function Navbar() {
               <div>Tasks</div>
             </ListItemButton>
           </StyledLink>
-</StyledListItem>
-<StyledListItem>
+        </StyledListItem>
+        <StyledListItem>
+          <StyledLink to="tips">
+            <ListItemButton>
+              <ListItemIcon>
+                <GoBook size={24} />
+              </ListItemIcon>
+              <div>Tips</div>
+            </ListItemButton>
+          </StyledLink>
+        </StyledListItem>
+        <StyledListItem>
           <StyledLink to="/about">
             <ListItemButton>
               <ListItemIcon>
@@ -43,8 +52,8 @@ export default function Navbar() {
               <div>About</div>
             </ListItemButton>
           </StyledLink>
-</StyledListItem>
-<StyledListItem>
+        </StyledListItem>
+        <StyledListItem>
           <StyledLink to="/contact">
             <ListItemButton>
               <ListItemIcon>
@@ -53,7 +62,7 @@ export default function Navbar() {
               <div>Contact</div>
             </ListItemButton>
           </StyledLink>
-</StyledListItem>
+        </StyledListItem>
       </ul>
     </Stack>
   );

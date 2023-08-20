@@ -2,7 +2,9 @@ import "github-markdown-css/github-markdown.css";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { TaskBody, TaskDetailContainer, TaskDetailItem, TaskDetailItemLabel, TaskDetailWrapper, TaskName, TaskProject, TaskStatus } from "./StyledComponens";
 import { useFetchData } from "../../../utils/fetchData";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+import { GoTrash } from "react-icons/go";
+import { IconButton } from "@mui/material";
 
 type DataType = {
   data: {
@@ -24,7 +26,7 @@ type RelationData = {
   type: string;
 };
 
-import React from "react";
+
 
 function formatDate(timestamp: string): string {
   const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "long", day: "numeric" };
@@ -36,6 +38,9 @@ function formatDate(timestamp: string): string {
 
 const Detail: React.FC = () => {
   const baseURL = "http://drupal.sandbox.dev.lando/jsonapi/node/task/";
+  const location = useLocation();
+  console.log(location);
+  
   const pageParams = useParams();
   const dataParams =
     "?include=field_ref_status,field_ref_project,field_ref_tags&fields[node--task]=name,title,created,field_deadline,field_description&fields[taxonomy_term--project]=name&fields[taxonomy_term--tags]=name";
@@ -54,6 +59,29 @@ const Detail: React.FC = () => {
   const tagData = data.included.filter(
     (item) => item.type === "taxonomy_term--tags"
   );
+
+  const onClick = async () => {
+    const endpoint = `${baseURL}${pageParams.taskId}`;
+    const headers = {
+      "Content-Type": "application/vnd.api+json",
+      Accept: "application/vnd.api+json",
+    };
+    try {
+      const response = await fetch(endpoint, {
+        method: 'DELETE',
+        headers: headers,
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+      const responseData = await response.text();
+      const jsonResponse = responseData ? JSON.parse(responseData) : null;
+      return jsonResponse;
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  };
 
 
   return (
@@ -84,6 +112,9 @@ const Detail: React.FC = () => {
               <div key={tag.attributes.name}>{tag.attributes.name}</div>
             ))
             : ""}
+          <IconButton aria-label="delete" size="small" onClick={onClick}>
+            <GoTrash />
+          </IconButton>
         </TaskDetailWrapper>
         <TaskBody className="markdown-body">
           <ReactMarkdown>
