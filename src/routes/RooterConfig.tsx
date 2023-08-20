@@ -1,4 +1,3 @@
-import { action as PatchAction } from "../feature/Task/api/PostData";
 import { createBrowserRouter } from "react-router-dom";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
@@ -42,7 +41,6 @@ const RooterConfig = createBrowserRouter([
           {
             path: ':taskId/edit',
             element: <TaskPatch />,
-            action: PatchAction,
           },
         ],
       },

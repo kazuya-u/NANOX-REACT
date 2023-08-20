@@ -1,6 +1,6 @@
 import { DescriptionTextarea, ProjectSelect, StatusSelect, TagSelect, TaskSubmit, TitleInput } from "../../components/Input";
 import { FormProvider, useForm } from "react-hook-form";
-import { onSubmitPostData } from "../Post";
+import { onSubmitPostData } from "../../api/PostData";
 import { TaskFormData } from "../../type/Index";
 import styled from "styled-components";
 

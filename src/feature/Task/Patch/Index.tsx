@@ -1,6 +1,10 @@
-import { useParams } from "react-router-dom";
+import { DescriptionTextarea, ProjectSelect, StatusSelect, TagSelect, TaskSubmit, TitleInput } from "../components/Input";
+import { FormProvider, useForm } from "react-hook-form";
+import { onSubmitPatchData } from "../api/PatchData";
+import { TaskFormData } from "../type/Index";
 import { useFetchData } from "../../../utils/fetchData";
-import { FormWrapper, Input, SubmitButton, Textarea } from "./StyledComponents";
+import { useParams } from "react-router-dom";
+
 
 type DateType = {
   data: {
@@ -12,8 +16,12 @@ type DateType = {
 }
 
 const Index: React.FC = () => {
+  const methods = useForm<TaskFormData>();
+  const pageParams = useParams<{ taskId?: string }>();
+  const onSubmit = async (data: TaskFormData) => {
+    await onSubmitPatchData(data, pageParams.taskId);
+  };
   const baseUrl = "http://drupal.sandbox.dev.lando/jsonapi/node/task/";
-  const pageParams = useParams();
   const { data, error } = useFetchData<DateType>(
     `${baseUrl}${pageParams.taskId}`
   );
@@ -23,25 +31,18 @@ const Index: React.FC = () => {
   if (!data) {
     return <div>Loading...</div>
   }
-  
+
   return (
-    <>
-      <FormWrapper method="post">
-        <Input
-          name="title"
-          placeholder="title"
-          defaultValue={data.data.attributes.title}
-        />
-        <br />
-        <Textarea
-          name="description"
-          id=""
-          defaultValue={data.data.attributes.field_description}
-        ></Textarea>
-        <br />
-        <SubmitButton type="submit">Submit</SubmitButton>
-      </FormWrapper>
-    </>
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <TitleInput />
+        <ProjectSelect />
+          <DescriptionTextarea />
+          <StatusSelect />
+          <TagSelect />
+          <TaskSubmit />
+      </form>
+    </FormProvider>
   );
 };
 
