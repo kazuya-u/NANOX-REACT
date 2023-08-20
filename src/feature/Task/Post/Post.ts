@@ -3,7 +3,7 @@ import { SubmitHandler } from "react-hook-form";
 import { TaskBodyDataType, TaskFormData, TaskRelatedData } from "../type/Index";
 import { toast } from "react-toastify";
 
-export const onSubmit: SubmitHandler<TaskFormData> = async (data) => {
+export const onSubmitPostData: SubmitHandler<TaskFormData> = async (data) => {
   const endpoint = "https:/drupal.sandbox.dev.lando/jsonapi/node/task";
   const headers = {
     "Content-Type": "application/vnd.api+json",

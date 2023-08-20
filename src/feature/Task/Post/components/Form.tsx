@@ -1,6 +1,6 @@
 import { DescriptionTextarea, ProjectSelect, StatusSelect, TagSelect, TaskSubmit, TitleInput } from "../../components/Input";
 import { FormProvider, useForm } from "react-hook-form";
-import { onSubmit } from "../Post";
+import { onSubmitPostData } from "../Post";
 import { TaskFormData } from "../../type/Index";
 import styled from "styled-components";
 
@@ -9,7 +9,7 @@ export const TaskPostForm: React.FC = () => {
   return (
     <>
       <FormProvider {...methods}>
-        <Form onSubmit={methods.handleSubmit(onSubmit)}>
+        <Form onSubmit={methods.handleSubmit(onSubmitPostData)}>
           <TitleInput />
           <ProjectSelect />
           <DescriptionTextarea />
