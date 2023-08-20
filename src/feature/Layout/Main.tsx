@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import Modal from "../Modal/Index";
-import NavBar from "../Drawer/NavBar";
+import NavBar from "../Navbar/NavBar";
 import TaskForm from "../Task/Post/Index";
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
