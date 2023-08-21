@@ -1,5 +1,5 @@
 export async function login(username: string, password: string): Promise<string> {
-  const endpoint = 'http://drupal.sandbox.dev.lando/user/login?_format=json';
+  const endpoint = `${import.meta.env.VITE_LANDO_SITE_URL}/user/login?_format=json`;
 
   try {
     const loginResponse = await fetch(endpoint, {

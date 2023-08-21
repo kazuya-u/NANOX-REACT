@@ -37,7 +37,7 @@ function formatDate(timestamp: string): string {
 
 
 const Detail: React.FC = () => {
-  const baseURL = "http://drupal.sandbox.dev.lando/jsonapi/node/task/";
+  const baseURL = `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/task/`;
   const location = useLocation();
   console.log(location);
   

@@ -4,7 +4,7 @@ import { TaskBodyDataType, TaskFormData, TaskRelatedData } from "../type/Index";
 import { toast } from "react-toastify";
 
 export const onSubmitPostData: SubmitHandler<TaskFormData> = async (data) => {
-  const endpoint = "https:/drupal.sandbox.dev.lando/jsonapi/node/task";
+  const endpoint = `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/task`;
   const headers = {
     "Content-Type": "application/vnd.api+json",
     Accept: "application/vnd.api+json",
