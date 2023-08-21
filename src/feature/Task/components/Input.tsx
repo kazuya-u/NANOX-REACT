@@ -32,7 +32,7 @@ export const ProjectSelect: React.FC = () => {
           onChange={onChange}
           value={value}
           options={GetOptions(
-            "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name"
+            `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name`
           )}
         />
       )}
@@ -52,7 +52,7 @@ export const StatusSelect: React.FC = () => {
           isClearable
           isSearchable
           options={GetOptions(
-            "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/status?fields[taxonomy_term--status]=name"
+            `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/taxonomy_term/status?fields[taxonomy_term--status]=name`
           )}
           placeholder="Status"
         />
@@ -74,7 +74,7 @@ export const TagSelect: React.FC = () => {
           isMulti
           isSearchable
           options={GetOptions(
-            "http://drupal.sandbox.dev.lando/jsonapi/taxonomy_term/tags?fields[taxonomy_term--tags]=name"
+            `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/taxonomy_term/tags?fields[taxonomy_term--tags]=name`
           )}
           placeholder="Tag"
         />
