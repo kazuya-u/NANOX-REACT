@@ -1,9 +1,11 @@
+import Index from "../feature/Tips/List/Index";
+
 const Tips: React.FC = () => {
   
   return (
     <>
       <>
-      Tips
+        <Index />
       </>
     </>
   );
