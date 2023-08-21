@@ -21,7 +21,7 @@ const Index: React.FC = () => {
   const onSubmit = async (data: TaskFormData) => {
     await onSubmitPatchData(data, pageParams.taskId);
   };
-  const baseUrl = "http://drupal.sandbox.dev.lando/jsonapi/node/task/";
+  const baseUrl = `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/task/`;
   const { data, error } = useFetchData<DateType>(
     `${baseUrl}${pageParams.taskId}`
   );
