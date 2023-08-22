@@ -1,5 +1,5 @@
 import { useFetchData } from "../../../utils/fetchData";
-import { ListItem,ListWrapper, ProjectName, StyledLink, Tag, TagContainer, TaskDescription, TaskLeftWrapper, TaskName, TaskRightWrapper } from "../../../feature/Task/List/StyledComponents";
+import { ListItem,ListWrapper, ProjectName, StyledLink, Tag, TagContainer, TaskDescription, TaskLeftWrapper, TaskName, TaskRightWrapper } from "../../Task/List/StyledComponents";
 
 type ItemType = {
   Created: string;
@@ -22,19 +22,19 @@ const formatDate = (timestamp: number): string => {
 };
 
 const Index: React.FC = () => {
-  const { data: TipsListData } = useFetchData<ItemType[]>(`${import.meta.env.VITE_LANDO_SITE_URL}/tips`);
+  const { data: NotesListData } = useFetchData<ItemType[]>(`${import.meta.env.VITE_LANDO_SITE_URL}/tips`);
   
-  if (!TipsListData) {
+  if (!NotesListData) {
     return <>Loading...</>
   }
-  console.log(TipsListData);
+  console.log(NotesListData);
   
   return (
     <>
       <ListWrapper>
-        {TipsListData.map((item: ItemType) => (
+        {NotesListData.map((item: ItemType) => (
           <ListItem key={item.NodeId}>
-            <StyledLink to={`/tips/${item.UUID}`}>
+            <StyledLink to={`/notes/${item.UUID}`}>
               <TaskLeftWrapper>
                 <TaskName>{item.Title}</TaskName>
                 <TaskDescription>{item.Description}</TaskDescription>
