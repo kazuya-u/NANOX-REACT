@@ -11,6 +11,7 @@ import Tasks from "../pages/Tasks";
 import Notes from "../pages/Notes";
 import NoteLayout from "../feature/Note/Layout";
 import Note from "../pages/Note";
+import NotePost from "../pages/NotePost";
 
 const RooterConfig = createBrowserRouter([
   {
@@ -26,7 +27,7 @@ const RooterConfig = createBrowserRouter([
       },
       {
         path: 'note/post',
-        element: <Home />
+        element: <NotePost />
       },
       {
         path: 'about',

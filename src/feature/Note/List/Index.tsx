@@ -22,7 +22,7 @@ const formatDate = (timestamp: number): string => {
 };
 
 const Index: React.FC = () => {
-  const { data: NotesListData } = useFetchData<ItemType[]>(`${import.meta.env.VITE_LANDO_SITE_URL}/tips`);
+  const { data: NotesListData } = useFetchData<ItemType[]>(`${import.meta.env.VITE_LANDO_SITE_URL}/note`);
   
   if (!NotesListData) {
     return <>Loading...</>
