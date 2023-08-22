@@ -29,17 +29,17 @@ export default function Navbar() {
               <ListItemIcon>
                 <GoTasklist size={24} />
               </ListItemIcon>
-              <div>Tasks</div>
+              <div>Task</div>
             </ListItemButton>
           </StyledLink>
         </StyledListItem>
         <StyledListItem>
-          <StyledLink to="tips">
+          <StyledLink to="notes">
             <ListItemButton>
               <ListItemIcon>
                 <GoBook size={24} />
               </ListItemIcon>
-              <div>Tips</div>
+              <div>Note</div>
             </ListItemButton>
           </StyledLink>
         </StyledListItem>
