@@ -37,9 +37,9 @@ const formatDate = (timestamp: number): string => {
 const Detail: React.FC = () => {
   const pageParams = useParams();
   const dataParams =
-    "?include=field_ref_project,field_ref_tags&fields[node--tips]=name,title,created,field_description&fields[taxonomy_term--project]=name&fields[taxonomy_term--tags]=name";
+    "?include=field_ref_project,field_ref_tags&fields[node--note]=name,title,created,field_description&fields[taxonomy_term--project]=name&fields[taxonomy_term--tags]=name";
 
-  const { data: NoteData } = useFetchData<DataType>(`${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/tips/${pageParams.NoteId}${dataParams}`);
+  const { data: NoteData } = useFetchData<DataType>(`${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/note/${pageParams.NoteId}${dataParams}`);
   console.log(NoteData);
   if (!NoteData) {
     return <div>Loading...</div>;
