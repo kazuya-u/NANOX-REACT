@@ -8,7 +8,9 @@ import Post from "../pages/Task";
 import TaskLayout from "../feature/Task/Layout";
 import TaskPatch from "../pages/TaskPatch";
 import Tasks from "../pages/Tasks";
-import Tips from "../pages/Tips";
+import Notes from "../pages/Notes";
+import NoteLayout from "../feature/Note/Layout";
+import Note from "../pages/Note";
 
 const RooterConfig = createBrowserRouter([
   {
@@ -23,12 +25,12 @@ const RooterConfig = createBrowserRouter([
         element: <Home />
       },
       {
-        path: 'about',
-        element: <About />
+        path: 'note/post',
+        element: <Home />
       },
       {
-        path: 'tips',
-        element: <Tips />
+        path: 'about',
+        element: <About />
       },
       {
         path: 'tasks',
@@ -45,6 +47,25 @@ const RooterConfig = createBrowserRouter([
           },
           {
             path: ':taskId/edit',
+            element: <TaskPatch />,
+          },
+        ],
+      },
+      {
+        path: 'notes',
+        element: <NoteLayout />,
+        children: [
+          {
+            index: true,
+            element: <Notes />,
+            errorElement: <ErrorPage />,
+          },
+          {
+            path: ':NoteId',
+            element: <Note />,
+          },
+          {
+            path: ':notes/edit',
             element: <TaskPatch />,
           },
         ],
