@@ -1,14 +1,11 @@
-import Index from "../feature/Note/Detail/Index";
+import Index from "../feature/Note/Post/Index";
 
-const Tip: React.FC = () => {
-  
+const NotePost: React.FC = () => {
   return (
     <>
-      <>
-        <Index />
-      </>
+      <Index />
     </>
   );
 };
 
-export default Tip;
+export default NotePost;
