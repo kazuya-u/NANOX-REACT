@@ -13,10 +13,10 @@ export async function login(username: string, password: string): Promise<string>
         pass: password
       }),
     });
-    console.log(loginResponse);
-
+    
     if (loginResponse.ok) {
       const loginData = await loginResponse.json();
+      console.log(loginData);
       const currentUserId = loginData.current_user.uuid;
       return currentUserId;
     } else {
