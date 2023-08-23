@@ -1,9 +1,9 @@
-import { GoTrash } from "react-icons/go";
+import { GoPencil, GoTrash } from "react-icons/go";
 import { IconButton } from "@mui/material";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { TaskBody, TaskDetailContainer, TaskDetailItem, TaskDetailItemLabel, TaskDetailWrapper, TaskName, TaskProject } from "../../Task/Detail/StyledComponens";
 import { useFetchData } from "../../../utils/fetchData";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 type DataType = {
   data: {
@@ -75,6 +75,11 @@ const Detail: React.FC = () => {
               <div key={tag.attributes.name}>{tag.attributes.name}</div>
             ))
             : ""}
+          <Link to={"edit"}>
+            <IconButton aria-label="edit" size="small">
+              <GoPencil />
+            </IconButton>
+          </Link>
           <IconButton aria-label="delete" size="small">
             <GoTrash />
           </IconButton>

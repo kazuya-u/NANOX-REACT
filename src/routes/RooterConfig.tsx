@@ -4,14 +4,15 @@ import Contact from "../pages/Contact";
 import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
 import Layout from "../feature/Layout/Index";
+import Note from "../pages/Note";
+import NoteLayout from "../feature/Note/Layout";
+import NotePatch from "../pages/NotePatch";
+import NotePost from "../pages/NotePost";
+import Notes from "../pages/Notes";
 import Post from "../pages/Task";
 import TaskLayout from "../feature/Task/Layout";
 import TaskPatch from "../pages/TaskPatch";
 import Tasks from "../pages/Tasks";
-import Notes from "../pages/Notes";
-import NoteLayout from "../feature/Note/Layout";
-import Note from "../pages/Note";
-import NotePost from "../pages/NotePost";
 
 const RooterConfig = createBrowserRouter([
   {
@@ -66,8 +67,8 @@ const RooterConfig = createBrowserRouter([
             element: <Note />,
           },
           {
-            path: ':notes/edit',
-            element: <TaskPatch />,
+            path: ':NoteId/edit',
+            element: <NotePatch />,
           },
         ],
       },
