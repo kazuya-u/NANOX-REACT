@@ -1,6 +1,6 @@
 import { AuthUserForm, AuthUserInputField, AuthUserInputLabel, AuthUserInputWrapper, AuthUserSubmitButton, AuthUserErrorMessage } from "./StyledComponents";
-import { login } from "./utils/ApiUtils";
-import { setUserIdInLocalStorage } from "./utils/LocalStorageUtils";
+import { getToken, getUserUUID } from "./utils/ApiUtils";
+import { setAccessTokenLocalStorage, setUserIdInLocalStorage } from "./utils/LocalStorageUtils";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 
@@ -21,12 +21,14 @@ const LoginForm: React.FC = () => {
   
   const onSubmit = async (data: FormData) => {
     try {
-      const currentUserId = await login(data.user, data.password);
+      const authData = await getToken(data.user, data.password);
+      setAccessTokenLocalStorage(authData.access_token);
+      const currentUserId = await getUserUUID(data.user, data.password);
       setUserIdInLocalStorage(currentUserId);
       toast.done('ログインしました。');
       
     } catch (error) {
-        handleLoginError(error);
+      handleLoginError(error);
     }
   };
   const handleLoginError = (error: unknown) => {
