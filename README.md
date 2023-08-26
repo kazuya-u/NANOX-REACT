@@ -66,3 +66,4 @@ FormをReact-Hook-Formにて実装。
 ## 実装のメモ
 - [リレーションデータのPOST実装](https://github.com/kazuya-u/React-PoC-Training/issues/44)
 - [POST・PATCH実装](https://github.com/kazuya-u/React-PoC-Training/issues/25)
+- [Oauth・認証方法](https://github.com/kazuya-u/React-PoC-Training/pull/96)
