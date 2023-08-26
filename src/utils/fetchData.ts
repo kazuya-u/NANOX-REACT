@@ -1,9 +1,14 @@
 import useSWR, { Fetcher } from "swr";
+import { getAccessTokenFromLocalStorage } from "../feature/AuthUser/utils/LocalStorageUtils";
 
 type baseUrlType = string;
 
 export function useFetchData<T>(baseUrl: baseUrlType) {
-  const fetcher: Fetcher<T> = (url: string) => fetch(url).then(r => r.json());
+  const accessToken = getAccessTokenFromLocalStorage();
+  const headers = {
+    "Authorization": `Bearer ${accessToken}`,
+  };
+  const fetcher: Fetcher<T> = (url: string) => fetch(url, { headers }).then(r => r.json());
   const { data, error } = useSWR(baseUrl, fetcher)
   return {
     data,
