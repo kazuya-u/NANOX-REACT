@@ -1,8 +1,8 @@
 import { Button, TextField } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { ExtractDefaultOptionData, GetOptions, patchData } from "../../../feature/Task/utils/Utils";
 import { getAccessTokenFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
-import { GetOptions, patchData } from "../../..//feature/Task/utils/Utils";
-import { NoteBodyDataType, NoteFormData, NoteRelatedData } from "../type/Index";
+import { NoteBodyDataType, NoteFormData, TmpRelatedDataType } from "../type/Index";
 import { toast } from "react-toastify";
 import { useFetchData } from "../../../utils/fetchData";
 import { useParams } from "react-router-dom";
@@ -30,53 +30,64 @@ type RelationData = {
 
 const Index: React.FC = () => {
   const pageParams = useParams();
-
   const { register, handleSubmit, control } = useForm();
-
   const onSubmit: SubmitHandler<NoteFormData> = async (data) => {
-    const endpoint = `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/note/${pageParams.NoteId}`;
+    const endpoint = `${import.meta.env.VITE_LANDO_SITE_URL
+      }/jsonapi/node/note/${pageParams.NoteId}`;
     const accessToken = getAccessTokenFromLocalStorage();
     const headers = {
       "Content-Type": "application/vnd.api+json",
       Authorization: `Bearer ${accessToken}`,
     };
-    const bodyData: NoteBodyDataType = {
-      data: {
-        id: pageParams.NoteId,
-        type: "node--note",
-        attributes: {
-          title: data.title,
-          field_description: data.description,
-        },
-        relationships: {},
-      },
-    };
-
-    const relatedData: NoteRelatedData[] = [];
+    const TmpRelatedData: TmpRelatedDataType[] = [];
     if (data.project && data.project.value) {
-      relatedData.push({
+      TmpRelatedData.push({
         type: "taxonomy_term--project",
         id: data.project.value,
       });
     }
-
-    const generateRelatedData = (value: string, type: string): NoteRelatedData => ({
+    const generateRelatedData = (
+      value: string,
+      type: string
+    ): TmpRelatedDataType => ({
       type,
       id: value,
     });
     if (data.tags && data.tags.length) {
       data.tags.forEach((tag) => {
-        relatedData.push(generateRelatedData(tag.value, "taxonomy_term--tags"));
+        TmpRelatedData.push(
+          generateRelatedData(tag.value, "taxonomy_term--tags")
+        );
       });
     }
 
-    relatedData.forEach((related) => {
-      const relationshipKey = `field_ref_${related.type.split("--")[1]}`;
-      bodyData.data.relationships[relationshipKey] = {
-        data: related,
-      };
-    });
-
+    const relatedData = {
+      field_ref_project: {
+        data: TmpRelatedData.filter(
+          (item) => item.type === "taxonomy_term--project"
+        )[0],
+      },
+      field_ref_tags: {
+        data: TmpRelatedData.filter(
+          (tag) => tag.type === "taxonomy_term--tags"
+        ).map((tag) => ({
+          type: tag.type,
+          id: tag.id,
+        })),
+      },
+    };
+    const pageId = typeof pageParams.NoteId !== "undefined" ? pageParams.NoteId : "";
+    const bodyData: NoteBodyDataType = {
+      data: {
+        id: pageId,
+        type: "node--note",
+        attributes: {
+          title: data.title,
+          field_description: data.description,
+        },
+        relationships: relatedData,
+      },
+    };
     try {
       await patchData(endpoint, headers, bodyData);
       toast.success(`Noteの投稿に成功しました。${data.title}`);
@@ -84,25 +95,37 @@ const Index: React.FC = () => {
       console.error("Nodeの投稿に失敗しました。", error);
       toast.error("Nodeの投稿に失敗しました。");
     }
-  }
-  
-  // 初期値取得
+  };
   const dataParams =
     "?include=field_ref_project,field_ref_tags&fields[node--note]=name,title,created,field_description&fields[taxonomy_term--project]=name&fields[taxonomy_term--tags]=name";
 
-  const { data: NoteData } = useFetchData<DataType>(`${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/note/${pageParams.NoteId}${dataParams}`);
-  console.log(NoteData);
+  const { data: NoteData } = useFetchData<DataType>(
+    `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/note/${pageParams.NoteId
+    }${dataParams}`
+  );
   if (!NoteData) {
     return <div>Loading...</div>;
   }
-  // const projectData = NoteData.included.filter(
-  //   (item) => item.type === "taxonomy_term--project"
-  // );
-  // console.log(projectData);
-  
-  // const tagData = NoteData.included.filter(
-  //   (item) => item.type === "taxonomy_term--tags"
-  // );
+
+  const extractProjectData = NoteData.included.filter(
+    (item) => item.type === "taxonomy_term--project"
+  );
+  const extractTagData = NoteData.included.filter(
+    (item) => item.type === "taxonomy_term--tags"
+  );
+
+  interface Tag {
+    value: string;
+    label: string;
+  }
+
+  const defaultTagsData: Tag[] = extractTagData.map((tagData) => ({
+    value: tagData.id,
+    label: tagData.attributes.name,
+  }));
+  if (!defaultTagsData) {
+    return;
+  }
 
   return (
     <>
@@ -120,12 +143,14 @@ const Index: React.FC = () => {
           name="project"
           render={({ field: { onChange, value } }) => (
             <Select
+              defaultValue={ExtractDefaultOptionData(extractProjectData[0])}
               isClearable
               isSearchable
               onChange={onChange}
               value={value}
               options={GetOptions(
-                `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name`
+                `${import.meta.env.VITE_LANDO_SITE_URL
+                }/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name`
               )}
             />
           )}
@@ -146,11 +171,13 @@ const Index: React.FC = () => {
           render={({ field }) => (
             <CreatableSelect
               {...field}
+              defaultValue={defaultTagsData}
               isClearable
               isMulti
               isSearchable
               options={GetOptions(
-                `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/taxonomy_term/tags?fields[taxonomy_term--tags]=name`
+                `${import.meta.env.VITE_LANDO_SITE_URL
+                }/jsonapi/taxonomy_term/tags?fields[taxonomy_term--tags]=name`
               )}
               placeholder="Tag"
             />
@@ -160,7 +187,6 @@ const Index: React.FC = () => {
       </form>
     </>
   );
-
-}
+};
 
 export default Index;
