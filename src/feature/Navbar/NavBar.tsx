@@ -2,7 +2,6 @@ import Stack from "@mui/material/Stack";
 import {
   Divider,
   ListItemButton,
-  ListItemIcon,
 } from "@mui/material";
 import { Link } from 'react-router-dom';
 import { GoBook, GoHome, GoPerson, GoQuestion, GoTasklist } from "react-icons/go";
@@ -16,50 +15,50 @@ export default function Navbar() {
         <StyledListItem>
           <StyledLink to="/">
             <ListItemButton>
-              <ListItemIcon>
-                <GoHome size={24} />
-              </ListItemIcon>
-              <div>Home</div>
+              <StyledLinkIcon>
+                <GoHome size={20} />
+              </StyledLinkIcon>
+              <StyledLinkText>Home</StyledLinkText>
             </ListItemButton>
           </StyledLink>
         </StyledListItem>
         <StyledListItem>
           <StyledLink to="tasks">
             <ListItemButton>
-              <ListItemIcon>
-                <GoTasklist size={24} />
-              </ListItemIcon>
-              <div>Task</div>
+              <StyledLinkIcon>
+                <GoTasklist size={20} />
+              </StyledLinkIcon>
+              <StyledLinkText>Task</StyledLinkText>
             </ListItemButton>
           </StyledLink>
         </StyledListItem>
         <StyledListItem>
           <StyledLink to="notes">
             <ListItemButton>
-              <ListItemIcon>
-                <GoBook size={24} />
-              </ListItemIcon>
-              <div>Note</div>
+              <StyledLinkIcon>
+                <GoBook size={20} />
+              </StyledLinkIcon>
+              <StyledLinkText>Note</StyledLinkText>
             </ListItemButton>
           </StyledLink>
         </StyledListItem>
         <StyledListItem>
           <StyledLink to="/about">
             <ListItemButton>
-              <ListItemIcon>
-                <GoPerson size={24} />
-              </ListItemIcon>
-              <div>About</div>
+              <StyledLinkIcon>
+                <GoPerson size={20} />
+              </StyledLinkIcon>
+              <StyledLinkText>About</StyledLinkText>
             </ListItemButton>
           </StyledLink>
         </StyledListItem>
         <StyledListItem>
           <StyledLink to="/contact">
             <ListItemButton>
-              <ListItemIcon>
-                <GoQuestion size={24} />
-              </ListItemIcon>
-              <div>Contact</div>
+              <StyledLinkIcon>
+                <GoQuestion size={20} />
+              </StyledLinkIcon>
+              <StyledLinkText>Contact</StyledLinkText>
             </ListItemButton>
           </StyledLink>
         </StyledListItem>
@@ -76,31 +75,22 @@ list-style: none;
 `;
 
 const StyledLink = styled(Link)`
+display: flex;
 align-items: center;
 justify-content: center;
-position: relative;
-padding: 8px 16px;
-cursor: pointer;
-
 vertical-align: middle;
 color: inherit;
-display: -webkit-box;
-display: -webkit-flex;
-display: -ms-flexbox;
-display: flex;
-
 flex-grow: 1;
-
 justify-content: flex-start;
-
-align-items: center;
-position: relative;
-text-decoration: none;
-min-width: 0;
 text-align: left;
-padding-top: 8px;
-padding-bottom: 8px;
-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-padding-left: 16px;
-padding-right: 16px;
+padding: 8px 16px;
 `;
+
+const StyledLinkIcon = styled.div`
+  min-width: 32px;
+`;
+
+const StyledLinkText = styled.div`
+  font-size: 13px;
+  font-weight: 700;
+`
