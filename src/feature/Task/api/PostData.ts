@@ -2,12 +2,15 @@ import { postData } from "../utils/Utils";
 import { SubmitHandler } from "react-hook-form";
 import { TaskBodyDataType, TaskFormData, TaskRelatedData } from "../type/Index";
 import { toast } from "react-toastify";
+import { getAccessTokenFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
 
 export const onSubmitPostData: SubmitHandler<TaskFormData> = async (data) => {
   const endpoint = `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/task`;
+  const accessToken = getAccessTokenFromLocalStorage();
   const headers = {
     "Content-Type": "application/vnd.api+json",
     Accept: "application/vnd.api+json",
+    "Authorization": `Bearer ${accessToken}`,
   };
   const bodyData: TaskBodyDataType = {
     data: {

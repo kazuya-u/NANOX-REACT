@@ -1,5 +1,6 @@
 import { Button, TextField } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { getAccessTokenFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
 import { GetOptions, postData } from "../../../feature/Task/utils/Utils";
 import { NoteBodyDataType, NoteFormData, NoteRelatedData } from "../type/Index";
 import { toast } from "react-toastify";
@@ -11,12 +12,11 @@ const Index: React.FC = () => {
   const { register, handleSubmit, control } = useForm();
 
   const onSubmit: SubmitHandler<NoteFormData> = async (data) => {
-    console.log(data);
-    const endpoint = `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/note/`;
-    
+    const endpoint = `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/note`;
+    const accessToken = getAccessTokenFromLocalStorage();
     const headers = {
       "Content-Type": "application/vnd.api+json",
-      Accept: "application/vnd.api+json",
+      Authorization: `Bearer ${accessToken}`,
     };
     const bodyData: NoteBodyDataType = {
       data: {
@@ -61,7 +61,6 @@ const Index: React.FC = () => {
       console.error("Nodeの投稿に失敗しました。", error);
       toast.error("Nodeの投稿に失敗しました。");
     }
-
   }
 
   return (

@@ -1,12 +1,13 @@
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { NoteBodyDataType, NoteFormData, NoteRelatedData } from "../type/Index";
-import { GetOptions, patchData } from "../../..//feature/Task/utils/Utils";
-import { toast } from "react-toastify";
 import { Button, TextField } from "@mui/material";
-import Select from "react-select";
-import CreatableSelect from "react-select";
-import { useParams } from "react-router-dom";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { getAccessTokenFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
+import { GetOptions, patchData } from "../../..//feature/Task/utils/Utils";
+import { NoteBodyDataType, NoteFormData, NoteRelatedData } from "../type/Index";
+import { toast } from "react-toastify";
 import { useFetchData } from "../../../utils/fetchData";
+import { useParams } from "react-router-dom";
+import CreatableSelect from "react-select";
+import Select from "react-select";
 
 type DataType = {
   data: {
@@ -33,12 +34,11 @@ const Index: React.FC = () => {
   const { register, handleSubmit, control } = useForm();
 
   const onSubmit: SubmitHandler<NoteFormData> = async (data) => {
-    console.log(data);
     const endpoint = `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/note/${pageParams.NoteId}`;
-
+    const accessToken = getAccessTokenFromLocalStorage();
     const headers = {
       "Content-Type": "application/vnd.api+json",
-      Accept: "application/vnd.api+json",
+      Authorization: `Bearer ${accessToken}`,
     };
     const bodyData: NoteBodyDataType = {
       data: {
@@ -95,17 +95,14 @@ const Index: React.FC = () => {
   if (!NoteData) {
     return <div>Loading...</div>;
   }
-  const projectData = NoteData.included.filter(
-    (item) => item.type === "taxonomy_term--project"
-  );
-  console.log(projectData);
+  // const projectData = NoteData.included.filter(
+  //   (item) => item.type === "taxonomy_term--project"
+  // );
+  // console.log(projectData);
   
-  const tagData = NoteData.included.filter(
-    (item) => item.type === "taxonomy_term--tags"
-  );
-  
-  
-  
+  // const tagData = NoteData.included.filter(
+  //   (item) => item.type === "taxonomy_term--tags"
+  // );
 
   return (
     <>
