@@ -5,11 +5,7 @@ export type NoteFormData = {
     label: string;
     value: string;
   };
-  status: {
-    label: string;
-    value: string;
-  };
-  tags: NoteRelatedData[];
+  tags: NoteRelatedDataType[];
 };
 
 export type NoteBodyDataType = {
@@ -22,13 +18,22 @@ export type NoteBodyDataType = {
     };
     relationships: {
       [key: string]: {
-        data: NoteRelatedData;
+        data: NoteRelatedDataType;
+      };
+    } | {
+      [key: string]: {
+        data: NoteRelatedDataType[];
       };
     };
   };
 };
 
-export type NoteRelatedData = {
-  type: string;
-  id: string;
+export type NoteRelatedDataType = {
+  label: string;
+  value: string;
 };
+
+export type TmpRelatedDataType = {
+  id: string;
+  type: string,
+}
