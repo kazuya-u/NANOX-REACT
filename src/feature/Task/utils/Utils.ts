@@ -34,6 +34,13 @@ export function GetOptions(baseUrl: string): Option[] {
   }
 }
 
+export function ExtractDefaultOptionData(data: OptionData) {
+  return {
+    label: data.attributes.name,
+    value: data.id,
+  };
+}
+
 export async function postData<T>(baseUrl: string, headers: HeadersInit, bodyData: T) {
   return await fetch(baseUrl, {
     method: 'POST',
