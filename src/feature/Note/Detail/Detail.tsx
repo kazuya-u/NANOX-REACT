@@ -40,16 +40,15 @@ const Detail: React.FC = () => {
     "?include=field_ref_project,field_ref_tags&fields[node--note]=name,title,created,field_description&fields[taxonomy_term--project]=name&fields[taxonomy_term--tags]=name";
 
   const { data: NoteData } = useFetchData<DataType>(`${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/note/${pageParams.NoteId}${dataParams}`);
-  console.log(NoteData);
   if (!NoteData) {
     return <div>Loading...</div>;
   }
-  const projectData = NoteData.included.filter(
+  const projectData = NoteData.included?.filter(
     (item) => item.type === "taxonomy_term--project"
-  );
-  const tagData = NoteData.included.filter(
+  ) || [];
+  const tagData = NoteData.included?.filter(
     (item) => item.type === "taxonomy_term--tags"
-  );
+  ) || [];
   return (
     <>
     <TaskDetailContainer>
