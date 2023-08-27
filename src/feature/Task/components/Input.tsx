@@ -9,6 +9,13 @@ interface TextInputProps {
   defaultValue?: string;
 }
 
+interface SelectInputProps {
+  defaultValue?: {
+    label: string,
+    value: string,
+  };
+}
+
 export const TitleInput: React.FC<TextInputProps> = ({ defaultValue }) => {
   const { register } = useFormContext();
   return (
@@ -22,7 +29,7 @@ export const TitleInput: React.FC<TextInputProps> = ({ defaultValue }) => {
   );
 }
 
-export const ProjectSelect: React.FC = () => {
+export const ProjectSelect: React.FC<SelectInputProps> = ({ defaultValue }) => {
   const { control } = useFormContext();
   return (
     <Controller
@@ -30,7 +37,7 @@ export const ProjectSelect: React.FC = () => {
       name="project"
       render={({ field: { onChange, value } }) => (
         <Select
-          isClearable
+          defaultValue={defaultValue}
           isSearchable
           onChange={onChange}
           value={value}
@@ -43,8 +50,9 @@ export const ProjectSelect: React.FC = () => {
   )
 }
 
-export const StatusSelect: React.FC = () => {
+export const StatusSelect: React.FC<SelectInputProps> = ({ defaultValue }) => {
   const { control } = useFormContext();
+  
   return (
     <Controller
       control={control}
@@ -52,6 +60,7 @@ export const StatusSelect: React.FC = () => {
       render={({ field }) => (
         <Select
           {...field}
+          defaultValue={defaultValue}
           isClearable
           isSearchable
           options={GetOptions(
