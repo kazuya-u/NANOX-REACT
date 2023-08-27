@@ -1,49 +1,53 @@
 import { DescriptionTextarea, ProjectSelect, StatusSelect, TagSelect, TaskSubmit, TitleInput } from "../components/Input";
 import { FormProvider, useForm } from "react-hook-form";
 import { onSubmitPatchData } from "../api/PatchData";
-import { TaskFormData } from "../type/Index";
+import { TaskBodyDataType, TaskFormData } from "../type/Index";
 import { useFetchData } from "../../../utils/fetchData";
 import { useParams } from "react-router-dom";
+import styled from "styled-components";
 
 
-type DateType = {
-  data: {
-    attributes: {
-      title: string;
-      field_description: string;
-    }
-  }
-}
-
-const Index: React.FC = () => {
+const TaskPatchForm: React.FC = () => {
   const methods = useForm<TaskFormData>();
   const pageParams = useParams<{ taskId?: string }>();
+  const pageId = typeof pageParams.taskId !== "undefined" ? pageParams.taskId : "";
+  
   const onSubmit = async (data: TaskFormData) => {
-    await onSubmitPatchData(data, pageParams.taskId);
+    await onSubmitPatchData(data, pageId);
   };
-  const baseUrl = `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/task/`;
-  const { data, error } = useFetchData<DateType>(
-    `${baseUrl}${pageParams.taskId}`
+  
+  const { data: TaskData } = useFetchData<TaskBodyDataType>(
+    `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/task/${pageId}`
   );
-  if (error) {
-    return <div>データが取得できませんでした。</div>
-  }
-  if (!data) {
+  if (!TaskData) {
     return <div>Loading...</div>
   }
-
+  
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <TitleInput />
+      <Form onSubmit={methods.handleSubmit(onSubmit)}>
+        <TitleInput
+          defaultValue={TaskData.data.attributes.title}
+        />
         <ProjectSelect />
-        <DescriptionTextarea />
+        <DescriptionTextarea
+          defaultValue={TaskData.data.attributes.field_description}
+        />
         <StatusSelect />
         <TagSelect />
         <TaskSubmit />
-      </form>
+      </Form>
     </FormProvider>
   );
 };
 
-export default Index;
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  row-gap: 40px;
+  width: 64%;
+  margin: 0 auto;
+  padding-top: 20px;
+`;
+
+export default TaskPatchForm;

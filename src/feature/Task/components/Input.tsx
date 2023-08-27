@@ -5,19 +5,22 @@ import { Controller, useFormContext } from "react-hook-form";
 import { Button, TextField } from "@mui/material";
 import CreatableSelect from "react-select";
 
-export const TitleInput: React.FC = (
-  () => {
-    const { register } = useFormContext();
-    return (
-      <TextField
-        {...register("title")}
-        id="standard-basic"
-        label="What is the Task's name..."
-        variant="standard"
-      />
-    );
-  }
-);
+interface TextInputProps {
+  defaultValue?: string;
+}
+
+export const TitleInput: React.FC<TextInputProps> = ({ defaultValue }) => {
+  const { register } = useFormContext();
+  return (
+    <TextField
+      {...register("title")}
+      id="standard-basic"
+      label="What is the Task's name..."
+      variant="standard"
+      defaultValue={defaultValue || ''}
+    />
+  );
+}
 
 export const ProjectSelect: React.FC = () => {
   const { control } = useFormContext();
@@ -83,8 +86,8 @@ export const TagSelect: React.FC = () => {
   )
 }
 
-export const DescriptionTextarea: React.FC = (
-  () => {
+export const DescriptionTextarea: React.FC<TextInputProps> = (
+  ({defaultValue}) => {
     const { register } = useFormContext();
     return (
       <TextField
@@ -96,6 +99,7 @@ export const DescriptionTextarea: React.FC = (
         multiline
         placeholder="Placeholder"
         variant="standard"
+        defaultValue={defaultValue || ''}
       />
     );
   }
