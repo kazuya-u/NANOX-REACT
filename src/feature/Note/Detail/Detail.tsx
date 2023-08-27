@@ -1,9 +1,10 @@
 import { GoPencil, GoTrash } from "react-icons/go";
 import { IconButton } from "@mui/material";
+import { Link, useParams } from "react-router-dom";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { TaskBody, TaskDetailContainer, TaskDetailItem, TaskDetailItemLabel, TaskDetailWrapper, TaskName, TaskProject } from "../../Task/Detail/StyledComponens";
 import { useFetchData } from "../../../utils/fetchData";
-import { Link, useParams } from "react-router-dom";
+import remarkBreaks from "remark-breaks"
 
 type DataType = {
   data: {
@@ -84,7 +85,9 @@ const Detail: React.FC = () => {
           </IconButton>
         </TaskDetailWrapper>
         <TaskBody className="markdown-body">
-          <ReactMarkdown>
+          <ReactMarkdown
+            remarkPlugins={[remarkBreaks]}
+          >
             {NoteData.data.attributes.field_description}
           </ReactMarkdown>
         </TaskBody>

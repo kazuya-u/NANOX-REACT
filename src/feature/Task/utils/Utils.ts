@@ -35,6 +35,12 @@ export function GetOptions(baseUrl: string): Option[] {
 }
 
 export function ExtractDefaultOptionData(data: OptionData) {
+  if (!data) {
+    return {
+      label: 'No setting',
+      value: '',
+    }
+  }
   return {
     label: data.attributes.name,
     value: data.id,
