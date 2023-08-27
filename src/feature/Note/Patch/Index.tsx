@@ -60,7 +60,7 @@ const Index: React.FC = () => {
         );
       });
     }
-
+    
     const relatedData = {
       field_ref_project: {
         data: TmpRelatedData.filter(
@@ -107,12 +107,12 @@ const Index: React.FC = () => {
     return <div>Loading...</div>;
   }
 
-  const extractProjectData = NoteData.included.filter(
+  const extractProjectData = NoteData.included?.filter(
     (item) => item.type === "taxonomy_term--project"
-  );
-  const extractTagData = NoteData.included.filter(
+  ) || [];
+  const extractTagData = NoteData.included?.filter(
     (item) => item.type === "taxonomy_term--tags"
-  );
+  ) || [];
 
   interface Tag {
     value: string;
