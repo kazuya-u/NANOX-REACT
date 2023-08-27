@@ -33,6 +33,22 @@ const TaskPatchForm: React.FC = () => {
   const extractStatusData = TaskData.included?.filter(
     (item) => item.type === "taxonomy_term--status"
   ) || [];
+  const extractTagData = TaskData.included?.filter(
+    (item) => item.type === "taxonomy_term--tags"
+  ) || [];
+  interface Tag {
+    value: string;
+    label: string;
+  }
+
+  const defaultTagsData: Tag[] = extractTagData.map((tagData) => ({
+    value: tagData.id,
+    label: tagData.attributes.name,
+  }));
+  if (!defaultTagsData) {
+    return;
+  }
+  
   
   return (
     <FormProvider {...methods}>
@@ -50,7 +66,7 @@ const TaskPatchForm: React.FC = () => {
           defaultValue={ExtractDefaultOptionData(extractStatusData[0])}
         />
         <TagSelect
-
+          defaultValue={defaultTagsData}
         />
         <TaskSubmit />
       </Form>
