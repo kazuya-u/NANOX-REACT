@@ -1,3 +1,4 @@
+import { getAccessTokenFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
 import { patchData } from "../utils/Utils";
 import { SubmitHandler } from "react-hook-form";
 import { TaskBodyDataType, TaskFormData, TaskRelatedData } from "../type/Index";
@@ -5,10 +6,11 @@ import { TaskBodyDataType, TaskFormData, TaskRelatedData } from "../type/Index";
 export const onSubmitPatchData: SubmitHandler<TaskFormData> = async (data, taskId) => {
   const endpoint = `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/task`;
   const baseUrl = `${endpoint}/${taskId}`;
-  const headers = {
-    "Content-Type": "application/vnd.api+json",
-    Accept: "application/vnd.api+json",
-  };
+  const accessToken = getAccessTokenFromLocalStorage();
+    const headers = {
+      "Content-Type": "application/vnd.api+json",
+      Authorization: `Bearer ${accessToken}`,
+    };
   const bodyData: TaskBodyDataType = {
     data: {
       type: "node--task",

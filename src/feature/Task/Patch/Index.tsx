@@ -37,10 +37,10 @@ const Index: React.FC = () => {
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <TitleInput />
         <ProjectSelect />
-          <DescriptionTextarea />
-          <StatusSelect />
-          <TagSelect />
-          <TaskSubmit />
+        <DescriptionTextarea />
+        <StatusSelect />
+        <TagSelect />
+        <TaskSubmit />
       </form>
     </FormProvider>
   );
