@@ -3,8 +3,11 @@ import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { TaskBody, TaskDetailContainer, TaskDetailItem, TaskDetailItemLabel, TaskDetailWrapper, TaskName, TaskProject, TaskStatus } from "./StyledComponens";
 import { useFetchData } from "../../../utils/fetchData";
 import { useLocation, useParams } from "react-router-dom";
-import { GoTrash } from "react-icons/go";
+import { GoPencil, GoTrash } from "react-icons/go";
 import { IconButton } from "@mui/material";
+import { useModal } from "../../../feature/Modal/utils/useModal";
+import TaskPatchForm from "../Patch/Index";
+import Modal from "../../../feature/Modal/Index";
 
 type DataType = {
   data: {
@@ -26,21 +29,18 @@ type RelationData = {
   type: string;
 };
 
-
-
 function formatDate(timestamp: string): string {
   const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "long", day: "numeric" };
   const date = new Date(timestamp);
   return new Intl.DateTimeFormat("ja-JP", options).format(date);
 }
 
-
-
 const Detail: React.FC = () => {
+  const { isModalOpen, openModal, closeModal, modalContent } = useModal();
   const baseURL = `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/task/`;
-  const location = useLocation();
-  console.log(location);
-  
+  // const location = useLocation();
+  // console.log(location);
+
   const pageParams = useParams();
   const dataParams =
     "?include=field_ref_status,field_ref_project,field_ref_tags&fields[node--task]=name,title,created,field_deadline,field_description&fields[taxonomy_term--project]=name&fields[taxonomy_term--tags]=name";
@@ -71,7 +71,7 @@ const Detail: React.FC = () => {
         method: 'DELETE',
         headers: headers,
       });
-  
+
       if (!response.ok) {
         throw new Error(`Request failed with status ${response.status}`);
       }
@@ -82,7 +82,6 @@ const Detail: React.FC = () => {
       console.error("An error occurred:", error);
     }
   };
-
 
   return (
     <>
@@ -112,6 +111,12 @@ const Detail: React.FC = () => {
               <div key={tag.attributes.name}>{tag.attributes.name}</div>
             ))
             : ""}
+            <IconButton aria-label="edit" size="small" onClick={() => openModal(<TaskPatchForm />)}>
+              <GoPencil />
+            </IconButton>
+          <Modal isOpen={isModalOpen} onRequestClose={closeModal}>
+            {modalContent}
+          </Modal>
           <IconButton aria-label="delete" size="small" onClick={onClick}>
             <GoTrash />
           </IconButton>

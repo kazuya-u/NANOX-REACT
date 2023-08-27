@@ -20,7 +20,6 @@ const List: React.FC = () => {
   if (!data) {
     return <div>Loading...</div>;
   }
-  console.log(data);
   
   return (
     <>
