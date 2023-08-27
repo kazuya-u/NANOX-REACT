@@ -16,6 +16,10 @@ interface SelectInputProps {
   };
 }
 
+interface MultipleSelectInputProps {
+  defaultValue?: SelectInputProps[];
+}
+
 export const TitleInput: React.FC<TextInputProps> = ({ defaultValue }) => {
   const { register } = useFormContext();
   return (
@@ -52,7 +56,7 @@ export const ProjectSelect: React.FC<SelectInputProps> = ({ defaultValue }) => {
 
 export const StatusSelect: React.FC<SelectInputProps> = ({ defaultValue }) => {
   const { control } = useFormContext();
-  
+
   return (
     <Controller
       control={control}
@@ -73,7 +77,9 @@ export const StatusSelect: React.FC<SelectInputProps> = ({ defaultValue }) => {
   )
 }
 
-export const TagSelect: React.FC = () => {
+export const TagSelect: React.FC<MultipleSelectInputProps> = ({ defaultValue }) => {
+  console.log(defaultValue);
+
   const { control } = useFormContext();
   return (
     <Controller
@@ -82,6 +88,7 @@ export const TagSelect: React.FC = () => {
       render={({ field }) => (
         <CreatableSelect
           {...field}
+          defaultValue={defaultValue}
           isClearable
           isMulti
           isSearchable
@@ -96,7 +103,7 @@ export const TagSelect: React.FC = () => {
 }
 
 export const DescriptionTextarea: React.FC<TextInputProps> = (
-  ({defaultValue}) => {
+  ({ defaultValue }) => {
     const { register } = useFormContext();
     return (
       <TextField
