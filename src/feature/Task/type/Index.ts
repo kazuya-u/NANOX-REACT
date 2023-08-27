@@ -26,6 +26,14 @@ export type TaskBodyDataType = {
       };
     };
   };
+  included: Array<RelationData>;
+};
+
+type RelationData = {
+  attributes: {
+    name: string;
+  };
+  type: string;
 };
 
 export type TaskRelatedData = {

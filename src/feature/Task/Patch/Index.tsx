@@ -5,6 +5,7 @@ import { TaskBodyDataType, TaskFormData } from "../type/Index";
 import { useFetchData } from "../../../utils/fetchData";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { ExtractDefaultOptionData } from "../utils/Utils";
 
 
 const TaskPatchForm: React.FC = () => {
@@ -16,12 +17,22 @@ const TaskPatchForm: React.FC = () => {
     await onSubmitPatchData(data, pageId);
   };
   
+  const dataParams =
+  "?include=field_ref_project,field_ref_tags,field_ref_status&fields[node--task]=name,title,created,field_description&fields[taxonomy_term--project]=name&fields[taxonomy_term--tags]=name&fields[taxonomy_term--status]=name";
   const { data: TaskData } = useFetchData<TaskBodyDataType>(
-    `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/task/${pageId}`
+    `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/task/${pageId}${dataParams}`
   );
   if (!TaskData) {
     return <div>Loading...</div>
   }
+  console.log(TaskData);
+  const extractProjectData = TaskData.included?.filter(
+    (item) => item.type === "taxonomy_term--project"
+  ) || [];
+  
+  const extractStatusData = TaskData.included?.filter(
+    (item) => item.type === "taxonomy_term--status"
+  ) || [];
   
   return (
     <FormProvider {...methods}>
@@ -29,12 +40,18 @@ const TaskPatchForm: React.FC = () => {
         <TitleInput
           defaultValue={TaskData.data.attributes.title}
         />
-        <ProjectSelect />
+        <ProjectSelect
+          defaultValue={ExtractDefaultOptionData(extractProjectData[0])}          
+        />
         <DescriptionTextarea
           defaultValue={TaskData.data.attributes.field_description}
         />
-        <StatusSelect />
-        <TagSelect />
+        <StatusSelect
+          defaultValue={ExtractDefaultOptionData(extractStatusData[0])}
+        />
+        <TagSelect
+
+        />
         <TaskSubmit />
       </Form>
     </FormProvider>
