@@ -11,7 +11,7 @@
 - [ ] Drupalを通してAPI通信を身につける
 - [ ] Googleカレンダーとの連携
 - [ ] ViewとEditの同居
-- [ ] ユーザー認証
+- [x] ユーザー認証
 - [x] API通信方法の確立（Fetch or Axios）
 
 ## 環境構築
@@ -64,6 +64,7 @@ FormをReact-Hook-Formにて実装。
 - [SWR](https://swr.vercel.app/ja)
 
 ## 実装のメモ
+- [propsの受け渡しについて・FormComponentへのデフォルト値でわかりやすくしてる](https://github.com/kazuya-u/React-PoC-Training/issues/101)
 - [リレーションデータのPOST実装](https://github.com/kazuya-u/React-PoC-Training/issues/44)
 - [POST・PATCH実装](https://github.com/kazuya-u/React-PoC-Training/issues/25)
 - [Oauth・認証方法](https://github.com/kazuya-u/React-PoC-Training/pull/96)
