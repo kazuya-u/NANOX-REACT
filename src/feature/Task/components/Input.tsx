@@ -89,9 +89,10 @@ export const DescriptionTextarea: React.FC = (
     return (
       <TextField
         {...register("description")}
-        id="standard-textarea"
+        id="standard-multiline-static"
         label="Detail..."
         minRows={2}
+        rows={4}
         multiline
         placeholder="Placeholder"
         variant="standard"

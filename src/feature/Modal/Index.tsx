@@ -11,12 +11,13 @@ interface ModalProps {
 
 const style = {
   overlay: {
-    zIndex: "100",
+    zIndex: "1202",
     backgroundColor: "#0000004b",
   },
   content: {
-    borderRadius: "16px",
-    width: "40%",
+    borderRadius: 0,
+    padding: 0,
+    width: "60%",
     height: "80%",
     top: "50%",
     left: "50%",
