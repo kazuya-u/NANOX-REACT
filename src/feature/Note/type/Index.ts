@@ -17,11 +17,10 @@ export type NoteBodyDataType = {
       field_description: string;
     };
     relationships: {
-      [key: string]: {
-        data: NoteRelatedDataType;
+      field_ref_project?: {
+        data: NoteRelatedDataType | null;
       };
-    } | {
-      [key: string]: {
+      field_ref_tags?: {
         data: NoteRelatedDataType[];
       };
     };
