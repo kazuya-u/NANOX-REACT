@@ -2,21 +2,56 @@ import { Button, TextField } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { getAccessTokenFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
 import { GetOptions, postData } from "../../../feature/Task/utils/Utils";
-import { NoteBodyDataType, NoteFormData, NoteRelatedData } from "../type/Index";
+import { NoteBodyDataType, NoteFormData, TmpRelatedDataType } from "../type/Index";
 import { toast } from "react-toastify";
 import CreatableSelect from "react-select";
 import Select from "react-select";
 
 const Index: React.FC = () => {
-
-  const { register, handleSubmit, control } = useForm();
-
+  const { register, handleSubmit, control } = useForm<NoteFormData>();
   const onSubmit: SubmitHandler<NoteFormData> = async (data) => {
     const endpoint = `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/note`;
     const accessToken = getAccessTokenFromLocalStorage();
     const headers = {
       "Content-Type": "application/vnd.api+json",
       Authorization: `Bearer ${accessToken}`,
+    };
+    const TmpRelatedData: TmpRelatedDataType[] = [];
+    if (data.project && data.project.value) {
+      TmpRelatedData.push({
+        type: "taxonomy_term--project",
+        id: data.project.value,
+      });
+    }
+    const generateRelatedData = (
+      value: string,
+      type: string
+    ): TmpRelatedDataType => ({
+      type,
+      id: value,
+    });
+    if (data.tags && data.tags.length) {
+      data.tags.forEach((tag) => {
+        TmpRelatedData.push(
+          generateRelatedData(tag.value, "taxonomy_term--tags")
+        );
+      });
+    }
+    
+    const relatedData = {
+      field_ref_project: {
+        data: TmpRelatedData.filter(
+          (item) => item.type === "taxonomy_term--project"
+        )[0],
+      },
+      field_ref_tags: {
+        data: TmpRelatedData.filter(
+          (tag) => tag.type === "taxonomy_term--tags"
+        ).map((tag) => ({
+          type: tag.type,
+          id: tag.id,
+        })),
+      },
     };
     const bodyData: NoteBodyDataType = {
       data: {
@@ -25,34 +60,9 @@ const Index: React.FC = () => {
           title: data.title,
           field_description: data.description,
         },
-        relationships: {},
+        relationships: relatedData,
       },
     };
-    
-    const relatedData: NoteRelatedData[] = [];
-    if (data.project && data.project.value) {
-      relatedData.push({
-        type: "taxonomy_term--project",
-        id: data.project.value,
-      });
-    }
-  
-    const generateRelatedData = (value: string, type: string): NoteRelatedData => ({
-      type,
-      id: value,
-    });
-    if (data.tags && data.tags.length) {
-      data.tags.forEach((tag) => {
-        relatedData.push(generateRelatedData(tag.value, "taxonomy_term--tags"));
-      });
-    }
-  
-    relatedData.forEach((related) => {
-      const relationshipKey = `field_ref_${related.type.split("--")[1]}`;
-      bodyData.data.relationships[relationshipKey] = {
-        data: related,
-      };
-    });
 
     try {
       await postData(endpoint, headers, bodyData);
