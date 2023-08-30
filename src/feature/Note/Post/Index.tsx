@@ -3,11 +3,12 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { getAccessTokenFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
 import { GetOptions, postData } from "../../../feature/Task/utils/Utils";
 import { NoteBodyDataType, NoteFormData, TmpRelatedDataType } from "../type/Index";
+import { StyledModalForm } from "../../../feature/UserInterface/styles/components";
 import { toast } from "react-toastify";
 import CreatableSelect from "react-select";
 import Select from "react-select";
 
-const Index: React.FC = () => {
+const NoteForm: React.FC = () => {
   const { register, handleSubmit, control } = useForm<NoteFormData>();
   const onSubmit: SubmitHandler<NoteFormData> = async (data) => {
     const endpoint = `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/note`;
@@ -76,7 +77,7 @@ const Index: React.FC = () => {
   return (
     <>
       <div>Add Note</div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <StyledModalForm onSubmit={handleSubmit(onSubmit)}>
         <TextField
           {...register("title")}
           id="standard-basic"
@@ -124,9 +125,9 @@ const Index: React.FC = () => {
       )}
     />
         <Button type="submit">送信</Button>
-      </form>
+      </StyledModalForm>
     </>
   );
 };
 
-export default Index;
+export default NoteForm;

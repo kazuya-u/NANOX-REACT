@@ -7,7 +7,6 @@ import Layout from "../feature/Layout/Index";
 import Note from "../pages/Note";
 import NoteLayout from "../feature/Note/Layout";
 import NotePatch from "../pages/NotePatch";
-import NotePost from "../pages/NotePost";
 import Notes from "../pages/Notes";
 import Post from "../pages/Task";
 import TaskLayout from "../feature/Task/Layout";
@@ -25,10 +24,6 @@ const RooterConfig = createBrowserRouter([
       {
         index: true,
         element: <Home />
-      },
-      {
-        path: 'note/post',
-        element: <NotePost />
       },
       {
         path: 'about',
