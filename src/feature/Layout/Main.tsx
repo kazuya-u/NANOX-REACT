@@ -9,6 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import Modal from "../Modal/Index";
 import NavBar from "../Navbar/NavBar";
 import TaskForm from "../Task/Post/Index";
+import Dial from "../Dial/Index";
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
@@ -35,11 +36,14 @@ function MainContent() {
   const toggleOpenState = useCallback(() => {
     setOpenState((prevOpenState) => !prevOpenState);
   }, []);
-  const { isModalOpen, openModal, closeModal, modalContent } = useModal();
 
   return (
     <>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{
+        display: "flex",
+        position: "relative",
+      }}>
+        <Dial />
         <Header
           sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
         >
@@ -53,14 +57,6 @@ function MainContent() {
             >
               <GoSidebarExpand />
             </IconButton>
-            <AddContentButton
-              onClick={() => openModal(<TaskForm />)}
-            >
-              <GoPlus size={16} />
-            </AddContentButton>
-            <Modal isOpen={isModalOpen} onRequestClose={closeModal}>
-              {modalContent}
-            </Modal>
           </Toolbar>
         </Header>
         <Drawer
@@ -70,7 +66,7 @@ function MainContent() {
             "& .MuiDrawer-paper": {
               width: 288,
             },
-            
+
           }}
           variant="persistent"
           anchor="left"
