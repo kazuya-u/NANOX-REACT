@@ -1,15 +1,12 @@
-import { GoPlus, GoSidebarExpand } from "react-icons/go";
+import { GoSidebarExpand } from "react-icons/go";
 import { Outlet } from "react-router-dom";
 import { styled } from "@mui/material";
-import { useModal } from "../Modal/utils/useModal";
 import { useState, useCallback } from "react";
 import Box from "@mui/material/Box";
+import Dial from "../Dial/Index";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import Modal from "../Modal/Index";
 import NavBar from "../Navbar/NavBar";
-import TaskForm from "../Task/Post/Index";
-import Dial from "../Dial/Index";
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
