@@ -1,15 +1,16 @@
-import Box from "@mui/material/Box";
-import SpeedDial from "@mui/material/SpeedDial";
-import SpeedDialIcon from "@mui/material/SpeedDialIcon";
-import SpeedDialAction from "@mui/material/SpeedDialAction";
 import { GoBook, GoTasklist } from "react-icons/go";
-import Modal from "../Modal/Index";
+import { TaskPostFormComponent } from "../Task/Post/Index";
 import { useModal } from "../Modal/utils/useModal";
-import TaskForm from "../Task/Post/Index";
+import Box from "@mui/material/Box";
+import Modal from "../Modal/Index";
 import NoteForm from "../Note/Post/Index";
+import SpeedDial from "@mui/material/SpeedDial";
+import SpeedDialAction from "@mui/material/SpeedDialAction";
+import SpeedDialIcon from "@mui/material/SpeedDialIcon";
+
 const actions = [
   { icon: <GoBook />, name: "Note", form: <NoteForm /> },
-  { icon: <GoTasklist />, name: "Task", form: <TaskForm /> },
+  { icon: <GoTasklist />, name: "Task", form: <TaskPostFormComponent /> },
 ];
 
 const Dial: React.FC = () => {
@@ -31,15 +32,15 @@ const Dial: React.FC = () => {
       >
         {actions.map((action) => (
           <SpeedDialAction
-          key={action.name}
-          icon={action.icon}
-          tooltipTitle={action.name}
-          onClick={() => openModal(action.form)}
-        />
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+            onClick={() => openModal(action.form)}
+          />
         ))}
       </SpeedDial>
       <Modal isOpen={isModalOpen} onRequestClose={closeModal}>
-              {modalContent}
+        {modalContent}
       </Modal>
     </Box>
   );

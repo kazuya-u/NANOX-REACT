@@ -1,11 +1,23 @@
-import { TaskPostForm } from "./components/Form";
+import { DescriptionTextarea, ProjectSelect, StatusSelect, TagSelect, TaskSubmit, TitleInput } from "../components/Input";
+import { FormProvider, useForm } from "react-hook-form";
+import { onSubmitPostData } from "../api/PostData";
+import { TaskFormData } from "../type/Index";
+import { StyledModalForm } from "../../../feature/UserInterface/styles/components";
 
-const TaskForm: React.FC = () => {
+export const TaskPostFormComponent: React.FC = () => {
+  const methods = useForm<TaskFormData>();
   return (
     <>
-      <TaskPostForm />
+      <FormProvider {...methods}>
+        <StyledModalForm onSubmit={methods.handleSubmit(onSubmitPostData)}>
+          <TitleInput />
+          <ProjectSelect />
+          <DescriptionTextarea />
+          <StatusSelect />
+          <TagSelect />
+          <TaskSubmit />
+        </StyledModalForm>
+      </FormProvider>
     </>
-  );
-};
-
-export default TaskForm;
+  )
+}

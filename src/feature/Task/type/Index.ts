@@ -20,11 +20,6 @@ export type TaskBodyDataType = {
       title: string;
       field_description: string;
     };
-    relationships: {
-      [key: string]: {
-        data: TaskRelatedData;
-      };
-    };
   };
   included: Array<RelationData>;
 };
