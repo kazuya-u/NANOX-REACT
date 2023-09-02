@@ -1,23 +1,80 @@
 import { BASE_API_URL } from "../../../utils/EndPoint";
-import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { DescriptionTextarea, ProjectSelect, SubmitButton, TagSelect, TitleInput } from "../../../feature/UserInterface/components/Input";
-import { ExtractDefaultOptionData } from "../../../feature/Task/api/GetData";
+import { ChangeEvent, useCallback, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { ExtractDefaultOptionData, GetOptions } from "../../../feature/Task/api/GetData";
 import { getAccessTokenFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
-import { NoteBodyDataType, NoteFormData, TmpRelatedDataType } from "../type/Index";
+import { NoteBodyDataType } from "../type/Index";
 import { patchData } from "../../../feature/Task/utils/Utils";
 import { StyledModalForm } from "../../../feature/UserInterface/styles/components";
-import { toast } from "react-toastify";
+import { TextField } from "@mui/material";
 import { useGetNoteDefaultValue } from "../../../utils/api/useGetDefaultValue";
 import { useParams } from "react-router-dom";
+import Select from "react-select";
 
 const dataParams =
   "?include=field_ref_project,field_ref_tags&fields[node--note]=name,title,created,field_description&fields[taxonomy_term--project]=name&fields[taxonomy_term--tags]=name";
 
 const Index: React.FC = () => {
-  const methods = useForm<NoteFormData>();
+  const { control } = useForm();
   const pageParams = useParams();
   const pageId = typeof pageParams.NoteId !== "undefined" ? pageParams.NoteId : "";
-  const onSubmit: SubmitHandler<NoteFormData> = async (data) => {
+  
+  const [title, setTitle] = useState<string>('');
+  const [draftTimer, setDraftTimer] = useState<number | null>(null);
+  const TitleSubmit = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
+    clearTimeout(draftTimer || undefined);
+    const newTimer = setTimeout(() => {
+      setTitle(e.target.value);
+      const endpoint = `${BASE_API_URL}/jsonapi/node/note/${pageParams.NoteId}`;
+      const accessToken = getAccessTokenFromLocalStorage();
+      const headers = {
+        "Content-Type": "application/vnd.api+json",
+        Authorization: `Bearer ${accessToken}`,
+      };
+      const bodyData: NoteBodyDataType = {
+        data: {
+          id: pageId,
+          type: "node--note",
+          attributes: {
+            title: e.target.value,
+          },
+        },
+      };
+      patchData(endpoint, headers, bodyData);
+    }, 1000);
+    setDraftTimer(newTimer);
+  }, [draftTimer, pageId, pageParams.NoteId]);
+
+  const DescriptionSubmit = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
+    clearTimeout(draftTimer || undefined);
+    const newTimer = setTimeout(() => {
+      setTitle(e.target.value);
+      const endpoint = `${BASE_API_URL}/jsonapi/node/note/${pageParams.NoteId}`;
+      const accessToken = getAccessTokenFromLocalStorage();
+      const headers = {
+        "Content-Type": "application/vnd.api+json",
+        Authorization: `Bearer ${accessToken}`,
+      };
+      const bodyData: NoteBodyDataType = {
+        data: {
+          id: pageId,
+          type: "node--note",
+          attributes: {
+            field_description: e.target.value,
+          },
+        },
+      };
+      patchData(endpoint, headers, bodyData);
+    }, 1000);
+    setDraftTimer(newTimer);
+  }, [draftTimer, pageId, pageParams.NoteId]);
+
+  type ProjectFormType = {
+    label: string;
+    value: string;
+  }
+
+  const ProjectSubmit = async (data: ProjectFormType) => {
     const endpoint = `${BASE_API_URL
       }/jsonapi/node/note/${pageParams.NoteId}`;
     const accessToken = getAccessTokenFromLocalStorage();
@@ -25,60 +82,58 @@ const Index: React.FC = () => {
       "Content-Type": "application/vnd.api+json",
       Authorization: `Bearer ${accessToken}`,
     };
-    const TmpRelatedData: TmpRelatedDataType[] = [];
-    if (data.project && data.project.value) {
-      TmpRelatedData.push({
-        type: "taxonomy_term--project",
-        id: data.project.value,
-      });
-    }
-    const generateRelatedData = (
-      value: string,
-      type: string
-    ): TmpRelatedDataType => ({
-      type,
-      id: value,
-    });
-    if (data.tags && data.tags.length) {
-      data.tags.forEach((tag) => {
-        TmpRelatedData.push(
-          generateRelatedData(tag.value, "taxonomy_term--tags")
-        );
-      });
-    }
-    const relatedData = {
-      field_ref_project: {
-        data: TmpRelatedData.filter(
-          (item) => item.type === "taxonomy_term--project"
-        )[0],
-      },
-      field_ref_tags: {
-        data: TmpRelatedData.filter(
-          (tag) => tag.type === "taxonomy_term--tags"
-        ).map((tag) => ({
-          type: tag.type,
-          id: tag.id,
-        })),
-      },
-    };
     const bodyData: NoteBodyDataType = {
       data: {
         id: pageId,
         type: "node--note",
-        attributes: {
-          title: data.title,
-          field_description: data.description,
+        relationships: {
+          "field_ref_project": {
+            "data": {
+              "type": "taxonomy_term--project",
+              "id": data.value,
+            }
+          }
         },
-        relationships: relatedData,
       },
     };
-    try {
-      await patchData(endpoint, headers, bodyData);
-      toast.success(`Noteの投稿に成功しました。${data.title}`);
-    } catch (error) {
-      console.error("Nodeの投稿に失敗しました。", error);
-      toast.error("Nodeの投稿に失敗しました。");
+    await patchData(endpoint, headers, bodyData);
+  };
+
+  const TagsSubmit = async (data) => {
+
+    const endpoint = `${BASE_API_URL
+      }/jsonapi/node/note/${pageParams.NoteId}`;
+    const accessToken = getAccessTokenFromLocalStorage();
+    const headers = {
+      "Content-Type": "application/vnd.api+json",
+      Authorization: `Bearer ${accessToken}`,
+    };
+    let values;
+    if (Array.isArray(data)) {
+      values = {
+        data: data.map(item => ({
+          type: "taxonomy_term--project",
+          id: item.value,
+        })),
+      };
+    } else {
+      values = {
+        data: {
+          type: "taxonomy_term--project",
+          id: data.value,
+        },
+      };
     }
+    const bodyData: NoteBodyDataType = {
+      data: {
+        id: pageId,
+        type: "node--note",
+        relationships: {
+          "field_ref_tags": values,
+        },
+      },
+    };
+    await patchData(endpoint, headers, bodyData);
   };
 
   // About default value.
@@ -87,15 +142,66 @@ const Index: React.FC = () => {
   if (!isLoading) {
     return (
       <>
-        <FormProvider {...methods}>
-          <StyledModalForm onSubmit={methods.handleSubmit(onSubmit)}>
-            <TitleInput defaultValue={TitleDefaultValue} />
-            <ProjectSelect defaultValue={ExtractDefaultOptionData(ProjectDefaultValue[0])} />
-            <DescriptionTextarea defaultValue={DescriptionDefaultValue} />
-            <TagSelect defaultValue={TagsDefaultValue} />
-            <SubmitButton />
-          </StyledModalForm>
-        </FormProvider>
+        <StyledModalForm>
+          <TextField
+            id="standard-basic"
+            label="What is the Task's name..."
+            variant="standard"
+            defaultValue={TitleDefaultValue || ''}
+            onChange={TitleSubmit}
+          >{title}</TextField>
+
+          <Controller
+            control={control}
+            name="project"
+            render={({ field: { value } }) => (
+              <Select
+                defaultValue={ExtractDefaultOptionData(ProjectDefaultValue[0])}
+                isSearchable
+                onChange={ProjectSubmit}
+                value={value}
+                options={GetOptions(
+                  `${BASE_API_URL}/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name`
+                )}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="description"
+            render={({ field: { value } }) => (
+              <TextField
+                id="standard-multiline-static"
+                label="Detail..."
+                rows={4}
+                multiline
+                placeholder="Placeholder"
+                variant="standard"
+                defaultValue={DescriptionDefaultValue || ''}
+                value={value}
+                onChange={DescriptionSubmit}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="tags"
+            render={({ field: { value } }) => (
+              <Select
+                defaultValue={TagsDefaultValue}
+                isClearable
+                isMulti
+                isSearchable
+                value={value}
+                onChange={TagsSubmit}
+                options={GetOptions(
+                  `${BASE_API_URL}/jsonapi/taxonomy_term/tags?fields[taxonomy_term--tags]=name`
+                )}
+                placeholder="Tag"
+              />
+            )}
+          />
+        </StyledModalForm>
       </>
     );
   }
