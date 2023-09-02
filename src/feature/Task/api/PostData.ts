@@ -1,6 +1,6 @@
 import { postData } from "../utils/Utils";
 import { SubmitHandler } from "react-hook-form";
-import { TaskBodyDataType, TaskBodyRelatedDataType, TaskFormData, TaskRelatedData } from "../type/Index";
+import { TaskDataType, TaskRelatedDataType, TaskFormData } from "../type/Index";
 import { toast } from "react-toastify";
 import { getAccessTokenFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
 import { TmpRelatedDataType } from "../../../feature/Note/type/Index";
@@ -19,7 +19,8 @@ export const onSubmitPostData: SubmitHandler<TaskFormData> = async (data) => {
       "Content-Type": "application/vnd.api+json",
       Accept: "application/vnd.api+json",
       "Authorization": `Bearer ${accessToken}`,
-    }; let projectData = null;
+    };
+    let projectData = null;
     let statusData = null;
     let tagsData = null;
     if (data.project && data.project.value) {
@@ -31,7 +32,7 @@ export const onSubmitPostData: SubmitHandler<TaskFormData> = async (data) => {
     if (data.tags && data.tags.length) {
       tagsData = data.tags.map((tag) => generateRelatedData(tag.value, "taxonomy_term--tags"));
     }
-    const relatedData: TaskBodyRelatedDataType = {};
+    const relatedData: TaskRelatedDataType = {};
     // データが存在する場合に関連データに追加
     if (projectData) {
       relatedData.field_ref_project = { data: projectData };
@@ -42,7 +43,7 @@ export const onSubmitPostData: SubmitHandler<TaskFormData> = async (data) => {
     if (tagsData) {
       relatedData.field_ref_tags = { data: tagsData };
     }
-    const bodyData: TaskBodyDataType = {
+    const bodyData: TaskDataType = {
       data: {
         type: "node--task",
         attributes: {
