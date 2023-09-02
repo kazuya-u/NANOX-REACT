@@ -1,8 +1,7 @@
-
-import { BASE_API_URL } from "~utils/EndPoint";
+import { BASE_API_URL } from "../../../utils/EndPoint";
 import { Button, TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
-import { GetOptions } from "~feature/Task/api/GetData";
+import { GetOptions } from "../../Task/api/GetData";
 import CreatableSelect from "react-select";
 import React from "react";
 import Select from "react-select";
