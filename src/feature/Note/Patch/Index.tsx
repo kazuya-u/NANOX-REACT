@@ -1,26 +1,24 @@
-import { Button, TextField } from "@mui/material";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { BASE_API_URL } from "../../../utils/EndPoint";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import { DescriptionTextarea, ProjectSelect, SubmitButton, TagSelect, TitleInput } from "../../../feature/UserInterface/components/Input";
+import { ExtractDefaultOptionData } from "../../../feature/Task/api/GetData";
 import { getAccessTokenFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
-import { ExtractDefaultOptionData, GetOptions } from "../../../feature/Task/api/GetData";
 import { NoteBodyDataType, NoteFormData, TmpRelatedDataType } from "../type/Index";
 import { patchData } from "../../../feature/Task/utils/Utils";
+import { StyledModalForm } from "../../../feature/UserInterface/styles/components";
 import { toast } from "react-toastify";
 import { useGetNoteDefaultValue } from "../../../utils/api/useGetDefaultValue";
 import { useParams } from "react-router-dom";
-import CreatableSelect from "react-select";
-import Select from "react-select";
-import { TaskFormData } from "../../../feature/Task/type/Index";
 
 const dataParams =
-"?include=field_ref_project,field_ref_tags&fields[node--note]=name,title,created,field_description&fields[taxonomy_term--project]=name&fields[taxonomy_term--tags]=name";
+  "?include=field_ref_project,field_ref_tags&fields[node--note]=name,title,created,field_description&fields[taxonomy_term--project]=name&fields[taxonomy_term--tags]=name";
 
 const Index: React.FC = () => {
+  const methods = useForm<NoteFormData>();
   const pageParams = useParams();
   const pageId = typeof pageParams.NoteId !== "undefined" ? pageParams.NoteId : "";
-  
-  const { register, handleSubmit, control } = useForm<TaskFormData>();
   const onSubmit: SubmitHandler<NoteFormData> = async (data) => {
-    const endpoint = `${import.meta.env.VITE_LANDO_SITE_URL
+    const endpoint = `${BASE_API_URL
       }/jsonapi/node/note/${pageParams.NoteId}`;
     const accessToken = getAccessTokenFromLocalStorage();
     const headers = {
@@ -48,7 +46,6 @@ const Index: React.FC = () => {
         );
       });
     }
-    
     const relatedData = {
       field_ref_project: {
         data: TmpRelatedData.filter(
@@ -83,79 +80,30 @@ const Index: React.FC = () => {
       toast.error("Nodeの投稿に失敗しました。");
     }
   };
-  
+
   // About default value.
   const { TitleDefaultValue, DescriptionDefaultValue, ProjectDefaultValue, TagsDefaultValue, isLoading } = useGetNoteDefaultValue(pageId, dataParams);
-  
+
   if (!isLoading) {
     return (
       <>
-        <div>Add Note</div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <TextField
-            {...register("title")}
-            id="standard-basic"
-            label="Note"
-            variant="standard"
-            defaultValue={TitleDefaultValue}
-          />
-          <Controller
-            control={control}
-            name="project"
-            render={({ field: { onChange, value } }) => (
-              <Select
-                defaultValue={ExtractDefaultOptionData(ProjectDefaultValue[0])}
-                isClearable
-                isSearchable
-                onChange={onChange}
-                value={value}
-                options={GetOptions(
-                  `${import.meta.env.VITE_LANDO_SITE_URL
-                  }/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name`
-                )}
-              />
-            )}
-          />
-          <TextField
-            {...register("description")}
-            id="standard-multiline-static"
-            label="Detail..."
-            rows={4}
-            multiline
-            placeholder="Placeholder"
-            variant="standard"
-            defaultValue={DescriptionDefaultValue}
-          />
-          <Controller
-            control={control}
-            name="tags"
-            render={({ field }) => (
-              <CreatableSelect
-                {...field}
-                defaultValue={TagsDefaultValue}
-                isClearable
-                isMulti
-                isSearchable
-                options={GetOptions(
-                  `${import.meta.env.VITE_LANDO_SITE_URL
-                  }/jsonapi/taxonomy_term/tags?fields[taxonomy_term--tags]=name`
-                )}
-                placeholder="Tag"
-              />
-            )}
-          />
-          <Button type="submit">送信</Button>
-        </form>
+        <FormProvider {...methods}>
+          <StyledModalForm onSubmit={methods.handleSubmit(onSubmit)}>
+            <TitleInput defaultValue={TitleDefaultValue} />
+            <ProjectSelect defaultValue={ExtractDefaultOptionData(ProjectDefaultValue[0])} />
+            <DescriptionTextarea defaultValue={DescriptionDefaultValue} />
+            <TagSelect defaultValue={TagsDefaultValue} />
+            <SubmitButton />
+          </StyledModalForm>
+        </FormProvider>
       </>
-    ); 
+    );
   }
   return (
     <>
       読み込み中...
     </>
   )
-
-  
 };
 
 export default Index;
