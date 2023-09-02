@@ -24,11 +24,28 @@
     "noFallthroughCasesInSwitch": true,
     
     /* About path settings */
-    "baseUrl": "."
-    // "paths": {
-    //   "@features/*": ["src/feature/*"]
-    // }    
+    "typeRoots": ["node_modules/@types", "types/"],
+    "baseUrl": "./src",
+    "paths": {
+      "~app": ["./app"],
+      "~app/*": ["./app/*"],
+      
+      "~feature": ["./feature"],
+      "~feature/*": ["./feature/*"],
+      
+      "~pages": ["./pages"],
+      "~pages/*": ["./pages/*"],
+
+      "~utils": ["./utils"],
+      "~utils/*": ["./utils/*"],
+
+      "~routes": ["./routes"],
+      "~routes/*": ["./routes/*"],
+
+      "~shared": ["./shared"],
+      "~shared/*": ["./shared/*"]
+    } 
   },
-  "include": ["src"],
+  "include": ["src", "types"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
