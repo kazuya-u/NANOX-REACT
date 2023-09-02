@@ -1,4 +1,4 @@
-import { DescriptionTextarea, ProjectSelect, StatusSelect, TagSelect, TaskSubmit, TitleInput } from "../../UserInterface/components/Input";
+import { DescriptionTextarea, ProjectSelect, StatusSelect, TagSelect, SubmitButton, TitleInput } from "../../UserInterface/components/Input";
 import { ExtractDefaultOptionData } from "../api/GetData";
 import { FormProvider, useForm } from "react-hook-form";
 import { onSubmitPatchData } from "../api/PatchData";
@@ -20,22 +20,26 @@ const TaskPatchForm: React.FC = () => {
   };
   // About default value.
   const { TitleDefaultValue, DescriptionDefaultValue, ProjectDefaultValue, StatusDefaultValue, TagsDefaultValue, isLoading } = useGetTaskDefaultValue(pageId, dataParams);
-  if (isLoading) {
-    <p>Loading中...</p>
+  if (!isLoading) {
+    return (
+      <FormProvider {...methods}>
+        <StyledModalForm onSubmit={methods.handleSubmit(onSubmit)}>
+          <TitleInput defaultValue={TitleDefaultValue} />
+          <ProjectSelect defaultValue={ExtractDefaultOptionData(ProjectDefaultValue[0])}/>
+          <DescriptionTextarea defaultValue={DescriptionDefaultValue} />
+          <StatusSelect defaultValue={ExtractDefaultOptionData(StatusDefaultValue[0])} />
+          <TagSelect defaultValue={TagsDefaultValue} />
+          <SubmitButton />
+        </StyledModalForm>
+      </FormProvider>
+    );
   }
-  
   return (
-    <FormProvider {...methods}>
-      <StyledModalForm onSubmit={methods.handleSubmit(onSubmit)}>
-        <TitleInput defaultValue={TitleDefaultValue} />
-        <ProjectSelect defaultValue={ExtractDefaultOptionData(ProjectDefaultValue[0])}/>
-        <DescriptionTextarea defaultValue={DescriptionDefaultValue} />
-        <StatusSelect defaultValue={ExtractDefaultOptionData(StatusDefaultValue[0])} />
-        <TagSelect defaultValue={TagsDefaultValue} />
-        <TaskSubmit />
-      </StyledModalForm>
-    </FormProvider>
-  );
+    <>
+      読み込み中...
+    </>
+  )
+  
 };
 
 export default TaskPatchForm;

@@ -1,4 +1,4 @@
-import { DescriptionTextarea, ProjectSelect, StatusSelect, TagSelect, TaskSubmit, TitleInput } from "../../UserInterface/components/Input";
+import { DescriptionTextarea, ProjectSelect, StatusSelect, TagSelect, SubmitButton, TitleInput } from "../../UserInterface/components/Input";
 import { FormProvider, useForm } from "react-hook-form";
 import { onSubmitPostData } from "../api/PostData";
 import { TaskFormData } from "../type/Index";
@@ -15,7 +15,7 @@ export const TaskPostFormComponent: React.FC = () => {
           <DescriptionTextarea />
           <StatusSelect />
           <TagSelect />
-          <TaskSubmit />
+          <SubmitButton />
         </StyledModalForm>
       </FormProvider>
     </>

@@ -118,7 +118,7 @@ export const DescriptionTextarea: React.FC<TextInputProps> = (
   }
 );
 
-export const TaskSubmit: React.FC = () => {
+export const SubmitButton: React.FC = () => {
   return (
     <>
       <Button
