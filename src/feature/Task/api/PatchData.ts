@@ -2,7 +2,7 @@ import { BASE_API_URL } from "../../../utils/EndPoint";
 import { getAccessTokenFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
 import { patchData } from "../utils/Utils";
 import { SubmitHandler } from "react-hook-form";
-import { TaskBodyDataType, TaskBodyRelatedDataType, TaskFormData } from "../type/Index";
+import { TaskDataType, TaskRelatedDataType, TaskFormData } from "../type/Index";
 import { TmpRelatedDataType } from "../../../feature/Note/type/Index";
 import { toast } from "react-toastify";
 
@@ -32,7 +32,7 @@ export const onSubmitPatchData: SubmitHandler<TaskFormData> = async (data, taskI
     if (data.tags && data.tags.length) {
       tagsData = data.tags.map((tag) => generateRelatedData(tag.value, "taxonomy_term--tags"));
     }
-    const relatedData: TaskBodyRelatedDataType = {};
+    const relatedData: TaskRelatedDataType = {};
     // データが存在する場合に関連データに追加
     if (projectData) {
       relatedData.field_ref_project = { data: projectData };
@@ -43,7 +43,7 @@ export const onSubmitPatchData: SubmitHandler<TaskFormData> = async (data, taskI
     if (tagsData) {
       relatedData.field_ref_tags = { data: tagsData };
     }
-    const bodyData: TaskBodyDataType = {
+    const bodyData: TaskDataType = {
       data: {
         type: "node--task",
         id: taskId,

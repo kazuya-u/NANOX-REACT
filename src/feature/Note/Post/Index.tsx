@@ -1,12 +1,13 @@
 import { Button, TextField } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { getAccessTokenFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
-import { GetOptions, postData } from "../../../feature/Task/utils/Utils";
+import { postData } from "../../../feature/Task/utils/Utils";
 import { NoteBodyDataType, NoteFormData, TmpRelatedDataType } from "../type/Index";
 import { StyledModalForm } from "../../../feature/UserInterface/styles/components";
 import { toast } from "react-toastify";
 import CreatableSelect from "react-select";
 import Select from "react-select";
+import { GetOptions } from "../../../feature/Task/api/GetData";
 
 const NoteForm: React.FC = () => {
   const { register, handleSubmit, control } = useForm<NoteFormData>();
