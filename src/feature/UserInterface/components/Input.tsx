@@ -1,9 +1,10 @@
+import { BASE_API_URL } from "../../../utils/EndPoint";
+import { Button, TextField } from "@mui/material";
+import { Controller, useFormContext } from "react-hook-form";
+import { GetOptions } from "../../Task/api/GetData";
+import CreatableSelect from "react-select";
 import React from "react";
 import Select from "react-select";
-import { GetOptions } from "../utils/Utils";
-import { Controller, useFormContext } from "react-hook-form";
-import { Button, TextField } from "@mui/material";
-import CreatableSelect from "react-select";
 
 interface TextInputProps {
   defaultValue?: string;
@@ -46,7 +47,7 @@ export const ProjectSelect: React.FC<SelectInputProps> = ({ defaultValue }) => {
           onChange={onChange}
           value={value}
           options={GetOptions(
-            `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name`
+            `${BASE_API_URL}/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name`
           )}
         />
       )}
@@ -56,7 +57,6 @@ export const ProjectSelect: React.FC<SelectInputProps> = ({ defaultValue }) => {
 
 export const StatusSelect: React.FC<SelectInputProps> = ({ defaultValue }) => {
   const { control } = useFormContext();
-
   return (
     <Controller
       control={control}
@@ -68,7 +68,7 @@ export const StatusSelect: React.FC<SelectInputProps> = ({ defaultValue }) => {
           isClearable
           isSearchable
           options={GetOptions(
-            `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/taxonomy_term/status?fields[taxonomy_term--status]=name`
+            `${BASE_API_URL}/jsonapi/taxonomy_term/status?fields[taxonomy_term--status]=name`
           )}
           placeholder="Status"
         />
@@ -78,8 +78,6 @@ export const StatusSelect: React.FC<SelectInputProps> = ({ defaultValue }) => {
 }
 
 export const TagSelect: React.FC<MultipleSelectInputProps> = ({ defaultValue }) => {
-  console.log(defaultValue);
-
   const { control } = useFormContext();
   return (
     <Controller
@@ -93,7 +91,7 @@ export const TagSelect: React.FC<MultipleSelectInputProps> = ({ defaultValue }) 
           isMulti
           isSearchable
           options={GetOptions(
-            `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/taxonomy_term/tags?fields[taxonomy_term--tags]=name`
+            `${BASE_API_URL}/jsonapi/taxonomy_term/tags?fields[taxonomy_term--tags]=name`
           )}
           placeholder="Tag"
         />
@@ -110,7 +108,6 @@ export const DescriptionTextarea: React.FC<TextInputProps> = (
         {...register("description")}
         id="standard-multiline-static"
         label="Detail..."
-        minRows={2}
         rows={4}
         multiline
         placeholder="Placeholder"
@@ -121,7 +118,7 @@ export const DescriptionTextarea: React.FC<TextInputProps> = (
   }
 );
 
-export const TaskSubmit: React.FC = () => {
+export const SubmitButton: React.FC = () => {
   return (
     <>
       <Button

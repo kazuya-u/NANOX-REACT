@@ -1,17 +1,16 @@
-import { Button, TextField } from "@mui/material";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { BASE_API_URL } from "../../../utils/EndPoint";
+import { DescriptionTextarea, ProjectSelect, SubmitButton, TagSelect, TitleInput } from "../../../feature/UserInterface/components/Input";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { getAccessTokenFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
-import { GetOptions, postData } from "../../../feature/Task/utils/Utils";
 import { NoteBodyDataType, NoteFormData, TmpRelatedDataType } from "../type/Index";
+import { postData } from "../../../feature/Task/utils/Utils";
 import { StyledModalForm } from "../../../feature/UserInterface/styles/components";
 import { toast } from "react-toastify";
-import CreatableSelect from "react-select";
-import Select from "react-select";
 
 const NoteForm: React.FC = () => {
-  const { register, handleSubmit, control } = useForm<NoteFormData>();
+  const methods = useForm<NoteFormData>();
   const onSubmit: SubmitHandler<NoteFormData> = async (data) => {
-    const endpoint = `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/note`;
+    const endpoint = `${BASE_API_URL}/jsonapi/node/note`;
     const accessToken = getAccessTokenFromLocalStorage();
     const headers = {
       "Content-Type": "application/vnd.api+json",
@@ -76,56 +75,15 @@ const NoteForm: React.FC = () => {
 
   return (
     <>
-      <div>Add Note</div>
-      <StyledModalForm onSubmit={handleSubmit(onSubmit)}>
-        <TextField
-          {...register("title")}
-          id="standard-basic"
-          label="Note"
-          variant="standard"
-        />
-        <Controller
-          control={control}
-          name="project"
-          render={({ field: { onChange, value } }) => (
-            <Select
-              isClearable
-              isSearchable
-              onChange={onChange}
-              value={value}
-              options={GetOptions(
-                `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name`
-              )}
-            />
-          )}
-        />
-        <TextField
-          {...register("description")}
-          id="standard-textarea"
-          label="Detail..."
-          minRows={2}
-          multiline
-          placeholder="Placeholder"
-          variant="standard"
-        />
-    <Controller
-      control={control}
-      name="tags"
-      render={({ field }) => (
-        <CreatableSelect
-          {...field}
-          isClearable
-          isMulti
-          isSearchable
-          options={GetOptions(
-            `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/taxonomy_term/tags?fields[taxonomy_term--tags]=name`
-          )}
-          placeholder="Tag"
-        />
-      )}
-    />
-        <Button type="submit">送信</Button>
-      </StyledModalForm>
+      <FormProvider {...methods}>
+        <StyledModalForm onSubmit={methods.handleSubmit(onSubmit)}>
+          <TitleInput />
+          <ProjectSelect />
+          <DescriptionTextarea />
+          <TagSelect />
+          <SubmitButton />
+        </StyledModalForm>
+      </FormProvider>
     </>
   );
 };
