@@ -12,6 +12,18 @@ export type TaskFormData = {
   tags: TaskRelatedData[];
 };
 
+// export type TaskBodyDataType = {
+//   data: {
+//     type: string;
+//     id: string;
+//     attributes: {
+//       title: string;
+//       field_description: string;
+//     };
+//   };
+//   included: Array<RelationData>;
+// };
+
 export type TaskBodyDataType = {
   data: {
     type: string;
@@ -20,11 +32,24 @@ export type TaskBodyDataType = {
       title: string;
       field_description: string;
     };
+    relationships: TaskBodyRelatedDataType;
   };
-  included: Array<RelationData>;
 };
 
-type RelationData = {
+export type TaskBodyRelatedDataType = {
+  field_ref_project?: {
+    data: TaskRelatedData | null;
+  };
+  field_ref_status?: {
+    data: TaskRelatedData | null;
+  };
+  field_ref_tags?: {
+    data: TaskRelatedData[];
+  };
+}
+
+
+export type RelationData = {
   attributes: {
     name: string;
   };
