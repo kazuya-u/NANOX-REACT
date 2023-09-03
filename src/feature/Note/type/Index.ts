@@ -10,26 +10,29 @@ export type NoteFormData = {
 
 export type NoteBodyDataType = {
   data: {
-    type: string;
-    id: string;
-    attributes: {
-      title: string;
-      field_description: string;
+    type?: string;
+    id?: string;
+    attributes?: {
+      title?: string;
+      field_description?: string;
     };
-    relationships: {
+    relationships?: {
       field_ref_project?: {
         data: NoteRelatedDataType | null;
       };
       field_ref_tags?: {
-        data: NoteRelatedDataType[];
+        data: NoteRelatedDataType;
       };
     };
   };
 };
 
 export type NoteRelatedDataType = {
-  label: string;
-  value: string;
+  type?: string;
+  id?: string;
+  attributes?: {
+    name: string;
+  };
 };
 
 export type TmpRelatedDataType = {
