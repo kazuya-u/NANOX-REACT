@@ -18,7 +18,6 @@ const Index: React.FC = () => {
   const { control } = useForm();
   const pageParams = useParams();
   const pageId = typeof pageParams.NoteId !== "undefined" ? pageParams.NoteId : "";
-  
   const [title, setTitle] = useState<string>('');
   const [draftTimer, setDraftTimer] = useState<number | null>(null);
   const TitleSubmit = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -98,9 +97,12 @@ const Index: React.FC = () => {
     };
     await patchData(endpoint, headers, bodyData);
   };
-
-  const TagsSubmit = async (data) => {
-
+  
+  type TagFormType = {
+    label: string;
+    value: string;
+  }
+  const TagsSubmit = async (data: TagFormType) => {
     const endpoint = `${BASE_API_URL
       }/jsonapi/node/note/${pageParams.NoteId}`;
     const accessToken = getAccessTokenFromLocalStorage();
