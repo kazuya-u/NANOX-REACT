@@ -38,9 +38,6 @@ function formatDate(timestamp: string): string {
 const Detail: React.FC = () => {
   const { isModalOpen, openModal, closeModal, modalContent } = useModal();
   const baseURL = `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/task/`;
-  // const location = useLocation();
-  // console.log(location);
-
   const pageParams = useParams();
   const dataParams =
     "?include=field_ref_status,field_ref_project,field_ref_tags&fields[node--task]=name,title,created,field_deadline,field_description&fields[taxonomy_term--project]=name&fields[taxonomy_term--tags]=name";
