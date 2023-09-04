@@ -8,6 +8,13 @@ import Select from "react-select";
 
 interface TextInputProps {
   defaultValue?: string;
+  onChangeFunc?: (data: string) => void;
+  value?: string;
+}
+
+type LabelValueType = {
+  label: string;
+  value: string;
 }
 
 interface SelectInputProps {
@@ -15,36 +22,43 @@ interface SelectInputProps {
     label: string,
     value: string,
   };
+  onChangeFunc?: (data: LabelValueType) => void;
 }
 
 interface MultipleSelectInputProps {
   defaultValue?: SelectInputProps[];
 }
 
-export const TitleInput: React.FC<TextInputProps> = ({ defaultValue }) => {
-  const { register } = useFormContext();
+export const TitleInput: React.FC<TextInputProps> = ({ defaultValue, onChangeFunc }) => {
+  const { control } = useFormContext();
   return (
-    <TextField
-      {...register("title")}
-      id="standard-basic"
-      label="What is the Task's name..."
-      variant="standard"
-      defaultValue={defaultValue || ''}
+    <Controller
+      control={control}
+      name="title"
+      render={({ field: { onChange } }) => (
+        <TextField
+          id="standard-basic"
+          label="What is the Task's name..."
+          variant="standard"
+          defaultValue={defaultValue || ''}
+          onChange={onChangeFunc ? onChangeFunc : onChange}
+        />
+      )}
     />
   );
 }
 
-export const ProjectSelect: React.FC<SelectInputProps> = ({ defaultValue }) => {
+export const ProjectSelect: React.FC<SelectInputProps> = ({ defaultValue, onChangeFunc }) => {
   const { control } = useFormContext();
   return (
     <Controller
       control={control}
       name="project"
-      render={({ field: { onChange, value } }) => (
+      render={({ field: { value, onChange } }) => (
         <Select
           defaultValue={defaultValue}
           isSearchable
-          onChange={onChange}
+          onChange={onChangeFunc ? onChangeFunc : onChange}
           value={value}
           options={GetOptions(
             `${BASE_API_URL}/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name`
@@ -55,22 +69,22 @@ export const ProjectSelect: React.FC<SelectInputProps> = ({ defaultValue }) => {
   )
 }
 
-export const StatusSelect: React.FC<SelectInputProps> = ({ defaultValue }) => {
+export const StatusSelect: React.FC<SelectInputProps> = ({ defaultValue, onChangeFunc }) => {
   const { control } = useFormContext();
   return (
     <Controller
       control={control}
       name="status"
-      render={({ field }) => (
+      render={({ field: { value, onChange } }) => (
         <Select
-          {...field}
           defaultValue={defaultValue}
-          isClearable
           isSearchable
+          onChange={onChangeFunc ? onChangeFunc : onChange}
+          value={value}
           options={GetOptions(
             `${BASE_API_URL}/jsonapi/taxonomy_term/status?fields[taxonomy_term--status]=name`
           )}
-          placeholder="Status"
+        // placeholder="Status"
         />
       )}
     />
@@ -101,18 +115,24 @@ export const TagSelect: React.FC<MultipleSelectInputProps> = ({ defaultValue }) 
 }
 
 export const DescriptionTextarea: React.FC<TextInputProps> = (
-  ({ defaultValue }) => {
-    const { register } = useFormContext();
+  ({ defaultValue, onChangeFunc }) => {
+    const { control } = useFormContext();
     return (
-      <TextField
-        {...register("description")}
-        id="standard-multiline-static"
-        label="Detail..."
-        rows={4}
-        multiline
-        placeholder="Placeholder"
-        variant="standard"
-        defaultValue={defaultValue || ''}
+      <Controller
+        control={control}
+        name="description"
+        render={({ field: { onChange } }) => (
+          <TextField
+            id="standard-multiline-static"
+            label="Detail..."
+            rows={4}
+            multiline
+            placeholder="Placeholder"
+            variant="standard"
+            defaultValue={defaultValue || ''}
+            onChange={onChangeFunc ? onChangeFunc : onChange}
+          />
+        )}
       />
     );
   }
