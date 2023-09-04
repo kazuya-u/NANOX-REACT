@@ -16,9 +16,9 @@ export type TaskDataType = {
   data: {
     type: string;
     id: string;
-    attributes: {
-      title: string;
-      field_description: string;
+    attributes?: {
+      title?: string;
+      field_description?: string;
     };
     relationships?: TaskRelatedDataType;
   };

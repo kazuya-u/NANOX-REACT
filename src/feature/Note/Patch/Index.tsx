@@ -20,6 +20,7 @@ const Index: React.FC = () => {
   const pageId = typeof pageParams.NoteId !== "undefined" ? pageParams.NoteId : "";
   const [title, setTitle] = useState<string>('');
   const [draftTimer, setDraftTimer] = useState<number | null>(null);
+  
   const TitleSubmit = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
     clearTimeout(draftTimer || undefined);
     const newTimer = setTimeout(() => {
