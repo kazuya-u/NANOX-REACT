@@ -12,6 +12,7 @@ import Post from "../pages/Task";
 import TaskLayout from "../feature/Task/Layout";
 import TaskPatch from "../pages/TaskPatch";
 import Tasks from "../pages/Tasks";
+import Toggl from "../pages/Toggl";
 
 const RooterConfig = createBrowserRouter([
   {
@@ -24,6 +25,14 @@ const RooterConfig = createBrowserRouter([
       {
         index: true,
         element: <Home />
+      },
+      {
+        path: 'about',
+        element: <About />
+      },
+      {
+        path: 'toggl',
+        element: <Toggl />
       },
       {
         path: 'about',
