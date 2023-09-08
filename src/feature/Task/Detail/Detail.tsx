@@ -50,10 +50,10 @@ const Detail: React.FC = () => {
   if (!data) {
     return <div>Loading...</div>;
   }
-  const projectData = data.included.filter(
+  const projectData = data.included?.filter(
     (item) => item.type === "taxonomy_term--project"
   );
-  const tagData = data.included.filter(
+  const tagData = data.included?.filter(
     (item) => item.type === "taxonomy_term--tags"
   );
 
