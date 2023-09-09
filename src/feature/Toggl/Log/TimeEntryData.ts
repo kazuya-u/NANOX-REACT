@@ -1,33 +1,8 @@
 import { getTogglApiTokenLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
+import { SchedulerDataItem, TogglEnttyDataItem } from "../Type/Index";
 
-interface TogglDataItem {
-  id: number;
-  workspace_id: number;
-  project_id: number;
-  task_id: number | null;
-  billable: boolean;
-  start: string;
-  stop: string;
-  duration: number;
-  description: string;
-  tags: string[];
-  tag_ids: number[];
-  duronly: boolean;
-  at: string;
-  server_deleted_at: string | null;
-  user_id: number;
-  uid: number;
-  wid: number;
-  pid: number;
-}
 
-export interface SchedulerDataItem {
-  start: string;
-  end: string;
-  title: string;
-}
-
-function convertSchedulerData(datas: TogglDataItem[]): SchedulerDataItem[] {
+function convertSchedulerData(datas: TogglEnttyDataItem[]): SchedulerDataItem[] {
   return datas.map(item => ({
     start: item.start,
     end: item.stop,
@@ -53,7 +28,7 @@ export async function fetchTimeEntryData(): Promise<SchedulerDataItem[]> {
         throw new Error("APIリクエストが失敗しました");
       }
 
-      const responseData: TogglDataItem[] = await response.json();
+      const responseData: TogglEnttyDataItem[] = await response.json();
       TimeEntryData = convertSchedulerData(responseData);
       return TimeEntryData;
     } catch (error) {
