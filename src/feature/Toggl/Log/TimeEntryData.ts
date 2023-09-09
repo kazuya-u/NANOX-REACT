@@ -31,7 +31,8 @@ function convertSchedulerData(datas: TogglDataItem[]): SchedulerDataItem[] {
   return datas.map(item => ({
     start: item.start,
     end: item.stop,
-    title: item.description
+    title: item.description,
+    // color: "#d7d7d7",
   }));
 }
 
