@@ -22,15 +22,15 @@ interface TogglDataItem {
 }
 
 export interface SchedulerDataItem {
-  startDate: string;
-  endDate: string;
+  start: string;
+  end: string;
   title: string;
 }
 
 function convertSchedulerData(datas: TogglDataItem[]): SchedulerDataItem[] {
   return datas.map(item => ({
-    startDate: item.start,
-    endDate: item.stop,
+    start: item.start,
+    end: item.stop,
     title: item.description
   }));
 }
