@@ -1,7 +1,7 @@
-import { getTogglApiTokenLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
+import { getTogglApiTokenLocalStorage } from "../../AuthUser/utils/LocalStorageUtils";
 import { TogglEnttyDataItem } from "../Type/Index";
 
-export async function fetchCurrentTimeEntry(): Promise<TogglEnttyDataItem | null> {
+export async function fetchCurrentTimerEntry(): Promise<TogglEnttyDataItem | null> {
   let CurrentTimeEntry: TogglEnttyDataItem | null = null;
   const togglApiToken = getTogglApiTokenLocalStorage();
   if (togglApiToken) {

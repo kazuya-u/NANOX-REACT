@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { fetchCurrentTimeEntry } from "./CurrentTimeEntry";
+import { fetchCurrentTimerEntry } from "./CurrentTimerEntry";
 import { TogglEnttyDataItem } from "../Type/Index";
 import TimerStopButton from "./components/button";
+import StartTimerEntry from "./Start/StartTimerEntry";
 
 const Timer = () => {
   const [currentEntty, setCurrentEntty] = useState<TogglEnttyDataItem | null>();
@@ -9,10 +10,11 @@ const Timer = () => {
   useEffect(() => {
     const fetchAndSetCurrentEntty = async () => {
       try {
-        const data = await fetchCurrentTimeEntry();
+        const data = await fetchCurrentTimerEntry();
+        console.log(data);
+        
         setCurrentEntty(data);
         
-
         if (data && data.start) {
           const interval = setInterval(() => {
             const startTime = new Date(data.start).getTime();
@@ -35,7 +37,7 @@ const Timer = () => {
   if (!currentEntty) {
     return (
       <div>
-        What are you working on?
+        <StartTimerEntry />
       </div>
     )
   }
