@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getAccessTokenFromLocalStorage, getUserIdFromLocalStorage, setTogglApiTokenLocalStorage } from "../../AuthUser/utils/LocalStorageUtils";
+import { getUserIdFromLocalStorage, setTogglApiTokenLocalStorage } from "../../AuthUser/utils/LocalStorageUtils";
 import { BASE_API_URL } from "../../../utils/EndPoint";
 import { useFetchData } from "../../../utils/fetchData";
 
