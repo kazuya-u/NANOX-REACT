@@ -1,5 +1,6 @@
 import { getTogglApiTokenLocalStorage } from '../../../../feature/AuthUser/utils/LocalStorageUtils';
 import { useForm } from 'react-hook-form';
+import TimerProjectSelect from '../components/select';
 
 type InputType = {
     description: string,
@@ -42,7 +43,6 @@ const StartTimerEntry = () => {
     .then((resp) => resp.json())
     .then((json) => {
       console.log(json);
-      
     })
     .catch(err => console.error(err));
   };
@@ -57,14 +57,7 @@ const StartTimerEntry = () => {
             type="text"
           />
         </div>
-        {/* <div>
-          <label>Project ID:</label>
-          <input
-            type="text"
-            value={projectId}
-            onChange={(e) => setProjectId(e.target.value)}
-          />
-        </div> */}
+        <TimerProjectSelect />
         <div>
           <label>Start Time:</label>
           <input
@@ -75,7 +68,6 @@ const StartTimerEntry = () => {
         <div>
           <button type='submit'>Start Timer</button>
         </div>
-        
       </form>
     </div>
   );
