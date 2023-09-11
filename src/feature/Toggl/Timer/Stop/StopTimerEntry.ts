@@ -1,4 +1,4 @@
-import { getTogglApiTokenLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
+import { getTogglApiTokenLocalStorage } from "../../../AuthUser/utils/LocalStorageUtils";
 
 export async function StopTimerEntry(workspaceId: string, timeEntryId: string) {
   const endpoint = `/api/api/v9/workspaces/${workspaceId}/time_entries/${timeEntryId}/stop`;

@@ -4,6 +4,17 @@ import { Project } from "../../Type/Index";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 
+const customStyles = {
+  control: (provided) => ({
+    ...provided,
+    width: '100%',
+    border: 0,
+    borderRadius: '4px',
+    minHeight: '44px',
+    fontSize: '16px',
+  }),
+};
+
 const TimerProjectSelect: React.FC = () => {
   const { control } = useFormContext();
   const [data, setData] = useState<OptionType[]>([{
@@ -37,6 +48,7 @@ const TimerProjectSelect: React.FC = () => {
           onChange={onChange}
           options={data}
           value={value}
+          styles={customStyles}
         />
       )}
     />

@@ -1,13 +1,13 @@
 import "github-markdown-css/github-markdown.css";
+import { GoPencil, GoTrash } from "react-icons/go";
+import { IconButton } from "@mui/material";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { TaskBody, TaskDetailContainer, TaskDetailItem, TaskDetailItemLabel, TaskDetailWrapper, TaskName, TaskProject, TaskStatus } from "./StyledComponens";
 import { useFetchData } from "../../../utils/fetchData";
-import { useLocation, useParams } from "react-router-dom";
-import { GoPencil, GoTrash } from "react-icons/go";
-import { IconButton } from "@mui/material";
 import { useModal } from "../../../feature/Modal/utils/useModal";
-import TaskPatchForm from "../Patch/Index";
+import { useParams } from "react-router-dom";
 import Modal from "../../../feature/Modal/Index";
+import TaskPatchForm from "../Patch/Index";
 
 type DataType = {
   data: {
