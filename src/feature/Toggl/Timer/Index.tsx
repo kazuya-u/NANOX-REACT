@@ -11,8 +11,6 @@ const Timer = () => {
     const fetchAndSetCurrentEntty = async () => {
       try {
         const data = await fetchCurrentTimerEntry();
-        console.log(data);
-        
         setCurrentEntty(data);
         
         if (data && data.start) {

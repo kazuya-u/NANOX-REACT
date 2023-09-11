@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { Controller, useFormContext } from "react-hook-form";
 import { getMe } from "../../utils/GetMe";
-import Select from "react-select";
 import { Project } from "../../Type/Index";
+import React, { useEffect, useState } from "react";
+import Select from "react-select";
 
 const TimerProjectSelect: React.FC = () => {
+  const { control } = useFormContext();
   const [data, setData] = useState<OptionType[]>([{
     label: '読み込み中',
-    value: 0,
+    value: '',
   }]);
-  
+
   useEffect(() => {
     const fetchProject = async () => {
       try {
@@ -17,7 +19,7 @@ const TimerProjectSelect: React.FC = () => {
           const projectData = TrimmingData(data?.projects);
           setData(projectData);
         }
-        
+
       } catch (error) {
         console.error("エラーが発生しました:", error);
       }
@@ -26,23 +28,32 @@ const TimerProjectSelect: React.FC = () => {
     fetchProject();
   }, []);
   return (
-    <Select
-      options={data}
+    <Controller
+      control={control}
+      name="project"
+      render={({ field: { value, onChange } }) => (
+        <Select
+          isSearchable
+          onChange={onChange}
+          options={data}
+          value={value}
+        />
+      )}
     />
   );
 };
 
 type OptionType = {
   label: string;
-  value: number;
+  value: string;
 }
 
 function TrimmingData(data: Project[]): OptionType[] {
   return data.map((item) => {
-    const { name, workspace_id } = item;
+    const { name, workspace_id, id } = item;
     return {
       label: name,
-      value: workspace_id,
+      value: `${workspace_id}.${id}`,
     };
   });
 }
