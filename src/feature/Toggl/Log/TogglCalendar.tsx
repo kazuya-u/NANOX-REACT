@@ -1,9 +1,10 @@
-import { SchedulerDataItem, fetchTimeEntryData } from './TimeEntryData';
+import { fetchTimeEntryData } from './TimeEntryData';
 import { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react'
 import interactionPlugin from '@fullcalendar/interaction';
 import styled from 'styled-components';
 import timeGridPlugin from '@fullcalendar/timegrid'
+import { SchedulerDataItem } from '../Type/Index';
 
 
 export const TogglLogCalendar = (): JSX.Element => {

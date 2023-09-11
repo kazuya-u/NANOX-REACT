@@ -1,6 +1,7 @@
 import { getTogglApiTokenLocalStorage } from "../AuthUser/utils/LocalStorageUtils";
 import Auth from "./Auth/Index";
 import Log from "./Log/Index";
+import Timer from "./Timer/Index";
 
 const Index: React.FC = () => {
   const isTogglAuth = getTogglApiTokenLocalStorage();
@@ -13,7 +14,7 @@ const Index: React.FC = () => {
   }
   return (
     <>
-      
+      <Timer />
       <Log />
     </>
   );
