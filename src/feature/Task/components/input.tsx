@@ -1,36 +1,18 @@
-import { BASE_API_URL } from '../../../utils/EndPoint';
-import { getAccessTokenFromLocalStorage } from '../../../feature/AuthUser/utils/LocalStorageUtils';
-import { patchData } from '../utils/Utils';
-import { TaskDataType } from '../type/Index';
 import React, { useState, useEffect, useCallback } from 'react';
+import { syncTitle } from '../api/Patch/SyncTitle';
+import { SyncDescription } from '../api/Patch/SyncDescription';
 
 interface InputTitleType {
   id: string,
   defaultValue: string,
 }
 
-async function syncTitle(value: string, id: string) {
-  const endpoint = `${BASE_API_URL
-    }/jsonapi/node/task/${id}`;
-  const bodyData: TaskDataType = {
-    data: {
-      id: id,
-      type: "node--task",
-      attributes: {
-        title: value,
-      },
-    },
-  };
-  const accessToken = getAccessTokenFromLocalStorage();
-  const headers = {
-    "Content-Type": "application/vnd.api+json",
-    Authorization: `Bearer ${accessToken}`,
-  }
-  patchData(endpoint, headers, bodyData);
+interface InputDescriptionType {
+  id: string,
+  defaultValue: string,
 }
 
-
-const InputTitle: React.FC<InputTitleType> = ({ id, defaultValue }) => {
+export const InputTitle: React.FC<InputTitleType> = ({ id, defaultValue }) => {
   const [inputValue, setInputValue] = useState<string>(defaultValue || '');
 
   const handleInputChange = useCallback(
@@ -41,8 +23,7 @@ const InputTitle: React.FC<InputTitleType> = ({ id, defaultValue }) => {
   );
   const fetchData = useCallback(async () => {
     try {
-      const result = await syncTitle(inputValue, id);
-      console.log(result);
+      await syncTitle(inputValue, id);
     } catch (error) {
       console.error(error);
     }
@@ -62,4 +43,33 @@ const InputTitle: React.FC<InputTitleType> = ({ id, defaultValue }) => {
   );
 }
 
-export default InputTitle;
+export const InputDescription: React.FC<InputDescriptionType> = ({ id, defaultValue }) => {
+  const [inputValue, setInputValue] = useState<string>(defaultValue || '');
+
+  const handleInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setInputValue(event.target.value);
+    },
+    []
+  );
+  const fetchData = useCallback(async () => {
+    try {
+      await SyncDescription(inputValue, id);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [inputValue, id]);
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  return (
+    <div>
+      <input
+        type="text"
+        value={inputValue}
+        onChange={handleInputChange}
+      />
+    </div>
+  );
+}
