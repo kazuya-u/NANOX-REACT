@@ -1,7 +1,7 @@
 import { BASE_API_URL } from "../../../utils/EndPoint";
 import { ChangeEvent, useCallback, useMemo, useState } from "react";
-import { DescriptionTextarea, ProjectSelect, StatusSelect, TagSelect, SubmitButton, TitleInput } from "../../UserInterface/components/Input";
-import { ExtractDefaultOptionData } from "../api/GetData";
+import { DescriptionTextarea, ProjectSelect, StatusSelect, TagSelect, SubmitButton } from "../../UserInterface/components/Input";
+
 import { FormProvider, useForm } from "react-hook-form";
 import { getAccessTokenFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
 import { onSubmitPatchData } from "../api/PatchData";
@@ -11,6 +11,7 @@ import { TaskDataType, TaskFormData } from "../type/Index";
 import { toast } from "react-toastify";
 import { useGetTaskDefaultValue } from "../../../utils/api/useGetDefaultValue";
 import { useParams } from "react-router-dom";
+import TitleInput from "../components/Input";
 
 const dataParams =
   "?include=field_ref_project,field_ref_tags,field_ref_status&fields[node--task]=name,title,created,field_description&fields[taxonomy_term--project]=name&fields[taxonomy_term--tags]=name&fields[taxonomy_term--status]=name";
@@ -30,7 +31,7 @@ const TaskPatchForm: React.FC = () => {
 
   // About Header info.
   const endpoint = `${BASE_API_URL
-    }/jsonapi/node/note/${pageId}`;
+    }/jsonapi/node/task/${pageId}`;
   const accessToken = getAccessTokenFromLocalStorage();
   const headers = useMemo(() => ({
     "Content-Type": "application/vnd.api+json",
@@ -131,25 +132,25 @@ const TaskPatchForm: React.FC = () => {
 
   // About default value.
   const { TitleDefaultValue, DescriptionDefaultValue, ProjectDefaultValue, StatusDefaultValue, TagsDefaultValue, isLoading } = useGetTaskDefaultValue(pageId, dataParams);
+  if (isLoading) {
+    return (
+      <>Loading...</>
+    )
+  }
   if (!isLoading) {
     return (
       <FormProvider {...methods}>
         <StyledModalForm onSubmit={methods.handleSubmit(onSubmit)}>
-          <TitleInput defaultValue={TitleDefaultValue} onChangeFunc={TitleSubmit} value={title} />
-          <ProjectSelect defaultValue={ExtractDefaultOptionData(ProjectDefaultValue[0])} onChangeFunc={ProjectSubmit} />
+          <TitleInput id={pageId} defaultValue={TitleDefaultValue}  />
+          <ProjectSelect defaultValue={ProjectDefaultValue[0]} onChangeFunc={ProjectSubmit} />
           <DescriptionTextarea defaultValue={DescriptionDefaultValue} onChangeFunc={DescriptionSubmit} value={title} />
-          <StatusSelect defaultValue={ExtractDefaultOptionData(StatusDefaultValue[0])} onChangeFunc={StatusSubmit} />
+          <StatusSelect defaultValue={StatusDefaultValue[0]} onChangeFunc={StatusSubmit} />
           <TagSelect defaultValue={TagsDefaultValue} />
           <SubmitButton />
         </StyledModalForm>
       </FormProvider>
     );
   }
-  return (
-    <>
-      読み込み中...
-    </>
-  )
 
 };
 
