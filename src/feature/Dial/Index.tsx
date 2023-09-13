@@ -35,7 +35,9 @@ const Dial: React.FC = () => {
             key={action.name}
             icon={action.icon}
             tooltipTitle={action.name}
-            onClick={() => openModal(action.form)}
+            onClick={() => {
+              openModal(action.form);
+            }}
           />
         ))}
       </SpeedDial>

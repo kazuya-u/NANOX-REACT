@@ -6,10 +6,7 @@ interface DefaultValueType {
   DescriptionDefaultValue: string;
   ProjectDefaultValue: SelectValueType[];
   StatusDefaultValue: SelectValueType[];
-  TagsDefaultValue: {
-    value: string;
-    label: string;
-  }[];
+  TagsDefaultValue: SelectValueType[];
   isLoading: boolean,
 }
 
