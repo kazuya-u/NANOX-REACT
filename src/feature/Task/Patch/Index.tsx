@@ -1,6 +1,6 @@
 import { BASE_API_URL } from "../../../utils/EndPoint";
 import { useMemo } from "react";
-import { ProjectSelect, StatusSelect, TagSelect, SubmitButton } from "../../UserInterface/components/Input";
+import {  StatusSelect, TagSelect, SubmitButton } from "../../UserInterface/components/Input";
 import { FormProvider, useForm } from "react-hook-form";
 import { getAccessTokenFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
 import { onSubmitPatchData } from "../api/PatchData";
@@ -41,32 +41,10 @@ const TaskPatchForm: React.FC = () => {
     label: string;
     value: string;
   }
-  const ProjectSubmit = async (data: LabelValueType) => {
-    try {
-      const bodyData: TaskDataType = {
-        data: {
-          id: pageId,
-          type: "node--task",
-          relationships: {
-            "field_ref_project": {
-              "data": {
-                "type": "taxonomy_term--project",
-                "id": data.value,
-              }
-            }
-          },
-        },
-      };
-
-      await patchData(endpoint, headers, bodyData);
-    } catch (error) {
-      toast.error('タスクを更新できません。')
-    }
-  };
   const StatusSubmit = async (data: LabelValueType) => {
     try {
       const endpoint = `${BASE_API_URL
-        }/jsonapi/node/note/${pageId}`;
+        }/jsonapi/node/task/${pageId}`;
       const accessToken = getAccessTokenFromLocalStorage();
       const headers = {
         "Content-Type": "application/vnd.api+json",
@@ -105,8 +83,7 @@ const TaskPatchForm: React.FC = () => {
       <FormProvider {...methods}>
         <StyledModalForm onSubmit={methods.handleSubmit(onSubmit)}>
           <InputTitle id={pageId} defaultValue={TitleDefaultValue} />
-          <SelectProject />
-          <ProjectSelect defaultValue={ProjectDefaultValue[0]} onChangeFunc={ProjectSubmit} />
+          <SelectProject id={pageId} defaultValue={ProjectDefaultValue[0]} />
           <InputDescription id={pageId} defaultValue={DescriptionDefaultValue} />
           <StatusSelect defaultValue={StatusDefaultValue[0]} onChangeFunc={StatusSubmit} />
           <TagSelect defaultValue={TagsDefaultValue} />
