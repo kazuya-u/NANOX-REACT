@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { syncTitle } from '../api/Patch/SyncTitle';
 import { SyncDescription } from '../api/Patch/SyncDescription';
+import { toast } from 'react-toastify';
 
 interface InputTitleType {
   id: string,
@@ -25,7 +26,7 @@ export const InputTitle: React.FC<InputTitleType> = ({ id, defaultValue }) => {
     try {
       await syncTitle(inputValue, id);
     } catch (error) {
-      console.error(error);
+      toast.error('エラーです。');
     }
   }, [inputValue, id]);
   useEffect(() => {

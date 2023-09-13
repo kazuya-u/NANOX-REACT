@@ -12,6 +12,7 @@ import { useGetTaskDefaultValue } from "../../../utils/api/useGetDefaultValue";
 import { useParams } from "react-router-dom";
 import { InputTitle } from "../components/input";
 import { InputDescription } from "../components/input";
+import { SelectProject } from "../components/select";
 
 const dataParams =
   "?include=field_ref_project,field_ref_tags,field_ref_status&fields[node--task]=name,title,created,field_description&fields[taxonomy_term--project]=name&fields[taxonomy_term--tags]=name&fields[taxonomy_term--status]=name";
@@ -104,6 +105,7 @@ const TaskPatchForm: React.FC = () => {
       <FormProvider {...methods}>
         <StyledModalForm onSubmit={methods.handleSubmit(onSubmit)}>
           <InputTitle id={pageId} defaultValue={TitleDefaultValue} />
+          <SelectProject />
           <ProjectSelect defaultValue={ProjectDefaultValue[0]} onChangeFunc={ProjectSubmit} />
           <InputDescription id={pageId} defaultValue={DescriptionDefaultValue} />
           <StatusSelect defaultValue={StatusDefaultValue[0]} onChangeFunc={StatusSubmit} />
