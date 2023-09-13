@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StopTimerEntry } from "../StopTimerEntry";
+import { StopTimerEntry } from "../Stop/StopTimerEntry";
 import { GoSquareFill } from "react-icons/go";
 
 type ButtonProps = {

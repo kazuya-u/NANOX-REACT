@@ -2,6 +2,9 @@ import { getTogglApiTokenLocalStorage } from '../../../../feature/AuthUser/utils
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import TimerProjectSelect from '../components/select';
 import TimerDescriptionInput from '../components/input';
+import { TimePicker } from 'react-ios-time-picker';
+import styled from 'styled-components';
+import { GoTriangleRight } from 'react-icons/go';
 
 type InputType = {
   description: string,
@@ -26,10 +29,7 @@ const StartTimerEntry = () => {
     if (data.description) {
       description = data.description;
     }
-    console.log('description', description);
-    console.log(data);
-    
-    
+
     // About start time.
     const currentDate = new Date();
     let start = currentDate.toISOString().slice(0, 19) + "+00:00";
@@ -51,7 +51,7 @@ const StartTimerEntry = () => {
       project_id: projectId,
     };
     console.log(bodyData);
-    
+
     const togglApiToken = getTogglApiTokenLocalStorage();
     fetch(`/api/api/v9/workspaces/${tmpWorkspaceId}/time_entries`, {
       method: "POST",
@@ -61,35 +61,66 @@ const StartTimerEntry = () => {
         Authorization: "Basic " + btoa(`${togglApiToken}:api_token`),
       },
     })
-    .then((resp) => resp.json())
-    .then((json) => {
-      console.log(json);
-    })
-    .catch(err => console.error(err));
+      .then((resp) => resp.json())
+      .then((json) => {
+        console.log(json);
+      })
+      .catch(err => console.error(err));
   };
 
   return (
     <div>
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(handleStartTimer)}>        
+        <StyledForm onSubmit={methods.handleSubmit(handleStartTimer)}>
           <div>
             <TimerDescriptionInput />
+            {/* <StyledInput type="text" /> */}
           </div>
-          <TimerProjectSelect />
+          <div><TimerProjectSelect /></div>
           <div>
-            <label>Start Time:</label>
-            <input
-              type="datetime-local"
-              {...register('start')}
-            />
+            <div>
+              <StyledButton type='submit'>
+                <GoTriangleRight
+                  size={20}
+                />
+              </StyledButton>
+            </div>
           </div>
-          <div>
-            <button type='submit'>Start Timer</button>
-          </div>
-        </form>
+        </StyledForm>
       </FormProvider>
     </div>
   );
 };
+
+const StyledForm = styled.form`
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  padding: 20px;
+  border-radius: 4px;
+  border: #f2f2f2 1px solid;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const StyledInput = styled.input`
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 10px;
+`;
+
+const StyledButton = styled.button`
+background-color: #333;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
 export default StartTimerEntry;

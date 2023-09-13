@@ -47,7 +47,6 @@ export type RelationData = {
   attributes: {
     name: string;
   };
-  
 };
 
 export type TaskRelatedData = {
