@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { syncTitle } from '../api/Patch/SyncTitle';
 import { SyncDescription } from '../api/Patch/SyncDescription';
+import { syncTitle } from '../api/Patch/SyncTitle';
 import { toast } from 'react-toastify';
+import React, { useState, useEffect, useCallback } from 'react';
 
 interface InputTitleType {
   id: string,
