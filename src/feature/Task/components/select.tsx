@@ -39,12 +39,13 @@ export const SelectProject: React.FC<SelectProjectType> = ({ id, defaultValue })
   };
   const fetchData = useCallback(async () => {
     try {
-      await SyncProject(selectedOption, id);
+      if (selectedOption) {
+        await SyncProject(selectedOption, id);
+      }
     } catch (error) {
       toast.error('エラーです。');
     }
   }, [id, selectedOption]);
-
   useEffect(() => {
     fetchData();
   }, [id, fetchData]);
@@ -73,7 +74,9 @@ export const SelectStatus: React.FC<SelectProjectType> = ({ id, defaultValue }) 
   };
   const fetchData = useCallback(async () => {
     try {
-      await SyncStatus(selectedOption, id);
+      if (selectedOption) {
+        await SyncStatus(selectedOption, id);
+      }
     } catch (error) {
       toast.error('エラーです。');
     }
@@ -107,8 +110,9 @@ export const SelectTags: React.FC<SelectTagsType> = ({ id, defaultValue }) => {
   };
   const fetchData = useCallback(async () => {
     try {
-      console.log(selectedOption);
-      await SyncTags(selectedOption, id);
+      if (selectedOption) {
+        await SyncTags(selectedOption, id);
+      }
     } catch (error) {
       toast.error('エラーです。');
     }

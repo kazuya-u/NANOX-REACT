@@ -39,10 +39,11 @@ const Detail: React.FC = () => {
   const { isModalOpen, openModal, closeModal, modalContent } = useModal();
   const baseURL = `${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/task/`;
   const pageParams = useParams();
+  const pageId = pageParams.taskId;
   const dataParams =
     "?include=field_ref_status,field_ref_project,field_ref_tags&fields[node--task]=name,title,created,field_deadline,field_description&fields[taxonomy_term--project]=name&fields[taxonomy_term--tags]=name";
   const { data, error, isLoading } = useFetchData<DataType>(
-    `${baseURL}${pageParams.taskId}${dataParams}`
+    `${baseURL}${pageId}${dataParams}`
   );
 
   if (isLoading) return <div>Loading...</div>;
@@ -58,7 +59,7 @@ const Detail: React.FC = () => {
   );
 
   const onClick = async () => {
-    const endpoint = `${baseURL}${pageParams.taskId}`;
+    const endpoint = `${baseURL}${pageId}`;
     const headers = {
       "Content-Type": "application/vnd.api+json",
       Accept: "application/vnd.api+json",
@@ -108,9 +109,9 @@ const Detail: React.FC = () => {
               <div key={tag.attributes.name}>{tag.attributes.name}</div>
             ))
             : ""}
-            <IconButton aria-label="edit" size="small" onClick={() => openModal(<TaskPatchForm id={pageParams.taskId} />)}>
-              <GoPencil />
-            </IconButton>
+          <IconButton aria-label="edit" size="small" onClick={() => openModal(<TaskPatchForm id={pageId} />)}>
+            <GoPencil />
+          </IconButton>
           <Modal isOpen={isModalOpen} onRequestClose={closeModal}>
             {modalContent}
           </Modal>
