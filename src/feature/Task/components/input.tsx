@@ -1,3 +1,4 @@
+import { StyledInputDescription, StyledInputText } from '../../../feature/UserInterface/styles/components';
 import { SyncDescription } from '../api/Patch/SyncDescription';
 import { SyncTitle } from '../api/Patch/SyncTitle';
 import { toast } from 'react-toastify';
@@ -35,7 +36,7 @@ export const InputTitle: React.FC<InputTitleType> = ({ id, defaultValue }) => {
 
   return (
     <div>
-      <input
+      <StyledInputText
         type="text"
         value={inputValue}
         onChange={handleInputChange}
@@ -65,12 +66,10 @@ export const InputDescription: React.FC<InputDescriptionType> = ({ id, defaultVa
   }, [fetchData]);
 
   return (
-    <div>
-      <input
-        type="text"
-        value={inputValue}
-        onChange={handleInputChange}
-      />
-    </div>
+    <StyledInputDescription
+      type="text"
+      value={inputValue}
+      onChange={handleInputChange}
+    />
   );
 }
