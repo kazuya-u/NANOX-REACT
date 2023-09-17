@@ -1,5 +1,6 @@
-import { useFetchData } from "../fetchData";
+import { NoteDataType } from "../../feature/Note/type/Index";
 import { TaskDataType } from "../../feature/Task/type/Index";
+import { useFetchData } from "../fetchData";
 
 interface DefaultValueType {
   TitleDefaultValue: string;
@@ -68,13 +69,33 @@ export function useGetTaskDefaultValue(id: string, dataParams: string): DefaultV
 }
 
 export function useGetNoteDefaultValue(id: string, dataParams: string) {
-  const { data: TaskData, error } = useFetchData<TaskDataType>(`${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/task/${id}${dataParams}`);
-  const TitleDefaultValue = TaskData?.data.attributes?.title;
-  const DescriptionDefaultValue = TaskData?.data.attributes?.field_description;
-  const ProjectDefaultValue = TaskData?.included?.filter(
-    (item) => item.type === "taxonomy_term--project"
-  ) || [];
-  const extractTagData = TaskData?.included?.filter(
+  const { data: TaskData, error } = useFetchData<NoteDataType>(`${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/note/${id}${dataParams}`);
+  if (error) {
+    return {
+      TitleDefaultValue: "",
+      DescriptionDefaultValue: "",
+      ProjectDefaultValue: [],
+      TagsDefaultValue: [],
+      isLoading: true,
+    };
+  }
+  if (!TaskData) {
+    return {
+      TitleDefaultValue: "",
+      DescriptionDefaultValue: "",
+      ProjectDefaultValue: [],
+      TagsDefaultValue: [],
+      isLoading: true
+    };
+  }
+
+  const ProjectDefaultValue: SelectValueType[] = (TaskData.included || [])
+    .filter((item) => item.type === "taxonomy_term--project")
+    .map((item) => ({
+      value: item.id,
+      label: item.attributes?.name || "",
+    }));
+  const extractTagData = TaskData.included?.filter(
     (item) => item.type === "taxonomy_term--tags"
   ) || [];
   const TagsDefaultValue = extractTagData.map((tagData) => ({
@@ -82,10 +103,10 @@ export function useGetNoteDefaultValue(id: string, dataParams: string) {
     label: tagData.attributes.name,
   }));
   return {
-    TitleDefaultValue,
-    DescriptionDefaultValue,
+    TitleDefaultValue: TaskData.data.attributes?.title || '',
+    DescriptionDefaultValue: TaskData.data.attributes?.field_description || "",
     ProjectDefaultValue,
     TagsDefaultValue,
-    isLoading: !error && !TaskData,
+    isLoading: false,
   }
 }
