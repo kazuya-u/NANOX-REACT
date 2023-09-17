@@ -5,8 +5,10 @@ import Modal from "../Modal/Index";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
-import { GetPostId } from "../Task/api/Post/PostTask";
+import { GetTaskPostId } from "../Task/api/Post/PostTask";
 import TaskPatchForm from "../Task/Patch/Index";
+import NotePatchForm from "../Note/Patch/Index";
+import { GetNotePostId } from "../Note/api/Post/PostNote";
 
 const actions = [
   { icon: <GoBook />, name: "Note", form: 'note' },
@@ -16,22 +18,21 @@ const actions = [
 const Dial: React.FC = () => {
   const { isModalOpen, openModal, closeModal, modalContent } = useModal();
   async function handleActionClick(bundleType: string) {
-    const id = await GetPostId();
-    console.log(id);
-    
+    let id;
     switch (bundleType) {
       case 'note':
-        // 開発中...
-        console.log('開発中...');
-        
+        id = await GetNotePostId();
+        openModal(<NotePatchForm id={id} />);
+
         break;
       case 'task':
+        id = await GetTaskPostId();
         openModal(<TaskPatchForm id={id} />);
         break;
     }
     return;
   }
-  
+
   return (
     <Box sx=
       {{

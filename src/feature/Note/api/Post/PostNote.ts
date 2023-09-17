@@ -1,23 +1,23 @@
 import { BASE_API_URL } from "../../../../utils/EndPoint";
-import { getAccessTokenFromLocalStorage } from "../../../../feature/AuthUser/utils/LocalStorageUtils";
-import { TaskDataType } from "../../type/Index";
+import { getAccessTokenFromLocalStorage } from "../../../AuthUser/utils/LocalStorageUtils";
+import { NoteDataType } from "../../type/Index";
 
-export async function PostTask() {
+export async function PostNote() {
   const accessToken = getAccessTokenFromLocalStorage();
   const headers = {
     "Content-Type": "application/vnd.api+json",
     Accept: "application/vnd.api+json",
     "Authorization": `Bearer ${accessToken}`,
   };
-  const bodyData: TaskDataType = {
+  const bodyData: NoteDataType = {
     data: {
-      type: "node--task",
+      type: "node--note",
       attributes: {
-        title: 'タスクを追加',
+        title: 'メモを追加',
       },
     },
   };
-  const res = await fetch(`${BASE_API_URL}/jsonapi/node/task`, {
+  const res = await fetch(`${BASE_API_URL}/jsonapi/node/note`, {
     method: 'POST',
     headers: headers,
     body: JSON.stringify(bodyData)
@@ -26,7 +26,7 @@ export async function PostTask() {
   return resData.data.id;
 }
 
-export async function GetTaskPostId() {
-  const id = await PostTask();
+export async function GetNotePostId() {
+  const id = await PostNote();
   return id;
 }

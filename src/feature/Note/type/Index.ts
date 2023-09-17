@@ -5,37 +5,51 @@ export type NoteFormData = {
     label: string;
     value: string;
   };
-  tags: NoteRelatedDataType[];
+  status: {
+    label: string;
+    value: string;
+  };
+  tags: NoteRelatedData[];
 };
 
-export type NoteBodyDataType = {
+export type NoteDataType = {
   data: {
-    type?: string;
+    type: string;
     id?: string;
     attributes?: {
       title?: string;
       field_description?: string;
     };
-    relationships?: {
-      field_ref_project?: {
-        data: NoteRelatedDataType | null;
-      };
-      field_ref_tags?: {
-        data: NoteRelatedDataType;
-      };
-    };
+    relationships?: NoteRelatedDataType;
   };
+  included?: Array<RelationData>;
 };
 
 export type NoteRelatedDataType = {
-  type?: string;
-  id?: string;
-  attributes?: {
+  field_ref_project?: {
+    data: NoteRelatedData | null;
+  };
+  field_ref_status?: {
+    data: NoteRelatedData | null;
+  };
+  field_ref_tags?: {
+    data: NoteRelatedData[];
+  };
+}
+
+export type RelationDatas = {
+  data: Array<RelationData>;
+};
+
+export type RelationData = {
+  type: string;
+  id: string;
+  attributes: {
     name: string;
   };
 };
 
-export type TmpRelatedDataType = {
+export type NoteRelatedData = {
+  type: string;
   id: string;
-  type: string,
-}
+};
