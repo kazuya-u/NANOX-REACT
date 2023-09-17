@@ -3,7 +3,6 @@ import { InputTitle } from "../components/input";
 import { SelectProject, SelectStatus, SelectTags } from "../components/select";
 import { StyledModalForm } from "../../../feature/UserInterface/styles/components";
 import { useGetTaskDefaultValue } from "../../../utils/api/useGetDefaultValue";
-import { useParams } from "react-router-dom";
 
 const dataParams =
   "?include=field_ref_project,field_ref_tags,field_ref_status&fields[node--task]=name,title,created,field_description&fields[taxonomy_term--project]=name&fields[taxonomy_term--tags]=name&fields[taxonomy_term--status]=name";
@@ -13,15 +12,7 @@ type PropsType = {
 }
 
 const TaskPatchForm: React.FC<PropsType> = ({ id }) => {
-  const pageParams = useParams<{ taskId?: string }>();
-  let pageId = '';
-  if (pageId) {
-    pageId = id;
-  }
-  else {
-    pageId = typeof pageParams.taskId !== "undefined" ? pageParams.taskId : "";
-  }
-
+  const pageId = id;
   // About default value.
   const { TitleDefaultValue, DescriptionDefaultValue, ProjectDefaultValue, StatusDefaultValue, TagsDefaultValue, isLoading } = useGetTaskDefaultValue(pageId, dataParams);
   if (isLoading) {
