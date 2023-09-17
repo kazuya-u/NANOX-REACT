@@ -1,5 +1,5 @@
 import { SyncDescription } from '../api/Patch/SyncDescription';
-import { syncTitle } from '../api/Patch/SyncTitle';
+import { SyncTitle } from '../api/Patch/SyncTitle';
 import { toast } from 'react-toastify';
 import React, { useState, useEffect, useCallback } from 'react';
 
@@ -24,7 +24,7 @@ export const InputTitle: React.FC<InputTitleType> = ({ id, defaultValue }) => {
   );
   const fetchData = useCallback(async () => {
     try {
-      await syncTitle(inputValue, id);
+      await SyncTitle(inputValue, id);
     } catch (error) {
       toast.error('エラーです。');
     }

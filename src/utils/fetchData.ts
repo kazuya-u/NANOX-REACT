@@ -9,7 +9,7 @@ export function useFetchData<T>(baseUrl: baseUrlType) {
     "Authorization": `Bearer ${accessToken}`,
   };
   const fetcher: Fetcher<T> = (url: string) => fetch(url, { headers }).then(r => r.json());
-  const { data, error } = useSWR(baseUrl, fetcher)
+  const { data, error } = useSWR(baseUrl, fetcher,  { refreshInterval: 1000 })
   return {
     data,
     error,
