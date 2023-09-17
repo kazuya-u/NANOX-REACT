@@ -3,7 +3,6 @@ import { SubmitHandler } from "react-hook-form";
 import { TaskDataType, TaskFormData } from "../type/Index";
 import { toast } from "react-toastify";
 import { getAccessTokenFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
-import { TmpRelatedDataType } from "../../../feature/Note/type/Index";
 import { BASE_API_URL } from "../../../utils/EndPoint";
 
 export const onSubmitPostData: SubmitHandler<TaskFormData> = async (data) => {
