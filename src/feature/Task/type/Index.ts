@@ -15,7 +15,7 @@ export type TaskFormData = {
 export type TaskDataType = {
   data: {
     type: string;
-    id: string;
+    id?: string;
     attributes?: {
       title?: string;
       field_description?: string;

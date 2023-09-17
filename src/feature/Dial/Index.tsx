@@ -1,20 +1,37 @@
 import { GoBook, GoTasklist } from "react-icons/go";
-import { TaskPostFormComponent } from "../Task/Post/Index";
 import { useModal } from "../Modal/utils/useModal";
 import Box from "@mui/material/Box";
 import Modal from "../Modal/Index";
-import NoteForm from "../Note/Post/Index";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
+import { GetPostId } from "../Task/api/Post/PostTask";
+import TaskPatchForm from "../Task/Patch/Index";
 
 const actions = [
-  { icon: <GoBook />, name: "Note", form: <NoteForm /> },
-  { icon: <GoTasklist />, name: "Task", form: <TaskPostFormComponent /> },
+  { icon: <GoBook />, name: "Note", form: 'note' },
+  { icon: <GoTasklist />, name: "Task", form: 'task' },
 ];
 
 const Dial: React.FC = () => {
   const { isModalOpen, openModal, closeModal, modalContent } = useModal();
+  async function handleActionClick(bundleType: string) {
+    const id = await GetPostId();
+    console.log(id);
+    
+    switch (bundleType) {
+      case 'note':
+        // 開発中...
+        console.log('開発中...');
+        
+        break;
+      case 'task':
+        openModal(<TaskPatchForm id={id} />);
+        break;
+    }
+    return;
+  }
+  
   return (
     <Box sx=
       {{
@@ -35,9 +52,7 @@ const Dial: React.FC = () => {
             key={action.name}
             icon={action.icon}
             tooltipTitle={action.name}
-            onClick={() => {
-              openModal(action.form);
-            }}
+            onClick={() => handleActionClick(action.form)}
           />
         ))}
       </SpeedDial>
@@ -47,5 +62,7 @@ const Dial: React.FC = () => {
     </Box>
   );
 };
+
+
 
 export default Dial;
