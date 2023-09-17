@@ -1,7 +1,7 @@
 import { TaskDataType } from "../../type/Index";
-import { taskPatchData } from "../utils/TaskFetch";
+import { TaskPatchData } from "../utils/TaskFetch";
 
-export async function syncTitle(value: string, id: string) {
+export async function SyncTitle(value: string, id: string) {
   const bodyData: TaskDataType = {
     data: {
       id: id,
@@ -11,5 +11,5 @@ export async function syncTitle(value: string, id: string) {
       },
     },
   };
-  taskPatchData(id, bodyData);
+  TaskPatchData(id, bodyData);
 }

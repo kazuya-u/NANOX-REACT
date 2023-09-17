@@ -108,7 +108,7 @@ const Detail: React.FC = () => {
               <div key={tag.attributes.name}>{tag.attributes.name}</div>
             ))
             : ""}
-            <IconButton aria-label="edit" size="small" onClick={() => openModal(<TaskPatchForm />)}>
+            <IconButton aria-label="edit" size="small" onClick={() => openModal(<TaskPatchForm id={pageParams.taskId} />)}>
               <GoPencil />
             </IconButton>
           <Modal isOpen={isModalOpen} onRequestClose={closeModal}>

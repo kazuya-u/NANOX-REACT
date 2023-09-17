@@ -1,6 +1,6 @@
 import { MultiValue } from "react-select";
 import { TaskDataType } from "../../type/Index";
-import { taskPatchData } from "../utils/TaskFetch";
+import { TaskPatchData } from "../utils/TaskFetch";
 
 export async function SyncTags(value: MultiValue<{ label: string, value: string }>, id: string) {
   const tagsData = value.map(data => ({
@@ -19,5 +19,5 @@ export async function SyncTags(value: MultiValue<{ label: string, value: string 
       },
     },
   };
-  taskPatchData(id, bodyData);
+  TaskPatchData(id, bodyData);
 }
