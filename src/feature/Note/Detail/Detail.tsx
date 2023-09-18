@@ -7,7 +7,7 @@ import { useModal } from "../../../feature/Modal/utils/useModal";
 import { useParams } from "react-router-dom";
 import Modal from "../../../feature/Modal/Index";
 import NotePatchForm from "../Patch/Index";
-import remarkBreaks from "remark-breaks"
+import remarkBreaks from "remark-breaks";
 
 type DataType = {
   data: {

@@ -1,11 +1,13 @@
 import { BASE_API_URL } from '../../../utils/EndPoint';
 import { SyncProject } from '../api/Patch/SyncProject';
 import { toast } from 'react-toastify';
-import CreatableSelect, { MultiValue } from "react-select";
+import { MultiValue } from "react-select";
 import React, { useState, useEffect, useCallback } from 'react';
 import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import { SyncTags } from '../api/Patch/SyncTags';
 import { GetOptions } from '../api/GetData';
+import { PostTag } from '../api/Post/PostTag';
 
 interface OptionType {
   label: string;
@@ -64,38 +66,60 @@ export const SelectProject: React.FC<SelectProjectType> = ({ id, defaultValue })
   );
 }
 
+interface Option {
+  readonly label: string;
+  readonly value: string;
+}
+
+const createOption = (label: string, id: string) => ({
+  label,
+  value: id,
+});
+
 export const SelectTags: React.FC<SelectTagsType> = ({ id, defaultValue }) => {
-  const [selectedOption, setSelectedOption] = useState<MultiValue<OptionType>>(defaultValue);
-  const handleOptionChange = (selectedOption: MultiValue<OptionType> | null) => {
+  const optionData = GetOptions(`${BASE_API_URL}/jsonapi/taxonomy_term/tags?fields[taxonomy_term--tags]=name`);
+  const [isLoading, setIsLoading] = useState(false);
+  const [options, setOptions] = useState<MultiValue<Option>>(optionData);
+  const [values, setValues] = useState<MultiValue<Option> | null>(defaultValue);
+  const handleCreate = async (inputValue: string) => {
+    const createdOptionId = await PostTag(inputValue);
+    
+    setIsLoading(true);
+    setTimeout(() => {
+      const newOption = createOption(inputValue, createdOptionId);
+      setIsLoading(false);
+      setValues((prevValues) => (prevValues ? [...prevValues, newOption] : [newOption]));
+      setOptions((prevOptions) => [...prevOptions, newOption]);
+    }, 1000);
+  };
+  const handleChange = (selectedOption: MultiValue<OptionType> | null) => {
     if (selectedOption) {
-      setSelectedOption(selectedOption);
+      setValues(selectedOption);
     }
   };
   const fetchData = useCallback(async () => {
     try {
-      if (selectedOption) {
-        await SyncTags(selectedOption, id);
+      if (values) {
+        await SyncTags(values, id);
       }
     } catch (error) {
       toast.error('エラーです。');
     }
-  }, [id, selectedOption]);
+  }, [id, values]);
   useEffect(() => {
     fetchData();
   }, [id, fetchData]);
   return (
     <div>
       <CreatableSelect
-        defaultValue={defaultValue}
         isClearable
+        isDisabled={isLoading}
+        isLoading={isLoading}
         isMulti
-        isSearchable
-        value={selectedOption}
-        onChange={handleOptionChange}
-        options={GetOptions(
-          `${BASE_API_URL}/jsonapi/taxonomy_term/tags?fields[taxonomy_term--tags]=name`
-        )}
-        placeholder="Tag"
+        onChange={handleChange}
+        onCreateOption={handleCreate}
+        options={options}
+        value={values}
       />
     </div>
   );
