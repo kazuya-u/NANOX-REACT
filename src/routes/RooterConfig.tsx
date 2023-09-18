@@ -6,11 +6,9 @@ import Home from "../pages/Home";
 import Layout from "../feature/Layout/Index";
 import Note from "../pages/Note";
 import NoteLayout from "../feature/Note/Layout";
-import NotePatch from "../pages/NotePatch";
 import Notes from "../pages/Notes";
 import Post from "../pages/Task";
 import TaskLayout from "../feature/Task/Layout";
-import TaskPatch from "../pages/TaskPatch";
 import Tasks from "../pages/Tasks";
 import Toggl from "../pages/Toggl";
 
@@ -51,10 +49,6 @@ const RooterConfig = createBrowserRouter([
             path: ':taskId',
             element: <Post />,
           },
-          {
-            path: ':taskId/edit',
-            element: <TaskPatch />,
-          },
         ],
       },
       {
@@ -69,10 +63,6 @@ const RooterConfig = createBrowserRouter([
           {
             path: ':NoteId',
             element: <Note />,
-          },
-          {
-            path: ':NoteId/edit',
-            element: <NotePatch />,
           },
         ],
       },
