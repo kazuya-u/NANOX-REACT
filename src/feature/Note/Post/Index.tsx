@@ -3,7 +3,7 @@ import { DescriptionTextarea, ProjectSelect, SubmitButton, TagSelect, TitleInput
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { getAccessTokenFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
 import { NoteBodyDataType, NoteFormData, TmpRelatedDataType } from "../type/Index";
-import { postData } from "../../../feature/Task/utils/Utils";
+import { postData } from "../../../utils/api/Utils";
 import { StyledModalForm } from "../../../feature/UserInterface/styles/components";
 import { toast } from "react-toastify";
 
