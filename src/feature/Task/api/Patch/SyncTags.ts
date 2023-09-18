@@ -4,7 +4,7 @@ import { TaskPatchData } from "../utils/TaskFetch";
 
 export async function SyncTags(value: MultiValue<{ label: string, value: string }>, id: string) {
   const tagsData = value.map(data => ({
-    "type": "taxonomy_term--status",
+    "type": "taxonomy_term--tags",
     "id": data.value,
   }));
 
