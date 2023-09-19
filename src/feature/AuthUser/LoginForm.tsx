@@ -26,6 +26,7 @@ const LoginForm: React.FC = () => {
       const currentUserId = await getUserUUID(data.user, data.password);
       setUserIdInLocalStorage(currentUserId);
       toast.done('ログインしました。');
+      window.location.reload();
       
     } catch (error) {
       handleLoginError(error);
