@@ -8,6 +8,7 @@ import { useModal } from "../../../feature/Modal/utils/useModal";
 import { useParams } from "react-router-dom";
 import Modal from "../../../feature/Modal/Index";
 import TaskPatchForm from "../Patch/Index";
+import { TaskDeleteForm } from "../Delete/Index";
 
 type DataType = {
   data: {
@@ -58,29 +59,6 @@ const Detail: React.FC = () => {
     (item) => item.type === "taxonomy_term--tags"
   );
 
-  const onClick = async () => {
-    const endpoint = `${baseURL}${pageId}`;
-    const headers = {
-      "Content-Type": "application/vnd.api+json",
-      Accept: "application/vnd.api+json",
-    };
-    try {
-      const response = await fetch(endpoint, {
-        method: 'DELETE',
-        headers: headers,
-      });
-
-      if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`);
-      }
-      const responseData = await response.text();
-      const jsonResponse = responseData ? JSON.parse(responseData) : null;
-      return jsonResponse;
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
-  };
-
   return (
     <>
       <TaskDetailContainer>
@@ -112,12 +90,12 @@ const Detail: React.FC = () => {
           <IconButton aria-label="edit" size="small" onClick={() => openModal(<TaskPatchForm id={pageId} />)}>
             <GoPencil />
           </IconButton>
+          <IconButton aria-label="delete" size="small" onClick={() => openModal(<TaskDeleteForm id={pageId} />)}>
+            <GoTrash />
+          </IconButton>
           <Modal isOpen={isModalOpen} onRequestClose={closeModal}>
             {modalContent}
           </Modal>
-          <IconButton aria-label="delete" size="small" onClick={onClick}>
-            <GoTrash />
-          </IconButton>
         </TaskDetailWrapper>
         <TaskBody className="markdown-body">
           <ReactMarkdown>

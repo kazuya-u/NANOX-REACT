@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import Modal from "../../../feature/Modal/Index";
 import NotePatchForm from "../Patch/Index";
 import remarkBreaks from "remark-breaks";
+import { NoteDeleteForm } from "../Delete/Index";
 
 type DataType = {
   data: {
@@ -83,13 +84,12 @@ const Detail: React.FC = () => {
           <IconButton aria-label="edit" size="small" onClick={() => openModal(<NotePatchForm id={pageParams.NoteId} />)}>
             <GoPencil />
           </IconButton>
-
+          <IconButton aria-label="delete" size="small" onClick={() => openModal(<NoteDeleteForm id={pageParams.NoteId} />)}>
+            <GoTrash />
+          </IconButton>
           <Modal isOpen={isModalOpen} onRequestClose={closeModal}>
             {modalContent}
           </Modal>
-          <IconButton aria-label="delete" size="small">
-            <GoTrash />
-          </IconButton>
         </TaskDetailWrapper>
         <TaskBody className="markdown-body">
           <ReactMarkdown
