@@ -40,23 +40,23 @@ export function useGetTaskDefaultValue(id: string, dataParams: string): DefaultV
   }
 
   const ProjectDefaultValue: SelectValueType[] = (TaskData.included || [])
-    .filter((item) => item.type === "taxonomy_term--project")
+    .filter((item) => item.type === "uc--project")
     .map((item) => ({
       value: item.id,
-      label: item.attributes?.name || "",
+      label: item.attributes?.title || "",
     }));
   const StatusDefaultValue: SelectValueType[] = (TaskData.included || [])
-    .filter((item) => item.type === "taxonomy_term--status")
+    .filter((item) => item.type === "uc--status")
     .map((item) => ({
       value: item.id,
-      label: item.attributes?.name || "",
+      label: item.attributes?.title || "",
     }));
   const extractTagData = TaskData.included?.filter(
-    (item) => item.type === "taxonomy_term--tags"
+    (item) => item.type === "uc--tag"
   ) || [];
   const TagsDefaultValue = extractTagData.map((tagData) => ({
     value: tagData.id,
-    label: tagData.attributes.name,
+    label: tagData.attributes.title,
   }));
   return {
     TitleDefaultValue: TaskData.data.attributes?.title || '',
@@ -90,17 +90,17 @@ export function useGetNoteDefaultValue(id: string, dataParams: string) {
   }
 
   const ProjectDefaultValue: SelectValueType[] = (TaskData.included || [])
-    .filter((item) => item.type === "taxonomy_term--project")
+    .filter((item) => item.type === "uc--project")
     .map((item) => ({
       value: item.id,
-      label: item.attributes?.name || "",
+      label: item.attributes?.title || "",
     }));
   const extractTagData = TaskData.included?.filter(
-    (item) => item.type === "taxonomy_term--tags"
+    (item) => item.type === "uc--tag"
   ) || [];
   const TagsDefaultValue = extractTagData.map((tagData) => ({
     value: tagData.id,
-    label: tagData.attributes.name,
+    label: tagData.attributes.title,
   }));
   return {
     TitleDefaultValue: TaskData.data.attributes?.title || '',

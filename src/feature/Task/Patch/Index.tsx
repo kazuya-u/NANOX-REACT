@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { GoMilestone, GoProject, GoTag } from "react-icons/go";
 
 const dataParams =
-  "?include=field_ref_project,field_ref_tags,field_ref_status&fields[node--task]=name,title,created,field_description&fields[taxonomy_term--project]=name&fields[taxonomy_term--tags]=name&fields[taxonomy_term--status]=name";
+  "?include=field_ref_project,field_ref_tag,field_ref_status&fields[node--task]=name,title,created,field_description&fields[uc--project]=title&fields[uc--tag]=title&fields[uc--status]=title";
 
 type PropsType = {
   id: string;

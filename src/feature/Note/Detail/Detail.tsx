@@ -24,13 +24,13 @@ type DataType = {
 
 type RelationData = {
   attributes: {
-    name: string;
+    title: string;
   };
   type: string;
 };
 
 const dataParams =
-  "?include=field_ref_project,field_ref_tags&fields[node--note]=name,title,created,field_description&fields[taxonomy_term--project]=name&fields[taxonomy_term--tags]=name";
+  "?include=field_ref_project,field_ref_tag&fields[node--note]=name,title,created,field_description&fields[uc--project]=title&fields[uc--tag]=title";
 
 const formatDate = (timestamp: number): string => {
   const date = new Date(timestamp * 1000);
@@ -50,18 +50,18 @@ const Detail: React.FC = () => {
     return <div>Loading...</div>;
   }
   const projectData = NoteData.included?.filter(
-    (item) => item.type === "taxonomy_term--project"
+    (item) => item.type === "uc--project"
   ) || [];
   const tagData = NoteData.included?.filter(
-    (item) => item.type === "taxonomy_term--tags"
+    (item) => item.type === "uc--tag"
   ) || [];
   return (
     <>
       <TaskDetailContainer>
         <div>
           <TaskProject>
-            {projectData.length > 0
-              ? projectData[0].attributes.name
+            {projectData?.length > 0
+              ? projectData[0].attributes.title
               : "No Project"}
           </TaskProject>
         </div>
@@ -75,9 +75,9 @@ const Detail: React.FC = () => {
             <TaskDetailItemLabel>期限:</TaskDetailItemLabel>
             {formatDate(parseInt(NoteData.data.attributes.created))}
           </TaskDetailItem>
-          {tagData.length > 0
+          {tagData?.length > 0
             ? tagData.map((tag) => (
-              <div key={tag.attributes.name}>{tag.attributes.name}</div>
+              <div key={tag.attributes.title}>{tag.attributes.title}</div>
             ))
             : ""}
 

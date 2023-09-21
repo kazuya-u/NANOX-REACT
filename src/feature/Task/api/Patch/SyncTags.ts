@@ -4,7 +4,7 @@ import { TaskPatchData } from "../utils/TaskFetch";
 
 export async function SyncTags(value: MultiValue<{ label: string, value: string }>, id: string) {
   const tagsData = value.map(data => ({
-    "type": "taxonomy_term--tags",
+    "type": "uc--tag",
     "id": data.value,
   }));
 
@@ -13,7 +13,7 @@ export async function SyncTags(value: MultiValue<{ label: string, value: string 
       id: id,
       type: "node--task",
       relationships: {
-        "field_ref_tags": {
+        "field_ref_tag": {
           "data": tagsData,
         }
       },

@@ -39,6 +39,7 @@ export const SelectProject: React.FC<SelectProjectType> = ({ id, defaultValue })
       setSelectedOption(selectedOption);
     }
   };
+  
   const fetchData = useCallback(async () => {
     try {
       if (selectedOption) {
@@ -60,7 +61,7 @@ export const SelectProject: React.FC<SelectProjectType> = ({ id, defaultValue })
         value={selectedOption}
         onChange={handleOptionChange}
         options={GetOptions(
-          `${BASE_API_URL}/jsonapi/taxonomy_term/project?fields[taxonomy_term--project]=name`
+          `${BASE_API_URL}/jsonapi/uc/project?fields[uc--project]=title`
         )}
       />
     </div>
@@ -96,7 +97,7 @@ export const SelectStatus: React.FC<SelectProjectType> = ({ id, defaultValue }) 
         value={selectedOption}
         onChange={handleOptionChange}
         options={GetOptions(
-          `${BASE_API_URL}/jsonapi/taxonomy_term/status?fields[taxonomy_term--status]=name`
+          `${BASE_API_URL}/jsonapi/uc/status?fields[uc--status]=title`
         )}
       />
     </div>
@@ -114,7 +115,7 @@ const createOption = (label: string, id: string) => ({
 });
 
 export const SelectTags: React.FC<SelectTagsType> = ({ id, defaultValue }) => {
-  const optionData = GetOptions(`${BASE_API_URL}/jsonapi/taxonomy_term/tags?fields[taxonomy_term--tags]=name`);
+  const optionData = GetOptions(`${BASE_API_URL}/jsonapi/uc/tag?fields[uc--tag]=title`);
   const [isLoading, setIsLoading] = useState(false);
   const [options, setOptions] = useState<MultiValue<Option>>(optionData);
   const [values, setValues] = useState<MultiValue<Option> | null>(defaultValue);

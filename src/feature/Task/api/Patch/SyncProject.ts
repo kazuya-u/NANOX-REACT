@@ -9,7 +9,7 @@ export async function SyncProject(value: { label: string, value: string }, id: s
       relationships: {
         "field_ref_project": {
           "data": {
-            "type": "taxonomy_term--project",
+            "type": "uc--project",
             "id": value.value,
           }
         }
