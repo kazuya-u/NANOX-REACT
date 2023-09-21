@@ -32,7 +32,7 @@ export type NoteRelatedDataType = {
   field_ref_status?: {
     data: NoteRelatedData | null;
   };
-  field_ref_tags?: {
+  field_ref_tag?: {
     data: NoteRelatedData[];
   };
 }
@@ -46,6 +46,7 @@ export type RelationData = {
   id: string;
   attributes: {
     name: string;
+    title: string;
   };
 };
 

@@ -9,7 +9,7 @@ export async function SyncStatus(value: { label: string, value: string }, id: st
       relationships: {
         "field_ref_status": {
           "data": {
-            "type": "taxonomy_term--status",
+            "type": "uc--status",
             "id": value.value,
           }
         }

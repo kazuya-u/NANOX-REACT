@@ -22,7 +22,7 @@ export function GetOptions(baseUrl: string): Option[] {
   const { data } = useFetchData<RelationDatas>(baseUrl);
   if (data) {
     const datas = data.data.map((item: RelationData) => ({
-      label: item.attributes.name,
+      label: item.attributes.title,
       value: item.id,
     }));
     return datas;

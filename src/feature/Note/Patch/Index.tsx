@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { GoProject, GoTag } from "react-icons/go";
 
 const dataParams =
-  "?include=field_ref_project,field_ref_tags&fields[node--note]=name,title,created,field_description&fields[taxonomy_term--project]=name&fields[taxonomy_term--tags]=name";
+  "?include=field_ref_project,field_ref_tag&fields[node--note]=name,title,created,field_description&fields[uc--project]=title&fields[uc--tag]=title";
 
 
 type PropsType = {
