@@ -32,7 +32,7 @@ export type TaskRelatedDataType = {
   field_ref_status?: {
     data: TaskRelatedData | null;
   };
-  field_ref_tags?: {
+  field_ref_tag?: {
     data: TaskRelatedData[];
   };
 }
@@ -45,7 +45,7 @@ export type RelationData = {
   type: string;
   id: string;
   attributes: {
-    name: string;
+    title: string;
   };
 };
 

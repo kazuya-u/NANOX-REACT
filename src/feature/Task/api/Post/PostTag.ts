@@ -10,13 +10,13 @@ export async function PostTag(data: string) {
   };
   const bodyData = {
     data: {
-      type: "taxonomy_term--tags",
+      type: "uc--tag",
       attributes: {
-        name: data,
+        title: data,
       },
     },
   };
-  const res = await fetch(`${BASE_API_URL}/jsonapi/taxonomy_term/tags`, {
+  const res = await fetch(`${BASE_API_URL}/jsonapi/uc/tag`, {
     method: 'POST',
     headers: headers,
     body: JSON.stringify(bodyData)
