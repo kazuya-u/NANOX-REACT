@@ -21,6 +21,7 @@ export const TaskDetailItem = styled.div`
 `;
 export const TaskDetailItemLabel = styled.div`
   color: #797575;
+  font-size: 12px;
   font-weight: 400;
 `;
 
