@@ -1,4 +1,4 @@
-import { InputDescription } from "../components/input";
+import { InputDeadLine, InputDescription } from "../components/input";
 import { InputTitle } from "../components/input";
 import { SelectProject, SelectStatus, SelectTags } from "../components/select";
 import { StyledModalForm } from "../../../feature/UserInterface/styles/components";
@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { GoMilestone, GoProject, GoTag } from "react-icons/go";
 
 const dataParams =
-  "?include=field_ref_project,field_ref_tag,field_ref_status&fields[node--task]=name,title,created,field_description&fields[uc--project]=title&fields[uc--tag]=title&fields[uc--status]=title";
+  "?include=field_ref_project,field_ref_tag,field_ref_status&fields[node--task]=name,title,created,field_description,field_deadline&fields[uc--project]=title&fields[uc--tag]=title&fields[uc--status]=title";
 
 type PropsType = {
   id: string;
@@ -16,7 +16,7 @@ type PropsType = {
 const TaskPatchForm: React.FC<PropsType> = ({ id }) => {
   const pageId = id;
   // About default value.
-  const { TitleDefaultValue, DescriptionDefaultValue, ProjectDefaultValue, StatusDefaultValue, TagsDefaultValue, isLoading } = useGetTaskDefaultValue(pageId, dataParams);
+  const { TitleDefaultValue, DescriptionDefaultValue, DeadlineDefaultValue, ProjectDefaultValue, StatusDefaultValue, TagsDefaultValue, isLoading } = useGetTaskDefaultValue(pageId, dataParams);
   if (isLoading) {
     return (
       <>Loading...</>
@@ -52,6 +52,15 @@ const TaskPatchForm: React.FC<PropsType> = ({ id }) => {
               </StyledLabelWrapper>
               <StyledSelectComponentWrapper>
               <SelectStatus id={pageId} defaultValue={StatusDefaultValue[0]} />
+              </StyledSelectComponentWrapper>
+          </StyledSelectItemWrapper>
+          <StyledSelectItemWrapper>
+              <StyledLabelWrapper>
+                <StyledLabelIcon><GoMilestone /></StyledLabelIcon>
+                <StyledLabelText>DeadLine</StyledLabelText>
+              </StyledLabelWrapper>
+              <StyledSelectComponentWrapper>
+              <InputDeadLine id={pageId} defaultValue={DeadlineDefaultValue} />
               </StyledSelectComponentWrapper>
           </StyledSelectItemWrapper>
         </StyledSelectWrapper>

@@ -19,6 +19,7 @@ export type TaskDataType = {
     attributes?: {
       title?: string;
       field_description?: string;
+      field_deadline: string;
     };
     relationships?: TaskRelatedDataType;
   };
