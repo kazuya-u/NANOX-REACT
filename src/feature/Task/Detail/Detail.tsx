@@ -70,9 +70,9 @@ const Detail: React.FC = () => {
   if (isToday(changedDateTimeObject)) {
     const hourDiff = now.getHours() - changedDateTimeObject.getHours();
     const minutesDiff = now.getMinutes() - changedDateTimeObject.getMinutes();
-    changed = `${changedDateTimeObject.getHours()}時間前に編集済み`;
+    changed = `${hourDiff}時間前に編集済み`;
     if (hourDiff === 0) {
-      changed = `${changedDateTimeObject.getMinutes()}分前に編集`;
+      changed = `${minutesDiff}分前に編集`;
       if (minutesDiff === 0) {
         changed = `編集済み`;
       }
