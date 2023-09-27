@@ -5,6 +5,7 @@ import { useFetchData } from "../fetchData";
 interface DefaultValueType {
   TitleDefaultValue: string;
   DescriptionDefaultValue: string;
+  DeadlineDefaultValue: string;
   ProjectDefaultValue: SelectValueType[];
   StatusDefaultValue: SelectValueType[];
   TagsDefaultValue: SelectValueType[];
@@ -22,6 +23,7 @@ export function useGetTaskDefaultValue(id: string, dataParams: string): DefaultV
     return {
       TitleDefaultValue: "",
       DescriptionDefaultValue: "",
+      DeadlineDefaultValue: "",
       ProjectDefaultValue: [],
       StatusDefaultValue: [],
       TagsDefaultValue: [],
@@ -32,13 +34,13 @@ export function useGetTaskDefaultValue(id: string, dataParams: string): DefaultV
     return {
       TitleDefaultValue: "",
       DescriptionDefaultValue: "",
+      DeadlineDefaultValue: "",
       ProjectDefaultValue: [],
       StatusDefaultValue: [],
       TagsDefaultValue: [],
       isLoading: true
     };
   }
-
   const ProjectDefaultValue: SelectValueType[] = (TaskData.included || [])
     .filter((item) => item.type === "uc--project")
     .map((item) => ({
@@ -61,6 +63,7 @@ export function useGetTaskDefaultValue(id: string, dataParams: string): DefaultV
   return {
     TitleDefaultValue: TaskData.data.attributes?.title || '',
     DescriptionDefaultValue: TaskData.data.attributes?.field_description || "",
+    DeadlineDefaultValue: TaskData.data.attributes?.field_deadline || "",
     ProjectDefaultValue,
     StatusDefaultValue,
     TagsDefaultValue,
