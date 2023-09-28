@@ -1,5 +1,9 @@
 import { Deadline, ListItem, ListWrapper, ProjectName, Status, StyledLink, Tag, TagContainer, TaskDescription, TaskLeftWrapper, TaskName, TaskRightWrapper } from "./StyledComponents";
-import { useGetViewsData } from "../api/GetData";
+import { BASE_API_URL } from "../../../utils/EndPoint";
+import { useFetchData } from "../../../utils/fetchData";
+import { useState } from "react";
+import Select from 'react-select';
+import { mutate } from "swr";
 
 type ItemType = {
   field_deadline: string;
@@ -12,17 +16,42 @@ type ItemType = {
   uuid: string;
 }
 
+type OptionType = {
+  label: string,
+  value: string,
+}
+
 const List: React.FC = () => {
-  const { data, error } = useGetViewsData<ItemType[]>();
+  const [filterParam, setFilterParam] = useState<OptionType>({ label: 'All', value: '' });
+  const { data, error } = useFetchData<ItemType[]>(`${BASE_API_URL}/tasks?field_ref_project_target_id=${filterParam.value}`);
+  const { data: ProjectFetchData } = useFetchData<OptionType[]>(`${BASE_API_URL}/project`);
+  const handleOptionChange = (data: OptionType | null) => {
+    if (data) {
+      setFilterParam(data);
+      mutate(`${BASE_API_URL}/tasks`);
+    }
+  }
   if (!data && !error) {
     return <div>Loading...</div>
   }
   if (!data) {
     return <div>Loading...</div>;
   }
-  
+  if (!ProjectFetchData) {
+    return <div>Loading...</div>;
+  }
+  const newItem = { label: 'All', value: '' };
+  const updatedData = [...ProjectFetchData, newItem];
+
   return (
     <>
+      <div>
+        <Select
+          defaultValue={filterParam}
+          onChange={handleOptionChange}
+          options={updatedData}
+        />
+      </div>
       <ListWrapper>
         {data.map((item: ItemType) => (
           <ListItem key={item.nid}>
@@ -30,11 +59,11 @@ const List: React.FC = () => {
               <TaskLeftWrapper>
                 <TaskName>{item.title}</TaskName>
                 <TaskDescription>{item.field_description}</TaskDescription>
-                {item.TagName ? <TagContainer><Tag>{item.TagName}</Tag></TagContainer>: ''}
+                {item.TagName ? <TagContainer><Tag>{item.TagName}</Tag></TagContainer> : ''}
               </TaskLeftWrapper>
               <TaskRightWrapper>
                 <Deadline>Due: {item.field_deadline}</Deadline>
-                {/* <Status>Status: {item.field_ref_status}</Status> */}
+                <Status>Status: {item.field_ref_status}</Status>
                 <ProjectName>{item.ProjectName}</ProjectName>
               </TaskRightWrapper>
             </StyledLink>
