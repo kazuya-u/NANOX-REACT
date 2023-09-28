@@ -4,7 +4,7 @@ import {
   ListItemButton,
 } from "@mui/material";
 import { Link } from 'react-router-dom';
-import { GoBook, GoClock, GoHome, GoPerson, GoQuestion, GoTasklist } from "react-icons/go";
+import { GoBook, GoClock, GoGear, GoHome, GoPerson, GoQuestion, GoTasklist } from "react-icons/go";
 import styled from "styled-components";
 
 export default function Navbar() {
@@ -69,6 +69,16 @@ export default function Navbar() {
                 <GoQuestion size={20} />
               </StyledLinkIcon>
               <StyledLinkText>Contact</StyledLinkText>
+            </ListItemButton>
+          </StyledLink>
+        </StyledListItem>
+        <StyledListItem>
+          <StyledLink to="/settings">
+            <ListItemButton>
+              <StyledLinkIcon>
+                <GoGear size={20} />
+              </StyledLinkIcon>
+              <StyledLinkText>Settings</StyledLinkText>
             </ListItemButton>
           </StyledLink>
         </StyledListItem>
