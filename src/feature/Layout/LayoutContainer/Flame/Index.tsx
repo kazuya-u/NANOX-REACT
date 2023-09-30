@@ -27,7 +27,7 @@ const StyledFlame = styled.div`
   height: calc(100vh - 45px);
   max-height: 100%;
   position: relative;
-  width: 1208px;
+  width: calc(100vw - 220px);
   transition-property: width;
   transition-duration: 270ms;
   transition-timing-function: ease;
