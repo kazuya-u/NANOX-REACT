@@ -1,6 +1,28 @@
+import { getUserIdFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
+import { BASE_API_URL } from "../../../utils/EndPoint";
+import { useFetchData } from "../../../utils/fetchData";
 import styled from "styled-components";
 
+interface UserData {
+  data: {
+    "type": "user--user",
+    "id": string,
+    "attributes": {
+      "display_name": string,
+      "drupal_internal__uid": number,
+      "name": string,
+      "mail": string,
+      "timezone": string,
+      "field_chatwork_api_room_id": [],
+      "field_chatwork_api_token": string,
+      "field_toggl_api_token": string,
+    }
+  }
+}
+
 const MyProfile: React.FC = () => {
+  const uid = getUserIdFromLocalStorage();
+  const { data: UserData } = useFetchData<UserData>(`${BASE_API_URL}/jsonapi/user/user/${uid}`);
   return (
     <>
       <StyledHeadline>プロフィール</StyledHeadline>
@@ -11,7 +33,7 @@ const MyProfile: React.FC = () => {
               ユーザー名
             </StyledLabel>
             <StyledInputTextWrapper>
-              <StyledInputText type="text" />
+              <StyledInputText type="text" defaultValue={UserData?.data.attributes.name} />
             </StyledInputTextWrapper>
           </StyledFormItem>
         </StyledFormItemWrapper>
