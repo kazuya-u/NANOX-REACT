@@ -8,6 +8,7 @@ import Note from "../pages/Note";
 import NoteLayout from "../feature/Note/Layout";
 import Notes from "../pages/Notes";
 import Post from "../pages/Task";
+import Settings from "../pages/Settings";
 import TaskLayout from "../feature/Task/Layout";
 import Tasks from "../pages/Tasks";
 import Toggl from "../pages/Toggl";
@@ -35,6 +36,10 @@ const RooterConfig = createBrowserRouter([
       {
         path: 'about',
         element: <About />
+      },
+      {
+        path: 'settings',
+        element: <Settings />
       },
       {
         path: 'tasks',
