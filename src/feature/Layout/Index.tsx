@@ -1,8 +1,8 @@
 import "react-toastify/dist/ReactToastify.css";
 import { getUserIdFromLocalStorage } from "../AuthUser/utils/LocalStorageUtils";
-import { ToastContainer } from "react-toastify";
 import Login from "../AuthUser/Login";
-import MainContent from "./Main";
+import Toast from "../Toast/Index";
+import LayoutContainer from "./LayoutContainer/Index";
 
 const Layout: React.FC = () => {
   const isAuth = getUserIdFromLocalStorage();
@@ -11,18 +11,8 @@ const Layout: React.FC = () => {
   } else {
     return (
       <>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={true}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
-        <MainContent />
+        <Toast />
+        <LayoutContainer />
       </>
     );
   }
