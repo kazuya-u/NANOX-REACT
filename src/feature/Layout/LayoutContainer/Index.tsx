@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "../../../feature/Navbar/NavBar";
+import Navbar from "../../Navbar/Index";
 import styled from "styled-components";
 
 const LayoutContainer: React.FC = () => {
