@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import Items from "./Items/Index";
+import Profile from "./Profile/Index";
 
 export default function Menu() {
   return (
     <StyledMenu>
+      <Profile />
       <Items />
     </StyledMenu>
   )
