@@ -7,15 +7,19 @@ interface PokeApiType {
   }
 }
 
-export default function UserIcon() {
-  
-  const { data: IconData } = useFetchData<PokeApiType>('https://pokeapi.co/api/v2/pokemon/334/');
+type Props = {
+  iconNumber: string | undefined,
+}
+
+export const UserIcon: React.FC<Props> = ({ iconNumber }) => {
+  const POKE_URL = iconNumber ? `https://pokeapi.co/api/v2/pokemon/${iconNumber}/` : '';
+  const { data: IconData } = useFetchData<PokeApiType>(POKE_URL);
   return (
     <StyledIcon>
       <StyledContainer>
         <StyledWrapper>
           <StyledInner>
-            <StyledImage src={IconData?.sprites.front_default} />
+            {iconNumber ? <StyledImage src={IconData?.sprites.front_default} /> : ''}
           </StyledInner>
         </StyledWrapper>
       </StyledContainer>

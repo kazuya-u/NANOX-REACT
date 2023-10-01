@@ -1,9 +1,10 @@
-import { getUserIdFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
+import { getUserSettingsIdFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
 import { BASE_API_URL } from "../../../utils/EndPoint";
 import { useFetchData } from "../../../utils/fetchData";
 import styled from "styled-components";
+import { InputText } from "../components/input";
 
-interface UserData {
+interface UsData {
   data: {
     "type": "user--user",
     "id": string,
@@ -13,6 +14,8 @@ interface UserData {
       "name": string,
       "mail": string,
       "timezone": string,
+      "field_username": string,
+      "field_pokemon_number": string,
       "field_chatwork_api_room_id": [],
       "field_chatwork_api_token": string,
       "field_toggl_api_token": string,
@@ -21,34 +24,20 @@ interface UserData {
 }
 
 const MyProfile: React.FC = () => {
-  const uid = getUserIdFromLocalStorage();
-  const { data: UserData } = useFetchData<UserData>(`${BASE_API_URL}/jsonapi/user/user/${uid}`);
+  const usId = getUserSettingsIdFromLocalStorage();
+  const { data: SettinsData } = useFetchData<UsData>(`${BASE_API_URL}/jsonapi/us/us/${usId}`);
   return (
     <>
       <StyledHeadline>プロフィール</StyledHeadline>
       <StyledFormItemContainer>
         <StyledFormItemWrapper>
-          <StyledFormItem>
-            <StyledLabel>
-              ユーザー名
-            </StyledLabel>
-            <StyledInputTextWrapper>
-              <StyledInputText type="text" defaultValue={UserData?.data.attributes.name} />
-            </StyledInputTextWrapper>
-          </StyledFormItem>
+          <InputText id={usId} defaultValue={SettinsData?.data.attributes.field_username} label="ユーザー名" fieldName="field_username" />
         </StyledFormItemWrapper>
       </StyledFormItemContainer>
       <StyledSpace />
       <StyledFormItemContainer>
         <StyledFormItemWrapper>
-          <StyledFormItem>
-            <StyledLabel>
-              アイコン
-            </StyledLabel>
-            <StyledInputTextWrapper>
-              <StyledInputText type="text" />
-            </StyledInputTextWrapper>
-          </StyledFormItem>
+          <InputText id={usId} defaultValue={SettinsData?.data.attributes.field_pokemon_number} label="アイコン" fieldName="field_pokemon_number" />
         </StyledFormItemWrapper>
       </StyledFormItemContainer>
     </>
@@ -79,46 +68,6 @@ const StyledFormItemWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-`;
-
-const StyledFormItem = styled.div`
-  margin-left: 20px;
-  width: 450px;
-`;
-
-const StyledLabel = styled.label`
-  display: block;
-  margin-bottom: 4px;
-  font-size: 12px;
-  color: rgba(55, 53, 47, 0.65);
-`;
-
-const StyledInputTextWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  font-size: 14px;
-  line-height: 20px;
-  padding: 4px 10px;
-  position: relative;
-  border-radius: 4px;
-  box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px inset;
-  background: rgb(251, 251, 250);
-  cursor: text;
-`;
-
-const StyledInputText = styled.input`
-  font-size: inherit;
-  line-height: inherit;
-  border: none;
-  background: none;
-  width: 100%;
-  display: block;
-  resize: none;
-  padding: 0px;
-  :focus-visible {
-    outline: none;
-  }
 `;
 
 export default MyProfile;
