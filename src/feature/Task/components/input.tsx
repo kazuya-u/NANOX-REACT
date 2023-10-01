@@ -4,8 +4,7 @@ import { SyncTitle } from '../api/Patch/SyncTitle';
 import { toast } from 'react-toastify';
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import { SyncDeadline } from '../api/Patch/SyncDeadLine';
-import { dE } from 'node_modules/@fullcalendar/core/internal-common';
+import { SyncDeadline } from '../api/Patch/SyncDeadline';
 
 interface Input {
   id: string,
@@ -14,7 +13,6 @@ interface Input {
 
 export const InputTitle: React.FC<Input> = ({ id, defaultValue }) => {
   const [inputValue, setInputValue] = useState<string>(defaultValue || '');
-
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setInputValue(event.target.value);

@@ -1,6 +1,6 @@
-import { Outlet } from "react-router-dom";
 import Navbar from "../../Navbar/Index";
 import styled from "styled-components";
+import Flame from "./Flame/Index";
 
 const LayoutContainer: React.FC = () => {
   return (
@@ -10,7 +10,9 @@ const LayoutContainer: React.FC = () => {
           <StyledInnerWrapper>
             <StyledListner>
               <Navbar />
-              <Outlet />
+              <StyledFlame>
+                <Flame />
+              </StyledFlame>
             </StyledListner>
           </StyledInnerWrapper>
         </StyledInner>
@@ -46,6 +48,13 @@ const StyledListner = styled.div`
   flex: 1 1 0%;
   background: white;
   cursor: text;
+`;
+
+const StyledFlame = styled.main`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
 `;
 
 export default LayoutContainer;
