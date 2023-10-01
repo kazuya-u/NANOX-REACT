@@ -1,6 +1,6 @@
 import { getUserSettingsIdFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
 import { BASE_API_URL } from "../../../utils/EndPoint";
-import { useFetchData } from "../../../utils/fetchData";
+import { useFetchDataNoMutate } from "../../../utils/fetchData";
 import styled from "styled-components";
 import { InputText } from "../components/input";
 
@@ -25,7 +25,7 @@ interface UsData {
 
 const MyProfile: React.FC = () => {
   const usId = getUserSettingsIdFromLocalStorage();
-  const { data: SettinsData } = useFetchData<UsData>(`${BASE_API_URL}/jsonapi/us/us/${usId}`);
+  const { data: SettinsData } = useFetchDataNoMutate<UsData>(`${BASE_API_URL}/jsonapi/us/us/${usId}`);
   return (
     <>
       <StyledHeadline>プロフィール</StyledHeadline>
