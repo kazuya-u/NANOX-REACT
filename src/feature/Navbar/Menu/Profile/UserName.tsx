@@ -1,34 +1,16 @@
-import { BASE_API_URL } from "../../../../utils/EndPoint";
-import { getUserIdFromLocalStorage } from "../../../../feature/AuthUser/utils/LocalStorageUtils";
-import { useFetchData } from "../../../../utils/fetchData";
 import styled from "styled-components"
 
-interface UserData {
-  data: {
-    "type": "user--user",
-    "id": string,
-    "attributes": {
-      "display_name": string,
-      "drupal_internal__uid": number,
-      "name": string,
-      "mail": string,
-      "timezone": string,
-      "field_chatwork_api_room_id": [],
-      "field_chatwork_api_token": string,
-      "field_toggl_api_token": string,
-    }
-  }
+type Props = {
+  name: string | undefined,
 }
 
-export default function UserName() {
-  const uid = getUserIdFromLocalStorage();
-  const { data: UserData } = useFetchData<UserData>(`${BASE_API_URL}/jsonapi/user/user/${uid}`);
+export const UserName: React.FC<Props> = ({ name }) => {
   return (
     <StyledUserName>
       <StyledContainer>
         <StyledWrapper>
           <StyledInner>
-            {UserData?.data.attributes.name}
+            {name ? name : '取得中...'}
           </StyledInner>
         </StyledWrapper>
       </StyledContainer>

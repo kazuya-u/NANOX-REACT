@@ -1,3 +1,6 @@
+import { BASE_API_URL } from "../../../utils/EndPoint";
+import { currentUserSettinsIdInLocalStorage, getAccessTokenFromLocalStorage } from "./LocalStorageUtils";
+
 type TokenResponse = {
   token_type: string;
   expires_in: number;
@@ -52,4 +55,26 @@ export async function getUserUUID(username: string, password: string): Promise<s
   } catch (error) {
     throw new Error("ネットワークエラー: " + error);
   }
+}
+
+export async function getUserSettinsUUID(): Promise<boolean> {
+  let resFlag: boolean;
+  const accessToken = getAccessTokenFromLocalStorage();
+  const headers = {
+    'Content-Type': 'application/vnd.api+json',
+    'Accept': 'application/vnd.api+json',
+    "Authorization": `Bearer ${accessToken}`,
+  };
+  const response = await fetch(`${BASE_API_URL}/jsonapi/us/us`, {
+    method: "GET",
+    headers: headers,
+  });
+  if (!response.ok) {
+    resFlag = false;
+    return resFlag;
+  }
+  const responseData =  await response.json();
+  currentUserSettinsIdInLocalStorage(responseData?.data[0].id);
+  resFlag = true;
+  return resFlag;
 }
