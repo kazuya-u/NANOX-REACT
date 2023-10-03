@@ -47,7 +47,6 @@ export const InputTitle: React.FC<InputTitleType> = ({ id, defaultValue }) => {
 
 export const InputDescription: React.FC<InputDescriptionType> = ({ id, defaultValue }) => {
   const [inputValue, setInputValue] = useState<string>(defaultValue || '');
-
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setInputValue(event.target.value);
