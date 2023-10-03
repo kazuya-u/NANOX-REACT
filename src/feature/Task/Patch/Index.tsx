@@ -10,67 +10,59 @@ const dataParams =
   "?include=field_ref_project,field_ref_tag,field_ref_status&fields[node--task]=name,title,created,field_description,field_deadline&fields[uc--project]=title&fields[uc--tag]=title&fields[uc--status]=title";
 
 type PropsType = {
-  id: string;
+  id: string | undefined;
 }
 
 const TaskPatchForm: React.FC<PropsType> = ({ id }) => {
-  const pageId = id;
   // About default value.
-  const { TitleDefaultValue, DescriptionDefaultValue, DeadlineDefaultValue, ProjectDefaultValue, StatusDefaultValue, TagsDefaultValue, isLoading } = useGetTaskDefaultValue(pageId, dataParams);
-  if (isLoading) {
-    return (
-      <>Loading...</>
-    )
-  }
-  if (!isLoading) {
-    return (
-      <StyledModalForm>
-        <InputTitle id={pageId} defaultValue={TitleDefaultValue} />
-        <StyledSelectWrapper>
-          <StyledSelectItemWrapper>
-              <StyledLabelWrapper>
-                <StyledLabelIcon><GoProject /></StyledLabelIcon>
-                <StyledLabelText>Project</StyledLabelText>
-              </StyledLabelWrapper>
-              <StyledSelectComponentWrapper>
-                <SelectProject id={pageId} defaultValue={ProjectDefaultValue[0]} />
-              </StyledSelectComponentWrapper>
-          </StyledSelectItemWrapper>
-          <StyledSelectItemWrapper>
-              <StyledLabelWrapper>
-                <StyledLabelIcon><GoTag /></StyledLabelIcon>
-                <StyledLabelText>Tags</StyledLabelText>
-              </StyledLabelWrapper>
-              <StyledSelectComponentWrapper>
-              <SelectTags id={pageId} defaultValue={TagsDefaultValue} />
-              </StyledSelectComponentWrapper>
-          </StyledSelectItemWrapper>
-          <StyledSelectItemWrapper>
-              <StyledLabelWrapper>
-                <StyledLabelIcon><GoMilestone /></StyledLabelIcon>
-                <StyledLabelText>Status</StyledLabelText>
-              </StyledLabelWrapper>
-              <StyledSelectComponentWrapper>
-              <SelectStatus id={pageId} defaultValue={StatusDefaultValue[0]} />
-              </StyledSelectComponentWrapper>
-          </StyledSelectItemWrapper>
-          <StyledSelectItemWrapper>
-              <StyledLabelWrapper>
-                <StyledLabelIcon><GoMilestone /></StyledLabelIcon>
-                <StyledLabelText>DeadLine</StyledLabelText>
-              </StyledLabelWrapper>
-              <StyledSelectComponentWrapper>
-              <InputDeadLine id={pageId} defaultValue={DeadlineDefaultValue} />
-              </StyledSelectComponentWrapper>
-          </StyledSelectItemWrapper>
-        </StyledSelectWrapper>
-        <StyledHr />
-        <StyledTextarea>
-          <InputDescription id={pageId} defaultValue={DescriptionDefaultValue} />
-        </StyledTextarea>
-      </StyledModalForm>
-    );
-  }
+  const { TitleDefaultValue, DescriptionDefaultValue, DeadlineDefaultValue, ProjectDefaultValue, StatusDefaultValue, TagsDefaultValue } = useGetTaskDefaultValue(id, dataParams);
+  return (
+    <StyledModalForm>
+      <InputTitle id={id} defaultValue={TitleDefaultValue} />
+      <StyledSelectWrapper>
+        <StyledSelectItemWrapper>
+          <StyledLabelWrapper>
+            <StyledLabelIcon><GoProject /></StyledLabelIcon>
+            <StyledLabelText>Project</StyledLabelText>
+          </StyledLabelWrapper>
+          <StyledSelectComponentWrapper>
+            <SelectProject id={id} defaultValue={ProjectDefaultValue[0]} />
+          </StyledSelectComponentWrapper>
+        </StyledSelectItemWrapper>
+        <StyledSelectItemWrapper>
+          <StyledLabelWrapper>
+            <StyledLabelIcon><GoTag /></StyledLabelIcon>
+            <StyledLabelText>Tags</StyledLabelText>
+          </StyledLabelWrapper>
+          <StyledSelectComponentWrapper>
+            <SelectTags id={id} defaultValue={TagsDefaultValue} />
+          </StyledSelectComponentWrapper>
+        </StyledSelectItemWrapper>
+        <StyledSelectItemWrapper>
+          <StyledLabelWrapper>
+            <StyledLabelIcon><GoMilestone /></StyledLabelIcon>
+            <StyledLabelText>Status</StyledLabelText>
+          </StyledLabelWrapper>
+          <StyledSelectComponentWrapper>
+            <SelectStatus id={id} defaultValue={StatusDefaultValue[0]} />
+          </StyledSelectComponentWrapper>
+        </StyledSelectItemWrapper>
+        <StyledSelectItemWrapper>
+          <StyledLabelWrapper>
+            <StyledLabelIcon><GoMilestone /></StyledLabelIcon>
+            <StyledLabelText>DeadLine</StyledLabelText>
+          </StyledLabelWrapper>
+          <StyledSelectComponentWrapper>
+            <InputDeadLine id={id} defaultValue={DeadlineDefaultValue} />
+          </StyledSelectComponentWrapper>
+        </StyledSelectItemWrapper>
+      </StyledSelectWrapper>
+      <StyledHr />
+      <StyledTextarea>
+        <InputDescription id={id} defaultValue={DescriptionDefaultValue} />
+      </StyledTextarea>
+    </StyledModalForm>
+  );
 };
 
 export default TaskPatchForm;

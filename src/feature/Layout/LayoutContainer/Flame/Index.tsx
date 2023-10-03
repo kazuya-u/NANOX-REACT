@@ -1,19 +1,25 @@
 import { Outlet } from "react-router-dom"
+import Dial from "../../../../feature/Dial/Index";
 import styled from "styled-components"
 
 export default function Flame() {
   return (
-    <StyledFlame>
-      <StyledFlameContainer>
-        <StyledFlameWrapper>
-          <StyledFlameInner>
-            <StyledFlameInnerWrapper>
-              <Outlet />
-            </StyledFlameInnerWrapper>
-          </StyledFlameInner>
-        </StyledFlameWrapper>
-      </StyledFlameContainer>
-    </StyledFlame>
+    <>
+      <StyledFlame>
+        <StyledFlameContainer>
+          <StyledFlameWrapper>
+            <StyledFlameInner>
+              <StyledFlameInnerWrapper>
+                <Outlet />
+              </StyledFlameInnerWrapper>
+            </StyledFlameInner>
+          </StyledFlameWrapper>
+        </StyledFlameContainer>
+      </StyledFlame>
+      <StyledDial>
+        <Dial />
+      </StyledDial>
+    </>
   )
 }
 
@@ -69,4 +75,8 @@ const StyledFlameInnerWrapper = styled.div`
   max-width: 100%;
   min-width: 0px;
   width: 900px;
+`;
+
+const StyledDial = styled.div`
+  z-index: 2;
 `;

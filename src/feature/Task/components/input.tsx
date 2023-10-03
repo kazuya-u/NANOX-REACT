@@ -7,12 +7,17 @@ import styled from 'styled-components';
 import { SyncDeadline } from '../api/Patch/SyncDeadline';
 
 interface Input {
-  id: string,
-  defaultValue: string,
+  id: string | undefined,
+  defaultValue: string | undefined,
 }
 
 export const InputTitle: React.FC<Input> = ({ id, defaultValue }) => {
-  const [inputValue, setInputValue] = useState<string>(defaultValue || '');
+  const [inputValue, setInputValue] = useState<string | undefined>(defaultValue);
+  useEffect(() => {
+    if (defaultValue) {
+      setInputValue(defaultValue);
+    }
+  }, [defaultValue]);
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setInputValue(event.target.value);
@@ -21,6 +26,8 @@ export const InputTitle: React.FC<Input> = ({ id, defaultValue }) => {
   );
   const fetchData = useCallback(async () => {
     try {
+      if (id  === undefined) return;
+      if (!inputValue) return;
       await SyncTitle(inputValue, id);
     } catch (error) {
       toast.error('エラーです。');
@@ -29,7 +36,6 @@ export const InputTitle: React.FC<Input> = ({ id, defaultValue }) => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
   return (
     <div>
       <StyledInputText
@@ -42,8 +48,12 @@ export const InputTitle: React.FC<Input> = ({ id, defaultValue }) => {
 }
 
 export const InputDescription: React.FC<Input> = ({ id, defaultValue }) => {
-  const [inputValue, setInputValue] = useState<string>(defaultValue || '');
-
+  const [inputValue, setInputValue] = useState<string | undefined>(defaultValue);
+  useEffect(() => {
+    if (defaultValue) {
+      setInputValue(defaultValue);
+    }
+  }, [defaultValue]);
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setInputValue(event.target.value);
@@ -52,6 +62,8 @@ export const InputDescription: React.FC<Input> = ({ id, defaultValue }) => {
   );
   const fetchData = useCallback(async () => {
     try {
+      if (id === undefined) return;
+      if (inputValue === undefined) return;
       await SyncDescription(inputValue, id);
     } catch (error) {
       console.error(error);
@@ -72,15 +84,19 @@ export const InputDescription: React.FC<Input> = ({ id, defaultValue }) => {
 
 
 export const InputDeadLine: React.FC<Input> = ({ id, defaultValue }) => {
-  const defaultDateTime = new Date(defaultValue);
-  const year = defaultDateTime.getFullYear();
-  const month = String(defaultDateTime.getMonth()).padStart(2, '0');
-  const day = String(defaultDateTime.getDate()).padStart(2, '0');
-  const hours = String(defaultDateTime.getHours()).padStart(2, '0');
-  const minutes = String(defaultDateTime.getMinutes()).padStart(2, '0');
-  defaultValue = `${year}-${month}-${day}T${hours}:${minutes}`;
-  const [inputValue, setInputValue] = useState<string>(defaultValue || '');
-  
+  useEffect(() => {
+    if (defaultValue) {
+      setInputValue(defaultValue);
+    }
+  }, [defaultValue]);
+  const defaultDateTime = defaultValue ? new Date(defaultValue) : undefined;
+  const year = defaultDateTime ? String(defaultDateTime.getFullYear()) : undefined;
+  const month = defaultDateTime ? String(defaultDateTime.getMonth() + 1).padStart(2, '0') : undefined;
+  const day = defaultDateTime ? String(defaultDateTime.getDate()).padStart(2, '0') : undefined;
+  const hours = defaultDateTime ? String(defaultDateTime.getHours()).padStart(2, '0') : undefined;
+  const minutes = defaultDateTime ? String(defaultDateTime.getMinutes()).padStart(2, '0') : undefined;
+  defaultValue = (year !== undefined && month !== undefined && day !== undefined && hours !== undefined && minutes !== undefined) ? `${year}-${month}-${day}T${hours}:${minutes}` : undefined;
+  const [inputValue, setInputValue] = useState<string | undefined>(defaultValue);
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setInputValue(event.target.value);
@@ -89,12 +105,11 @@ export const InputDeadLine: React.FC<Input> = ({ id, defaultValue }) => {
   );
   const fetchData = useCallback(async () => {
     try {
-      await SyncDeadline(inputValue, id);
-      console.log('通信が走る。');
-      
+      if (id !== undefined && inputValue !== undefined) {
+        await SyncDeadline(inputValue, id);
+      }
     } catch (error) {
       console.log('通信がミスる。');
-      
       console.error(error);
     }
   }, [inputValue, id]);
