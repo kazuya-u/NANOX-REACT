@@ -62,7 +62,7 @@ const Detail: React.FC = () => {
   // Convert to formatted ISO 8601 format for DeadLine.
   const deadlineValue = TaskData.data.attributes.field_deadline;
   const dlDateTimeObject = new Date(deadlineValue);
-  const deadLine = `${dlDateTimeObject.getFullYear()}/${String(dlDateTimeObject.getMonth()).padStart(2, "0")}/${dlDateTimeObject.getDate()}-${String(dlDateTimeObject.getHours()).padStart(2, "0")}:${String(dlDateTimeObject.getMinutes()).padStart(2, "0")}`;
+  const deadLine = `${dlDateTimeObject.getFullYear()}/${String(dlDateTimeObject.getMonth() + 1).padStart(2, "0")}/${String(dlDateTimeObject.getDate()).padStart(2, "0")}-${String(dlDateTimeObject.getHours()).padStart(2, "0")}:${String(dlDateTimeObject.getMinutes()).padStart(2, "0")}`;
   // Convert to formatted ISO 8601 format for Changed.
   const changedValue = TaskData.data.attributes.changed;
   const changedDateTimeObject: Date = new Date(changedValue);
@@ -78,7 +78,7 @@ const Detail: React.FC = () => {
       }
     } 
   } else {
-    changed = `${changedDateTimeObject.getFullYear()}/${changedDateTimeObject.getMonth()}/${changedDateTimeObject.getDate()}`;
+    changed = `${changedDateTimeObject.getFullYear()}/${changedDateTimeObject.getMonth() + 1}/${changedDateTimeObject.getDate()}`;
   }
   // About Category.
   let projectData = [];
