@@ -53,7 +53,7 @@ export const SelectProject: React.FC<SelectPropsType> = ({ id, defaultValue }) =
         toast.error('エラーです。');
       }
     };
-    if (defaultValue !== undefined && selectedOption !== defaultValue) {
+    if (selectedOption !== defaultValue) {
       fetchData();
     }
   }, [id, selectedOption, defaultValue]);
@@ -61,6 +61,7 @@ export const SelectProject: React.FC<SelectPropsType> = ({ id, defaultValue }) =
     <div>
       <Select
         isSearchable
+        defaultValue={defaultValue}
         value={selectedOption}
         onChange={handleOptionChange}
         options={GetOptions(
@@ -87,13 +88,15 @@ export const SelectStatus: React.FC<SelectPropsType> = ({ id, defaultValue }) =>
     const fetchData = async () => {
       try {
         if (id !== undefined && selectedOption !== undefined) {
+          console.log('sele', selectedOption);
+          
           await SyncStatus(selectedOption, id);
         }
       } catch (error) {
         toast.error('エラーです。');
       }
     };
-    if (defaultValue !== undefined && selectedOption !== defaultValue) {
+    if (selectedOption !== defaultValue) {
       fetchData();
     }
   }, [id, selectedOption, defaultValue]);
@@ -101,6 +104,7 @@ export const SelectStatus: React.FC<SelectPropsType> = ({ id, defaultValue }) =>
     <div>
       <Select
         isSearchable
+        defaultValue={defaultValue}
         value={selectedOption}
         onChange={handleOptionChange}
         options={GetOptions(

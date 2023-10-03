@@ -12,7 +12,7 @@ interface Input {
 }
 
 export const InputTitle: React.FC<Input> = ({ id, defaultValue }) => {
-  const [inputValue, setInputValue] = useState<string>(defaultValue || '');
+  const [inputValue, setInputValue] = useState<string | undefined>(defaultValue);
   useEffect(() => {
     if (defaultValue) {
       setInputValue(defaultValue);
@@ -36,7 +36,6 @@ export const InputTitle: React.FC<Input> = ({ id, defaultValue }) => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
   return (
     <div>
       <StyledInputText
@@ -49,7 +48,7 @@ export const InputTitle: React.FC<Input> = ({ id, defaultValue }) => {
 }
 
 export const InputDescription: React.FC<Input> = ({ id, defaultValue }) => {
-  const [inputValue, setInputValue] = useState<string>(defaultValue || '');
+  const [inputValue, setInputValue] = useState<string | undefined>(defaultValue);
   useEffect(() => {
     if (defaultValue) {
       setInputValue(defaultValue);
@@ -98,7 +97,6 @@ export const InputDeadLine: React.FC<Input> = ({ id, defaultValue }) => {
   const minutes = defaultDateTime ? String(defaultDateTime.getMinutes()).padStart(2, '0') : undefined;
   defaultValue = (year !== undefined && month !== undefined && day !== undefined && hours !== undefined && minutes !== undefined) ? `${year}-${month}-${day}T${hours}:${minutes}` : undefined;
   const [inputValue, setInputValue] = useState<string | undefined>(defaultValue);
-  
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setInputValue(event.target.value);
