@@ -11,22 +11,17 @@ const dataParams =
 
 
 type PropsType = {
-  id: string;
+  id: string | undefined;
 }
 
 const NotePatchForm: React.FC<PropsType> = ({ id }) => {
-  const pageId = id;
   // About default value.
-  const { TitleDefaultValue, DescriptionDefaultValue, ProjectDefaultValue, TagsDefaultValue, isLoading } = useGetNoteDefaultValue(pageId, dataParams);
-  if (isLoading) {
-    return (
-      <>Loading...</>
-    )
-  }
+  const { TitleDefaultValue, DescriptionDefaultValue, ProjectDefaultValue, TagsDefaultValue, isLoading } = useGetNoteDefaultValue(id, dataParams);
+
   if (!isLoading) {
     return (
       <StyledModalForm>
-        <InputTitle id={pageId} defaultValue={TitleDefaultValue} />
+        <InputTitle id={id} defaultValue={TitleDefaultValue} />
         <StyledSelectWrapper>
           <StyledSelectItemWrapper>
             <StyledLabelWrapper>
@@ -34,7 +29,7 @@ const NotePatchForm: React.FC<PropsType> = ({ id }) => {
               <StyledLabelText>Project</StyledLabelText>
             </StyledLabelWrapper>
             <StyledSelectComponentWrapper>
-              <SelectProject id={pageId} defaultValue={ProjectDefaultValue[0]} />
+              <SelectProject id={id} defaultValue={ProjectDefaultValue[0]} />
             </StyledSelectComponentWrapper>
           </StyledSelectItemWrapper>
           <StyledSelectItemWrapper>
@@ -43,13 +38,13 @@ const NotePatchForm: React.FC<PropsType> = ({ id }) => {
               <StyledLabelText>Tags</StyledLabelText>
             </StyledLabelWrapper>
             <StyledSelectComponentWrapper>
-              <SelectTags id={pageId} defaultValue={TagsDefaultValue} />
+              <SelectTags id={id} defaultValue={TagsDefaultValue} />
             </StyledSelectComponentWrapper>
           </StyledSelectItemWrapper>
         </StyledSelectWrapper>
         <StyledHr />
         <StyledTextarea>
-          <InputDescription id={pageId} defaultValue={DescriptionDefaultValue} />
+          <InputDescription id={id} defaultValue={DescriptionDefaultValue} />
         </StyledTextarea>
       </StyledModalForm>
     );
