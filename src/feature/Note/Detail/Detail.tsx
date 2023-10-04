@@ -95,7 +95,6 @@ const Detail: React.FC = () => {
               <div key={tag.attributes.title}>{tag.attributes.title}</div>
             ))
             : ""}
-
           <IconButton aria-label="edit" size="small" onClick={() => openModal(<NotePatchForm id={pageParams.NoteId} />)}>
             <GoPencil />
           </IconButton>

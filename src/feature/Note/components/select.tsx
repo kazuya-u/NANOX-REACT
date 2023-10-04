@@ -28,28 +28,51 @@ interface SelectTagsType {
     label: string,
     value: string,
   }[];
-
 }
 
-export const SelectProject: React.FC<SelectProjectType> = ({ id, defaultValue }) => {
-  const [selectedOption, setSelectedOption] = useState<OptionType>(defaultValue);
-  const handleOptionChange = (selectedOption: OptionType | null) => {
-    if (selectedOption) {
+interface SelectPropsType {
+  id: string | undefined;
+  defaultValue: {
+    label: string,
+    value: string,
+  } | undefined,
+}
+
+interface MultiSelectPropsType {
+  id: string | undefined;
+  defaultValue: {
+    label: string,
+    value: string,
+  }[];
+}
+
+
+export const SelectProject: React.FC<SelectPropsType> = ({ id, defaultValue }) => {
+  const [selectedOption, setSelectedOption] = useState<OptionType | undefined>(defaultValue);
+  useEffect(() => {
+    if (defaultValue) {
+      setSelectedOption(defaultValue);
+    }
+  }, [defaultValue]);
+  const handleOptionChange = (selectedOption: OptionType | undefined) => {
+    if (selectedOption !== undefined) {
       setSelectedOption(selectedOption);
     }
   };
-  const fetchData = useCallback(async () => {
-    try {
-      if (selectedOption) {
-        await SyncProject(selectedOption, id);
-      }
-    } catch (error) {
-      toast.error('エラーです。');
-    }
-  }, [id, selectedOption]);
   useEffect(() => {
-    fetchData();
-  }, [id, fetchData]);
+    const fetchData = async () => {
+      try {
+        if (id !== undefined && selectedOption !== undefined) {
+          await SyncProject(selectedOption, id);
+        }
+      } catch (error) {
+        toast.error('エラーです。');
+      }
+    };
+    if (selectedOption !== defaultValue) {
+      fetchData();
+    }
+  }, [id, selectedOption, defaultValue]);
 
   return (
     <div>
@@ -76,7 +99,7 @@ const createOption = (label: string, id: string) => ({
   value: id,
 });
 
-export const SelectTags: React.FC<SelectTagsType> = ({ id, defaultValue }) => {
+export const SelectTags: React.FC<MultiSelectPropsType> = ({ id, defaultValue }) => {
   const optionData = GetOptions(`${BASE_API_URL}/jsonapi/uc/tag?fields[uc--tag]=title`);
   const [isLoading, setIsLoading] = useState(false);
   const [options, setOptions] = useState<MultiValue<Option>>(optionData);
@@ -100,7 +123,9 @@ export const SelectTags: React.FC<SelectTagsType> = ({ id, defaultValue }) => {
   const fetchData = useCallback(async () => {
     try {
       if (values) {
-        await SyncTags(values, id);
+        if (id !== undefined && values) {
+          await SyncTags(values, id);
+        }
       }
     } catch (error) {
       toast.error('エラーです。');

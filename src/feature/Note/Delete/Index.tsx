@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useCallback } from "react";
 
 type PropsType = {
-  id: string;
+  id: string | undefined;
 }
 
 export const NoteDeleteForm: React.FC<PropsType> = ({ id }) => {
@@ -15,6 +15,7 @@ export const NoteDeleteForm: React.FC<PropsType> = ({ id }) => {
     navigation("/");
     try {
       navigation("/");
+      if (id === undefined) return; 
       await DeleteNote(id);
       toast.success('削除できたよ。');
     } catch (error) {
