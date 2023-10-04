@@ -4,19 +4,18 @@ import { SyncTitle } from '../api/Patch/SyncTitle';
 import { toast } from 'react-toastify';
 import React, { useState, useEffect, useCallback } from 'react';
 
-interface InputTitleType {
-  id: string,
-  defaultValue: string,
+interface Input {
+  id: string | undefined,
+  defaultValue: string | undefined,
 }
 
-interface InputDescriptionType {
-  id: string,
-  defaultValue: string,
-}
-
-export const InputTitle: React.FC<InputTitleType> = ({ id, defaultValue }) => {
-  const [inputValue, setInputValue] = useState<string>(defaultValue || '');
-
+export const InputTitle: React.FC<Input> = ({ id, defaultValue }) => {
+  const [inputValue, setInputValue] = useState<string | undefined>(defaultValue);
+  useEffect(() => {
+    if (defaultValue) {
+      setInputValue(defaultValue);
+    }
+  }, [defaultValue]);
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setInputValue(event.target.value);
@@ -25,6 +24,8 @@ export const InputTitle: React.FC<InputTitleType> = ({ id, defaultValue }) => {
   );
   const fetchData = useCallback(async () => {
     try {
+      if (id  === undefined) return;
+      if (!inputValue) return;
       await SyncTitle(inputValue, id);
     } catch (error) {
       toast.error('エラーです。');
@@ -45,16 +46,23 @@ export const InputTitle: React.FC<InputTitleType> = ({ id, defaultValue }) => {
   );
 }
 
-export const InputDescription: React.FC<InputDescriptionType> = ({ id, defaultValue }) => {
-  const [inputValue, setInputValue] = useState<string>(defaultValue || '');
+export const InputDescription: React.FC<Input> = ({ id, defaultValue }) => {
+  const [inputValue, setInputValue] = useState<string | undefined>(defaultValue);
+  useEffect(() => {
+    if (defaultValue) {
+      setInputValue(defaultValue);
+    }
+  }, [defaultValue]);
   const handleInputChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
+    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
       setInputValue(event.target.value);
     },
     []
   );
   const fetchData = useCallback(async () => {
     try {
+      if (id  === undefined) return;
+      if (!inputValue) return;
       await SyncDescription(inputValue, id);
     } catch (error) {
       console.error(error);
@@ -66,7 +74,7 @@ export const InputDescription: React.FC<InputDescriptionType> = ({ id, defaultVa
 
   return (
       <StyledInputDescription
-        type="text"
+        // type="textare"
         value={inputValue}
         onChange={handleInputChange}
       />

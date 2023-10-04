@@ -88,8 +88,6 @@ export const SelectStatus: React.FC<SelectPropsType> = ({ id, defaultValue }) =>
     const fetchData = async () => {
       try {
         if (id !== undefined && selectedOption !== undefined) {
-          console.log('sele', selectedOption);
-          
           await SyncStatus(selectedOption, id);
         }
       } catch (error) {
