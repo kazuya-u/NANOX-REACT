@@ -1,141 +1,93 @@
 import { StyledInputDescription, StyledInputText } from '../../../feature/UserInterface/styles/components';
 import { SyncDescription } from '../api/Patch/SyncDescription';
 import { SyncTitle } from '../api/Patch/SyncTitle';
-import { toast } from 'react-toastify';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { SyncDeadline } from '../api/Patch/SyncDeadline';
 
-interface Input {
+interface ContainerProps {
   id: string | undefined,
-  defaultValue: string | undefined,
-}
-interface InputValue {
-  id: string,
-  defaultValue: string,
+  defaultValue: string;
 }
 
-export const InputTitle: React.FC<Input> = ({ id, defaultValue }) => {
-  if (defaultValue === undefined || id === undefined) {
-    return (
-      <StyledInputText
-        type="text"
-        value="Loading..."
-        readOnly
-      />
-    )
-  }
-  else {
-    return (
-      <InputTitleValue id={id} defaultValue={defaultValue} />
-    )
-  }
-}
 
-const InputTitleValue: React.FC<InputValue> = ({ id, defaultValue }) => {
-  const [inputValue, setInputValue] = useState<string>(defaultValue);
-  const handleInputChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setInputValue(event.target.value);
-    },
-    []
-  );
-  const fetchData = useCallback(async () => {
+export const ContainerInputTitle: React.FC<ContainerProps> = ({ id, defaultValue }) => {
+  const [inputValue, setInputValue] = useState(defaultValue);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const fetchData = async () => {
     try {
-      if (id === undefined) return;
-      if (inputValue.length === 0) return;
-      await SyncTitle(inputValue, id);
+      if (id !== undefined && inputValue.length !== 0) {
+        await SyncTitle(inputValue, id);
+      }
     } catch (error) {
-      toast.error('エラーです。');
+      console.error('通信エラー:', error);
     }
-  }, [inputValue, id]);
-  useEffect(() => {
+  };
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    if (e.type === 'paste') {
+      fetchData();
+    }
+  };
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      fetchData();
+    }
+  };
+  const handleBlur = () => {
     fetchData();
-  }, [fetchData]);
+  };
   return (
-    <div>
-      <StyledInputText
-        type="text"
-        value={inputValue}
-        onChange={handleInputChange}
-      />
-    </div>
-  );
-}
-
-export const InputDescription: React.FC<Input> = ({ id, defaultValue }) => {
-  if (defaultValue === undefined || id === undefined) {
-    return (
-      <InputDescriptionLoading />
-    )
-  }
-  else {
-    return (
-      <InputDescriptionValue id={id} defaultValue={defaultValue} />
-    )
-  }
-}
-
-const InputDescriptionLoading: React.FC = () => {
-  return (
-    <StyledInputDescription
-      defaultValue='読み込み中...'
+    <StyledInputText
+      type="text"
+      value={inputValue}
+      onChange={(e) => setInputValue(e.target.value)}
+      onPaste={handlePaste}
+      onKeyDown={handleKeyDown}
+      onBlur={handleBlur}
+      ref={inputRef}
     />
   )
 }
 
-const InputDescriptionValue: React.FC<InputValue> = ({ id, defaultValue }) => {
-  const [inputValue, setInputValue] = useState<string>(defaultValue);
-  const handleInputChange = useCallback(
-    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setInputValue(event.target.value);
-    },
-    []
-  );
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (inputValue.length !== 0) {
-          await SyncDescription(inputValue, id);
-        }
-      } catch (error) {
-        toast.error('通信エラーが発生しました。');
-        console.error('通信エラー:', error);
+export const ContainerInputDescription: React.FC<ContainerProps> = ({ id, defaultValue }) => {
+  const [inputValue, setInputValue] = useState(defaultValue);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const fetchData = async () => {
+    try {
+      if (id !== undefined) {
+        console.log('通信');
+        await SyncDescription(inputValue, id);
       }
-    };
+    } catch (error) {
+      console.error('通信エラー:', error);
+    }
+  };
+  const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    if (e.type === 'paste') {
+      fetchData();
+    }
+  };
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter') {
+      fetchData();
+    }
+  };
+  const handleBlur = () => {
     fetchData();
-  }, [id, inputValue]);
+  };
   return (
     <StyledInputDescription
       value={inputValue}
-      onChange={handleInputChange}
+      onChange={(e) => setInputValue(e.target.value)}
+      onPaste={handlePaste}
+      onKeyDown={handleKeyDown}
+      onBlur={handleBlur}
+      ref={inputRef}
     />
-  );
-}
-
-export const InputDeadLine: React.FC<Input> = ({ id, defaultValue }) => {
-  if (defaultValue === undefined || id === undefined) {
-    return (
-      <InputDeadLineLoading />
-    )
-  }
-  else {
-    return (
-      <InputDeadLineValue id={id} defaultValue={defaultValue} />
-    )
-  }
-}
-const InputDeadLineLoading: React.FC = () => {
-  return (
-    <StyledInputDateTimeWrapper>
-      <StyledInputDateTime
-        type="datetime-local"
-      />
-    </StyledInputDateTimeWrapper>
   )
 }
 
-const InputDeadLineValue: React.FC<InputValue> = ({ id, defaultValue }) => {
+export const ContainerInputDeadLine: React.FC<ContainerProps> = ({ id, defaultValue }) => {
   useEffect(() => {
     if (defaultValue) {
       setInputValue(defaultValue);

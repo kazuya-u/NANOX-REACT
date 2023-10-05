@@ -1,5 +1,4 @@
-import { InputDeadLine, InputDescription } from "../components/input";
-import { InputTitle } from "../components/input";
+import { ContainerInputDeadLine, ContainerInputDescription, ContainerInputTitle } from "../components/input";
 import { SelectProject, SelectStatus, SelectTags } from "../components/select";
 import { StyledModalForm } from "../../../feature/UserInterface/styles/components";
 import { useGetTaskDefaultValue } from "../../../utils/api/useGetDefaultValue";
@@ -15,11 +14,10 @@ type PropsType = {
 
 const TaskPatchForm: React.FC<PropsType> = ({ id }) => {
   // About default value.
-  const { TitleDefaultValue, DescriptionDefaultValue, DeadlineDefaultValue, ProjectDefaultValue, StatusDefaultValue, TagsDefaultValue } = useGetTaskDefaultValue(id, dataParams);
-  
+  const { TitleDefaultValue, DescriptionDefaultValue, DeadlineDefaultValue, ProjectDefaultValue, StatusDefaultValue, TagsDefaultValue, isLoading } = useGetTaskDefaultValue(id, dataParams);
   return (
     <StyledModalForm>
-      <InputTitle id={id} defaultValue={TitleDefaultValue} />
+      {isLoading ? 'Loading...' : <ContainerInputTitle id={id} defaultValue={TitleDefaultValue} />}
       <StyledSelectWrapper>
         <StyledSelectItemWrapper>
           <StyledLabelWrapper>
@@ -54,13 +52,13 @@ const TaskPatchForm: React.FC<PropsType> = ({ id }) => {
             <StyledLabelText>DeadLine</StyledLabelText>
           </StyledLabelWrapper>
           <StyledSelectComponentWrapper>
-            <InputDeadLine id={id} defaultValue={DeadlineDefaultValue} />
+            {isLoading ? 'Loading...' : <ContainerInputDeadLine id={id} defaultValue={DeadlineDefaultValue} />}
           </StyledSelectComponentWrapper>
         </StyledSelectItemWrapper>
       </StyledSelectWrapper>
       <StyledHr />
       <StyledTextarea>
-        <InputDescription id={id} defaultValue={DescriptionDefaultValue} />
+        {isLoading ? 'Loading...' : <ContainerInputDescription id={id} defaultValue={DescriptionDefaultValue} />}
       </StyledTextarea>
     </StyledModalForm>
   );
