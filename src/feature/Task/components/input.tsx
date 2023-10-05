@@ -10,7 +10,6 @@ interface ContainerProps {
   defaultValue: string;
 }
 
-
 export const ContainerInputTitle: React.FC<ContainerProps> = ({ id, defaultValue }) => {
   const [inputValue, setInputValue] = useState(defaultValue);
   const inputRef = useRef<HTMLInputElement>(null);

@@ -1,82 +1,86 @@
 import { StyledInputDescription, StyledInputText } from '../../../feature/UserInterface/styles/components';
 import { SyncDescription } from '../api/Patch/SyncDescription';
 import { SyncTitle } from '../api/Patch/SyncTitle';
-import { toast } from 'react-toastify';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useRef } from 'react';
 
 interface Input {
   id: string | undefined,
-  defaultValue: string | undefined,
+  defaultValue: string;
 }
 
 export const InputTitle: React.FC<Input> = ({ id, defaultValue }) => {
-  const [inputValue, setInputValue] = useState<string | undefined>(defaultValue);
-  useEffect(() => {
-    if (defaultValue) {
-      setInputValue(defaultValue);
-    }
-  }, [defaultValue]);
-  const handleInputChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setInputValue(event.target.value);
-    },
-    []
-  );
-  const fetchData = useCallback(async () => {
+  const [inputValue, setInputValue] = useState(defaultValue);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const fetchData = async () => {
     try {
-      if (id  === undefined) return;
-      if (!inputValue) return;
-      await SyncTitle(inputValue, id);
+      if (id !== undefined && inputValue.length !== 0) {
+        await SyncTitle(inputValue, id);
+      }
     } catch (error) {
-      toast.error('エラーです。');
+      console.error('通信エラー:', error);
     }
-  }, [inputValue, id]);
-  useEffect(() => {
+  };
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    if (e.type === 'paste') {
+      fetchData();
+    }
+  };
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      fetchData();
+    }
+  };
+  const handleBlur = () => {
     fetchData();
-  }, [fetchData]);
-
+  };
   return (
     <div>
       <StyledInputText
         type="text"
         value={inputValue}
-        onChange={handleInputChange}
+        onChange={(e) => setInputValue(e.target.value)}
+        onPaste={handlePaste}
+        onKeyDown={handleKeyDown}
+        onBlur={handleBlur}
+        ref={inputRef}
       />
     </div>
   );
 }
 
 export const InputDescription: React.FC<Input> = ({ id, defaultValue }) => {
-  const [inputValue, setInputValue] = useState<string | undefined>(defaultValue);
-  useEffect(() => {
-    if (defaultValue) {
-      setInputValue(defaultValue);
-    }
-  }, [defaultValue]);
-  const handleInputChange = useCallback(
-    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setInputValue(event.target.value);
-    },
-    []
-  );
-  const fetchData = useCallback(async () => {
+  const [inputValue, setInputValue] = useState(defaultValue);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const fetchData = async () => {
     try {
-      if (id  === undefined) return;
-      if (!inputValue) return;
-      await SyncDescription(inputValue, id);
+      if (id !== undefined) {
+        await SyncDescription(inputValue, id);
+      }
     } catch (error) {
-      console.error(error);
+      console.error('通信エラー:', error);
     }
-  }, [inputValue, id]);
-  useEffect(() => {
+  };
+  const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    if (e.type === 'paste') {
+      fetchData();
+    }
+  };
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter') {
+      fetchData();
+    }
+  };
+  const handleBlur = () => {
     fetchData();
-  }, [fetchData]);
-
+  };
   return (
       <StyledInputDescription
-        // type="textare"
         value={inputValue}
-        onChange={handleInputChange}
+        onChange={(e) => setInputValue(e.target.value)}
+        onPaste={handlePaste}
+        onKeyDown={handleKeyDown}
+        onBlur={handleBlur}
+        ref={inputRef}
       />
   );
 }
