@@ -46,11 +46,11 @@ const Detail: React.FC = () => {
             {isLoading ? 'Loading...' : <MultipleIncludeField value={NoteData?.included} bundle="project" />}
           </TaskProject>
           {isLoading ? 'Loading...' : <MultipleIncludeField value={NoteData?.included} bundle="tag" />}
-          <TaskDetailItemLabel>最終保存:</TaskDetailItemLabel>
-          {isLoading ? 'Loading...' : <TimeDiffField value={NoteData?.data.attributes.changed} />}
         </div>
         <TaskName>{isLoading ? 'Loading...' : NoteData?.data.attributes.title}</TaskName>
         <TaskDetailWrapper>
+        <TaskDetailItemLabel>最終保存:</TaskDetailItemLabel>
+          {isLoading ? 'Loading...' : <TimeDiffField value={NoteData?.data.attributes.changed} />}
           <IconButton aria-label="edit" size="small" onClick={() => openModal(<NotePatchForm id={pageParams.NoteId} />)}>
             <GoPencil />
           </IconButton>
