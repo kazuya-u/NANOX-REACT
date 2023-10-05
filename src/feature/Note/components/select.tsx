@@ -14,22 +14,6 @@ interface OptionType {
   value: string;
 }
 
-interface SelectProjectType {
-  id: string;
-  defaultValue: {
-    label: string,
-    value: string,
-  }
-}
-
-interface SelectTagsType {
-  id: string;
-  defaultValue: {
-    label: string,
-    value: string,
-  }[];
-}
-
 interface SelectPropsType {
   id: string | undefined;
   defaultValue: {
@@ -106,7 +90,6 @@ export const SelectTags: React.FC<MultiSelectPropsType> = ({ id, defaultValue })
   const [values, setValues] = useState<MultiValue<Option> | null>(defaultValue);
   const handleCreate = async (inputValue: string) => {
     const createdOptionId = await PostTag(inputValue);
-    
     setIsLoading(true);
     setTimeout(() => {
       const newOption = createOption(inputValue, createdOptionId);

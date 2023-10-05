@@ -1,10 +1,10 @@
+import { GoProject, GoTag } from "react-icons/go";
 import { InputDescription } from "../components/input";
 import { InputTitle } from "../components/input";
 import { SelectProject, SelectTags } from "../components/select";
 import { StyledModalForm } from "../../../feature/UserInterface/styles/components";
 import { useGetNoteDefaultValue } from "../../../utils/api/useGetDefaultValue";
 import styled from "styled-components";
-import { GoProject, GoTag } from "react-icons/go";
 
 const dataParams =
   "?include=field_ref_project,field_ref_tag&fields[node--note]=name,title,created,field_description&fields[uc--project]=title&fields[uc--tag]=title";
@@ -21,7 +21,7 @@ const NotePatchForm: React.FC<PropsType> = ({ id }) => {
   if (!isLoading) {
     return (
       <StyledModalForm>
-        <InputTitle id={id} defaultValue={TitleDefaultValue} />
+        {isLoading ? 'Loading...' : <InputTitle id={id} defaultValue={TitleDefaultValue} />}
         <StyledSelectWrapper>
           <StyledSelectItemWrapper>
             <StyledLabelWrapper>
@@ -44,7 +44,7 @@ const NotePatchForm: React.FC<PropsType> = ({ id }) => {
         </StyledSelectWrapper>
         <StyledHr />
         <StyledTextarea>
-          <InputDescription id={id} defaultValue={DescriptionDefaultValue} />
+          {isLoading ? 'Loading...' : <InputDescription id={id} defaultValue={DescriptionDefaultValue} />}
         </StyledTextarea>
       </StyledModalForm>
     );
