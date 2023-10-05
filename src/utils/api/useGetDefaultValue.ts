@@ -61,14 +61,25 @@ export function useGetTaskDefaultValue(id: string | undefined, dataParams: strin
 }
 
 export function useGetNoteDefaultValue(id: string | undefined, dataParams: string) {
-  const { data: TaskData } = useFetchDataNoMutate<NoteDataType>(`${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/note/${id}${dataParams}`);
-  const ProjectDefaultValue: SelectValueType[] = (TaskData?.included || [])
+  const { data: NoteData } = useFetchDataNoMutate<NoteDataType>(`${import.meta.env.VITE_LANDO_SITE_URL}/jsonapi/node/note/${id}${dataParams}`);
+  if (!NoteData) {
+    return {
+      TitleDefaultValue: "",
+      DescriptionDefaultValue: "",
+      DeadlineDefaultValue: "",
+      ProjectDefaultValue: [],
+      StatusDefaultValue: [],
+      TagsDefaultValue: [],
+      isLoading: true
+    };
+  }
+  const ProjectDefaultValue: SelectValueType[] = (NoteData?.included || [])
     .filter((item) => item.type === "uc--project")
     .map((item) => ({
       value: item.id,
       label: item.attributes?.title || "",
     }));
-  const extractTagData = TaskData?.included?.filter(
+  const extractTagData = NoteData?.included?.filter(
     (item) => item.type === "uc--tag"
   ) || [];
   const TagsDefaultValue = extractTagData.map((tagData) => ({
@@ -76,8 +87,8 @@ export function useGetNoteDefaultValue(id: string | undefined, dataParams: strin
     label: tagData.attributes.title,
   }));
   return {
-    TitleDefaultValue: TaskData?.data.attributes?.title || '',
-    DescriptionDefaultValue: TaskData?.data.attributes?.field_description || "",
+    TitleDefaultValue: NoteData?.data.attributes?.title || '',
+    DescriptionDefaultValue: NoteData?.data.attributes?.field_description || "",
     ProjectDefaultValue,
     TagsDefaultValue,
     isLoading: false,

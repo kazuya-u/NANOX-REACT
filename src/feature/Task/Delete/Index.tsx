@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useCallback } from "react";
 
 type PropsType = {
-  id: string;
+  id: string | undefined;
 }
 
 export const TaskDeleteForm: React.FC<PropsType> = ({ id }) => {
@@ -15,8 +15,10 @@ export const TaskDeleteForm: React.FC<PropsType> = ({ id }) => {
     navigation("/");
     try {
       navigation("/");
-      await DeleteTask(id);
-      toast.success('削除できたよ。');
+      if (id !== undefined) {
+        await DeleteTask(id);
+        toast.success('削除できたよ。');
+      }
     } catch (error) {
       console.error(error);
       toast.error('なぜか削除できませんでした...')
