@@ -1,19 +1,39 @@
+import { BASE_API_URL } from "../../../utils/EndPoint";
+import { getUserSettingsIdFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
+import { useFetchDataNoMutate } from "../../../utils/fetchData";
 import styled from "styled-components";
+import { ProfileInputField } from "../components/input";
+
+interface UsData {
+  data: {
+    "type": "user--user",
+    "id": string,
+    "attributes": {
+      "display_name": string,
+      "drupal_internal__uid": number,
+      "name": string,
+      "mail": string,
+      "timezone": string,
+      "field_username": string,
+      "field_pokemon_number": string,
+      "field_chatwork_api_room_id": [],
+      "field_chatwork_api_token": string,
+      "field_toggl_api_token": string,
+      "field_slack_app_token": string,
+    }
+  }
+}
 
 const MyApi: React.FC = () => {
+  const usId = getUserSettingsIdFromLocalStorage();
+  const { data: SettinsData } = useFetchDataNoMutate<UsData>(`${BASE_API_URL}/jsonapi/us/us/${usId}`);
+  
   return (
     <>
       <StyledHeadline>API連携</StyledHeadline>
       <StyledFormItemContainer>
         <StyledFormItemWrapper>
-          <StyledFormItem>
-            <StyledLabel>
-              Slack
-            </StyledLabel>
-            <StyledInputTextWrapper>
-              <StyledInputText type="text" />
-            </StyledInputTextWrapper>
-          </StyledFormItem>
+          {SettinsData === undefined ? 'Loading...' : <ProfileInputField id={usId} defaultValue={SettinsData?.data.attributes.field_slack_app_token} label="Slack API Token" fieldName="field_slack_app_token" inputType="password" />}
         </StyledFormItemWrapper>
       </StyledFormItemContainer>
       <StyledSpace />

@@ -13,7 +13,14 @@ type Props = {
 
 export const UserIcon: React.FC<Props> = ({ iconNumber }) => {
   const POKE_URL = iconNumber ? `https://pokeapi.co/api/v2/pokemon/${iconNumber}/` : '';
-  const { data: IconData } = useFetchData<PokeApiType>(POKE_URL);
+  const { data: IconData, error } = useFetchData<PokeApiType>(POKE_URL);
+  if (error) {
+    return (
+      <>
+        None...
+      </>
+    )
+  }
   return (
     <StyledIcon>
       <StyledContainer>
