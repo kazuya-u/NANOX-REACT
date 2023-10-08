@@ -2,7 +2,7 @@ import { getUserSettingsIdFromLocalStorage } from "../../../feature/AuthUser/uti
 import { BASE_API_URL } from "../../../utils/EndPoint";
 import { useFetchDataNoMutate } from "../../../utils/fetchData";
 import styled from "styled-components";
-import { InputText } from "../components/input";
+import { ProfileInputField } from "../components/input";
 
 interface UsData {
   data: {
@@ -19,6 +19,7 @@ interface UsData {
       "field_chatwork_api_room_id": [],
       "field_chatwork_api_token": string,
       "field_toggl_api_token": string,
+      "field_slack_app_token": string,
     }
   }
 }
@@ -31,13 +32,14 @@ const MyProfile: React.FC = () => {
       <StyledHeadline>プロフィール</StyledHeadline>
       <StyledFormItemContainer>
         <StyledFormItemWrapper>
-          <InputText id={usId} defaultValue={SettinsData?.data.attributes.field_username} label="ユーザー名" fieldName="field_username" />
+          {SettinsData === undefined ? 'Loading...' : <ProfileInputField id={usId} defaultValue={SettinsData?.data.attributes.field_username} label="ユーザー名" fieldName="field_username" inputType="text" />}
+         
         </StyledFormItemWrapper>
       </StyledFormItemContainer>
       <StyledSpace />
       <StyledFormItemContainer>
         <StyledFormItemWrapper>
-          <InputText id={usId} defaultValue={SettinsData?.data.attributes.field_pokemon_number} label="アイコン" fieldName="field_pokemon_number" />
+          {SettinsData === undefined ? 'Loading...' : <ProfileInputField id={usId} defaultValue={SettinsData?.data.attributes.field_pokemon_number} label="アイコン" fieldName="field_pokemon_number" inputType="text" />}
         </StyledFormItemWrapper>
       </StyledFormItemContainer>
     </>

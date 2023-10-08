@@ -27,6 +27,6 @@ export function useFetchDataNoMutate<T>(baseUrl: baseUrlType) {
   return {
     data,
     error,
-    isLoading: !error && !data,
+    isLoading: !data,
   }
 }
