@@ -1,51 +1,59 @@
-import { useCallback, useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import { SyncValue } from "../api/utils";
 
 interface Input {
   id: string | null,
-  defaultValue: string | undefined,
+  defaultValue: string,
   label: string,
   fieldName: string,
+  inputType: string,
 }
 
-export const InputText: React.FC<Input> = ({ id, defaultValue, label, fieldName }) => {
-  const [inputValue, setInputValue] = useState<string>(defaultValue || '');
-  useEffect(() => {
-    if (defaultValue) {
-      setInputValue(defaultValue);
-    }
-  }, [defaultValue]);
-  const handleInputChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setInputValue(event.target.value);
-    },
-    []
-  );
-  const fetchData = useCallback(async () => {
+export const ProfileInputField: React.FC<Input> = ({ id, defaultValue, label, fieldName, inputType }) => {
+  const [inputValue, setInputValue] = useState(defaultValue);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const fetchData = async () => {
     try {
-      if (!id) return;
-      if (!inputValue) return;
-      await SyncValue(id, inputValue, fieldName);
+      if (id !== null) {
+        await SyncValue(id, inputValue, fieldName);
+      }
     } catch (error) {
-      // No script.
+      console.error('通信エラー:', error);
     }
-  }, [inputValue, id, fieldName]);
-  useEffect(() => {
+  };
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    if (e.type === 'paste') {
+      fetchData();
+    }
+  };
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      fetchData();
+    }
+  };
+  const handleBlur = () => {
     fetchData();
-  }, [fetchData]);
+  };
   return (
-    <StyledFormItem>
-      <StyledLabel>
-        {label}
-      </StyledLabel>
-      <StyledInputTextWrapper>
-        <StyledInputText type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-        />
-      </StyledInputTextWrapper>
-    </StyledFormItem>
+    <>
+      <StyledFormItem>
+        <StyledLabel>
+          {label}
+        </StyledLabel>
+        <StyledInputTextWrapper>
+          <StyledInputText
+            type={inputType}
+            value={inputValue ?? ''}
+            onChange={(e) => setInputValue(e.target.value)}
+            onPaste={handlePaste}
+            onKeyDown={handleKeyDown}
+            onBlur={handleBlur}
+            ref={inputRef}
+          />
+        </StyledInputTextWrapper>
+      </StyledFormItem>
+    </>
   );
 }
 
