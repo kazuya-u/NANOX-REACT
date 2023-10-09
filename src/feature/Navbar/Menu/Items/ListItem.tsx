@@ -22,7 +22,7 @@ export const ListItem: React.FC<MenuItemProps> = ({ icon: Icon, text, link }) =>
               <StyledIconContainer>
                 <StyledIconInner>
                   <StyledIconInnerWrapper>
-                    <Icon size={18} />
+                    <Icon size={16} />
                   </StyledIconInnerWrapper>
                 </StyledIconInner>
               </StyledIconContainer>
@@ -135,9 +135,9 @@ display: flex;
 `;
 
 const StyledIconInnerWrapper = styled.div`
-height: 18px;
-  width: 18px;
-  font-size: 18px;
+height: 16px;
+  width: 16px;
+  font-size: 16px;
   line-height: 1;
   margin-left: 0px;
   color: black;
