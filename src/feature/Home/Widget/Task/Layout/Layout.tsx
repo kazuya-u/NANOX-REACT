@@ -12,10 +12,16 @@ interface Task {
   TagName: string;
 }
 
+interface IdArray {
+  IdArray: Array<string>;
+}
 
-const Layout: React.FC = () => {
+
+const Layout: React.FC<IdArray> = ({ IdArray }) => {
+  console.log(IdArray);
+  
   const groupingTaskArray: { [key: string]: Task[] } = {};
-  const { data: TaskData } = useFetchData<Task[]>(`${import.meta.env.VITE_LANDO_SITE_URL}/front_task?status=15,16`);
+  const { data: TaskData } = useFetchData<Task[]>(`${import.meta.env.VITE_LANDO_SITE_URL}/front_task?status=${IdArray.join(', ')}`);
   if (TaskData === undefined) {
     return (
       <>

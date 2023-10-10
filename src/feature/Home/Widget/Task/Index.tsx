@@ -1,8 +1,44 @@
 import styled from "styled-components";
 import TaskHeader from "../../Header";
 import Layout from "./Layout/Layout";
+import { useFetchData } from "../../../../utils/fetchData";
+import { BASE_API_URL } from "../../../../utils/EndPoint";
+import { getUserSettingsIdFromLocalStorage } from "../../../../feature/AuthUser/utils/LocalStorageUtils";
+
+interface UsData {
+  data: {
+    "type": "us--us",
+    "id": string,
+    "attributes": {
+      "display_name": string,
+      "drupal_internal__uid": number,
+      "name": string,
+      "mail": string,
+      "timezone": string,
+      "field_username": string,
+      "field_pokemon_number": string,
+      "field_chatwork_api_room_id": [],
+      "field_chatwork_api_token": string,
+      "field_toggl_api_token": string,
+    }
+  },
+  included: RelatedType[]
+}
+
+interface RelatedType {
+  id: string,
+  "attributes": {
+    drupal_internal__id: string,
+  },
+}
 
 const Index: React.FC = () => {
+  const usId = getUserSettingsIdFromLocalStorage();
+  const { data: SettingsData } = useFetchData<UsData>(`${BASE_API_URL}/jsonapi/us/us/${usId}?include=field_ref_status_filter&fields[uc--settings]=drupal_internal__id`);
+  const FilterId: Array<string> = [];
+  SettingsData?.included.forEach(i => {
+    FilterId.push(i.attributes.drupal_internal__id);
+  });  
   return (
     <>
       <StyledTask>
@@ -14,7 +50,7 @@ const Index: React.FC = () => {
                 <StyledTaskInnerWrapper_3>
                   <StyledTaskInnerWrapper_4>
                     <StyledTaskInnerWrapper_5>
-                      <Layout />
+                      <Layout IdArray={FilterId} />
                     </StyledTaskInnerWrapper_5>
                   </StyledTaskInnerWrapper_4>
                 </StyledTaskInnerWrapper_3>
