@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import styled from "styled-components";
-import { SyncValue } from "../api/utils";
+import { SyncValue, SyncValueChecbox } from "../api/utils";
 
 interface Input {
   id: string | null,
@@ -8,6 +8,13 @@ interface Input {
   label: string,
   fieldName: string,
   inputType: string,
+}
+interface InputCheck {
+  id: string | null,
+  initial: boolean,
+  defaultValue: string[],
+  fieldName: string,
+  statusId: string,
 }
 
 export const ProfileInputField: React.FC<Input> = ({ id, defaultValue, label, fieldName, inputType }) => {
@@ -57,6 +64,37 @@ export const ProfileInputField: React.FC<Input> = ({ id, defaultValue, label, fi
   );
 }
 
+export const ProfileInputCheckboxField: React.FC<InputCheck> = ({ id, initial, fieldName, statusId, defaultValue }) => {
+  const fetchData = async () => {
+    try {
+      if (id !== null) {
+        console.log(defaultValue);
+        await SyncValueChecbox(id, defaultValue, fieldName);
+      }
+    } catch (error) {
+      console.error('通信エラー:', error);
+    }
+  };
+  const handleChange = (e) => {
+    if (e.target.checked) {
+      defaultValue.push(statusId);
+    }
+    else {
+      defaultValue = defaultValue.filter(item => item !== statusId);
+    }
+    fetchData();
+  }
+  return (
+    <>
+      <StyledInputCheckbox
+        type="checkbox"
+        defaultChecked={initial}
+        onChange={handleChange}
+      />
+    </>
+  );
+}
+
 const StyledFormItem = styled.div`
   margin-left: 20px;
   width: 450px;
@@ -95,4 +133,13 @@ const StyledInputText = styled.input`
   :focus-visible {
     outline: none;
   }
+`;
+
+const StyledInputCheckbox = styled.input`
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 0px;
+  left: 0px;
+  cursor: pointer;
 `;

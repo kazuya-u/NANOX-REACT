@@ -32,7 +32,6 @@ const MyNotifications: React.FC = () => {
               DrupalサーバーからChatworkへ通知を送信します。
             </StyledHelpText>
             </StyledLabel>
-            
             <StyledInputCheckboxContainer>
               <StyledInputTextWrapper>
                 <StyledInputCheckbox type="checkbox" />

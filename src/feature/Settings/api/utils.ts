@@ -24,3 +24,35 @@ export async function SyncValue(id: string, inputValue: string, fieldName: strin
     body: JSON.stringify(bodyData)
   }).then(res => res.json()); 
 }
+
+export async function SyncValueChecbox(id: string, inputValue: string[], fieldName: string) {
+  const relationshipData = inputValue.map((value) => ({
+    type: "us--us",
+    id: value,
+  }));
+  const bodyData = {
+    data: {
+      id: id,
+      type: "us--us",
+      relationships: {
+        [fieldName]: {
+          "data": relationshipData
+        }
+      },
+    },
+  };
+  console.log(bodyData);
+  
+  const accessToken = getAccessTokenFromLocalStorage();
+  const headers = {
+    "Content-Type": "application/vnd.api+json",
+    Authorization: `Bearer ${accessToken}`,
+  }
+  const endpoint = `${BASE_API_URL
+  }/jsonapi/us/us/${id}`;
+  return await fetch(endpoint, {
+    method: 'PATCH',
+    headers: headers,
+    body: JSON.stringify(bodyData)
+  }).then(res => res.json()); 
+}

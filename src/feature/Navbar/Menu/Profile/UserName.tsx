@@ -19,6 +19,7 @@ export const UserName: React.FC<Props> = ({ name }) => {
 }
 
 const StyledUserName = styled.div`
+  margin-left: -12px;
   flex: 1 1 auto;
   white-space: nowrap;
   min-width: 0px;
