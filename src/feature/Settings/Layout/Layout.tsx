@@ -1,4 +1,5 @@
 import MyApi from "../MyAPI/MyApi";
+import MyDisplay from "../MyDisplay/MyDisplay";
 import MyNotifications from "../MyNotifications/MyNotifications";
 import MyProfile from "../MyProfile/MyProfile";
 import styled from "styled-components";
@@ -14,6 +15,9 @@ const Layout: React.FC = () => {
       <StyledSpace />
       <StyledSpace />
       <MyNotifications />
+      <StyledSpace />
+      <StyledSpace />
+      <MyDisplay />
     </StyledContainer>
     <StyledContainer>
     </StyledContainer>

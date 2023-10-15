@@ -39,8 +39,8 @@ const StyledIcon = styled.div`
   flex-grow: 0;
   border-radius: 3px;
   color: rgba(55, 53, 47, 0.65);
-  width: 27px;
-  height: 27px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,8 +51,8 @@ const StyledContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 27px;
-  width: 27px;
+  height: 44px;
+  width: 44px;
   border-radius: 0.25em;
   flex-shrink: 0;
   margin-top: 1px;
@@ -64,14 +64,14 @@ const StyledWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 27px;
-  width: 27px;
+  height: 44px;
+  width: 44px;
 `;
 
 const StyledInner = styled.span`
-  height: 26.8px;
+  /* height: 26.8px;
   width: 26.8px;
-  font-size: 26.8px;
+  font-size: 26.8px; */
   line-height: 1;
   margin-left: 0px;
   color: black;

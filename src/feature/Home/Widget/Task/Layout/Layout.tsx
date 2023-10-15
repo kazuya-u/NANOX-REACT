@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Nav from "../data/Nav";
-import { useFetchData } from "../../../../../utils/fetchData";
+import { useFetchDataNoMutate } from "../../../../../utils/fetchData";
 import Card from "../data/Card";
 
 interface Task {
@@ -18,10 +18,8 @@ interface IdArray {
 
 
 const Layout: React.FC<IdArray> = ({ IdArray }) => {
-  console.log(IdArray);
-  
   const groupingTaskArray: { [key: string]: Task[] } = {};
-  const { data: TaskData } = useFetchData<Task[]>(`${import.meta.env.VITE_LANDO_SITE_URL}/front_task?status=${IdArray.join(', ')}`);
+  const { data: TaskData } = useFetchDataNoMutate<Task[]>(`${import.meta.env.VITE_LANDO_SITE_URL}/front_task?status=${IdArray.join(', ')}`);
   if (TaskData === undefined) {
     return (
       <>
