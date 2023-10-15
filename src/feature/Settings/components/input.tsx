@@ -68,7 +68,6 @@ export const ProfileInputCheckboxField: React.FC<InputCheck> = ({ id, initial, f
   const fetchData = async () => {
     try {
       if (id !== null) {
-        console.log(defaultValue);
         await SyncValueChecbox(id, defaultValue, fieldName);
       }
     } catch (error) {
@@ -79,7 +78,7 @@ export const ProfileInputCheckboxField: React.FC<InputCheck> = ({ id, initial, f
     if (e.target.checked) {
       defaultValue.push(statusId);
     }
-    else {
+    else if (!e.target.checked) {
       defaultValue = defaultValue.filter(item => item !== statusId);
     }
     fetchData();

@@ -69,9 +69,6 @@ const MyDisplay: React.FC = () => {
               <StyledFormItem key={item.id}>
                 <StyledLabel>
                   {item.attributes.title}
-                {/* <StyledHelpText>
-                  
-                </StyledHelpText> */}
                 </StyledLabel>
                 <StyledInputCheckboxContainer>
                   <StyledInputTextWrapper>
@@ -124,14 +121,6 @@ position: relative; flex-shrink: 0; flex-grow: 0; width: 16px; height: 16px; dis
 const StyledInputCheckboxContainer = styled.div`
 
 user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: 24px; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 3px + 3px);
-`;
-
-
-const StyledHelpText = styled.div`
-  display: block;
-  margin-bottom: 4px;
-  font-size: 12px;
-  color: rgba(55, 53, 47, 0.65);
 `;
 
 export default MyDisplay;

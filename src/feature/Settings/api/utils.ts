@@ -27,7 +27,7 @@ export async function SyncValue(id: string, inputValue: string, fieldName: strin
 
 export async function SyncValueChecbox(id: string, inputValue: string[], fieldName: string) {
   const relationshipData = inputValue.map((value) => ({
-    type: "us--us",
+    type: "uc--status",
     id: value,
   }));
   const bodyData = {
@@ -36,13 +36,11 @@ export async function SyncValueChecbox(id: string, inputValue: string[], fieldNa
       type: "us--us",
       relationships: {
         [fieldName]: {
-          "data": relationshipData
+          "data": relationshipData,
         }
       },
     },
   };
-  console.log(bodyData);
-  
   const accessToken = getAccessTokenFromLocalStorage();
   const headers = {
     "Content-Type": "application/vnd.api+json",
@@ -53,6 +51,6 @@ export async function SyncValueChecbox(id: string, inputValue: string[], fieldNa
   return await fetch(endpoint, {
     method: 'PATCH',
     headers: headers,
-    body: JSON.stringify(bodyData)
+    body: JSON.stringify(bodyData),
   }).then(res => res.json()); 
 }
