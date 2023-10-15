@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Indify from "../Widget/Indify/Index";
 import Task from "../Widget/Task/Index";
+import Sidebar from "../Widget/Sidebar/Index";
 import Gap from "../Gap";
 
 const Layout: React.FC = () => {
@@ -14,11 +15,11 @@ const Layout: React.FC = () => {
       <StyledDocContainer>
         <StyledDocWrapper>
           <StyledMemoWrapper>
-            <Task />
+            <Sidebar />
           </StyledMemoWrapper>
           <Gap />
           <StyledTaskWrapper>
-          <Task />
+            <Task />
           </StyledTaskWrapper>
         </StyledDocWrapper>
       </StyledDocContainer>
@@ -26,7 +27,7 @@ const Layout: React.FC = () => {
         <div>
           <div>
             <div>
-              
+
             </div>
           </div>
         </div>
