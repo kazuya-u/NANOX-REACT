@@ -32,26 +32,24 @@ export async function getToken(username: string, password: string): Promise<Toke
   }
 }
 
-export async function getUserUUID(username: string, password: string): Promise<string> {
-  const endpoint = `${import.meta.env.VITE_LANDO_SITE_URL}/user/login?_format=json`;
+export async function getIds(): Promise<{UserId: string, UsId: string}> {
+  const accessToken = getAccessTokenFromLocalStorage();
+  const endpoint = `${import.meta.env.VITE_LANDO_SITE_URL}/login-data`;
   const headers = {
     'Content-Type': 'application/vnd.api+json',
-    'Accept': 'application/vnd.api+json'
+    'Accept': 'application/vnd.api+json',
+    "Authorization": `Bearer ${accessToken}`,
   };
-  const data = {
-    name: username,
-    pass: password,
-  }
-  
   try {
     const response = await fetch(endpoint, {
-      method: "POST",
+      method: "GET",
       headers: headers,
-      body: JSON.stringify(data),
     });
     const responseData = await response.json();
-    const currentUserId = responseData.current_user.uuid;
-    return currentUserId;
+    return {
+      UserId: responseData[0].UserUUID,
+      UsId: responseData[0].UsUUID,
+    }
   } catch (error) {
     throw new Error("ネットワークエラー: " + error);
   }
