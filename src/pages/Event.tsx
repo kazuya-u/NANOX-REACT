@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { getUserSettingsIdFromLocalStorage } from '../feature/AuthUser/utils/LocalStorageUtils';
 import { useFetchDataNoMutate } from '../utils/fetchData';
 import { BASE_API_URL } from '../utils/EndPoint';
+import { Oval } from 'react-loader-spinner'
 
 interface UsData {
   data: {
@@ -36,15 +37,31 @@ interface KeyValueType {
 const Event: React.FC = () => {
   const usId = getUserSettingsIdFromLocalStorage();
   const { data: SettinsData } = useFetchDataNoMutate<UsData>(`${BASE_API_URL}/jsonapi/us/us/${usId}`);
-  
+  if (!SettinsData) {
+    return (
+      <>
+        <StyledLoading>
+          <Oval
+            height={80}
+            width={80}
+            color="#f2f2f2"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+            ariaLabel='oval-loading'
+            secondaryColor="#849b87"
+            strokeWidth={2}
+            strokeWidthSecondary={2}
+          />
+        </StyledLoading>
+      </>
+    )
+  }
   const api_key = SettinsData?.data.attributes.field_google_calender[0].key;
   const googleCalendarId = {
     googleCalendarApiKey: api_key,
     googleCalendarId: SettinsData?.data.attributes.field_google_calender[0].value,
   };
-  if (!SettinsData) {
-    return
-  }
   return (
     <StyleCalendar>
       <FullCalendar
@@ -57,11 +74,11 @@ const Event: React.FC = () => {
         editable
         timeZone='Asia/Tokyo'
         locale="ja"
-        eventClick={function(e) {
-          console.log(e);
-        }}
+        // eventClick={function (e) {
+        //   console.log(e);
+        // }}
         // eventBackgroundColor='#fff'
-        dayCellContent={function(e){
+        dayCellContent={function (e) {
           return e.date.getDate();
         }}
         buttonText={{ today: 'Today' }}
@@ -69,6 +86,10 @@ const Event: React.FC = () => {
     </StyleCalendar>
   );
 }
+
+const StyledLoading = styled.div`
+  position: fixed;
+`
 
 const StyleCalendar = styled.div`
 .fc.fc-media-screen.fc-direction-ltr.fc-theme-standard {
