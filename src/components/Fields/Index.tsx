@@ -1,4 +1,5 @@
-import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import  Markdown  from  'react-markdown' 
+import  reviewGfm  from  'remark-gfm'
 import remarkBreaks from "remark-breaks";
 
 interface DateFieldType {
@@ -88,11 +89,11 @@ export const HtmltoMarkdownField: React.FC<TextType> = ({ value }) => {
   if (value) {
     return (
       <>
-        <ReactMarkdown
-        remarkPlugins={[remarkBreaks]}
+        <Markdown
+        remarkPlugins={[remarkBreaks, reviewGfm]}
         >
           {value}
-        </ReactMarkdown>
+        </Markdown>
       </>
     );
   }
