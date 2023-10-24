@@ -1,32 +1,10 @@
 import styled from "styled-components"
-import { BASE_API_URL } from "../../../../utils/EndPoint";
-import { getUserSettingsIdFromLocalStorage } from "../../../../feature/AuthUser/utils/LocalStorageUtils";
-import { useFetchData } from "../../../../utils/fetchData";
 import { UserName } from "./UserName";
 import { UserIcon } from "./UserIcon";
-
-interface UsData {
-  data: {
-    "type": "us--us",
-    "id": string,
-    "attributes": {
-      "display_name": string,
-      "drupal_internal__uid": number,
-      "name": string,
-      "mail": string,
-      "timezone": string,
-      "field_username": string,
-      "field_pokemon_number": string,
-      "field_chatwork_api_room_id": [],
-      "field_chatwork_api_token": string,
-      "field_toggl_api_token": string,
-    }
-  }
-}
+import { useUser } from "../../../../utils/api/UserProvider";
 
 export default function Profile() {
-  const usId = getUserSettingsIdFromLocalStorage();
-  const { data: SettingsData } = useFetchData<UsData>(`${BASE_API_URL}/jsonapi/us/us/${usId}`);
+  const SettingsData = useUser();
   return (
     <StyledProfile>
       <StyledContainer>

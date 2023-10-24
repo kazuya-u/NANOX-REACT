@@ -5,6 +5,7 @@ import styled from "styled-components"
 export default function Flame() {
   return (
     <>
+      
       <StyledFlame>
         <StyledFlameContainer>
           <StyledFlameWrapper>

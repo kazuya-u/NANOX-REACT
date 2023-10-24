@@ -2,7 +2,8 @@ import { getUserSettingsIdFromLocalStorage } from "../../../feature/AuthUser/uti
 import { BASE_API_URL } from "../../../utils/EndPoint";
 import { useFetchData } from "../../../utils/fetchData";
 import styled from "styled-components";
-import { ProfileInputCheckboxField, ProfileInputField } from "../components/input";
+import { ProfileInputCheckboxField } from "../components/input";
+import { useUser } from "../../../utils/api/UserProvider";
 
 interface CategoryType {
   data: Category[];
@@ -22,26 +23,6 @@ interface Category {
   };
 }
 
-interface UsData {
-  data: {
-    "type": "us--us",
-    "id": string,
-    "attributes": {
-      "display_name": string,
-      "drupal_internal__uid": number,
-      "name": string,
-      "mail": string,
-      "timezone": string,
-      "field_username": string,
-      "field_pokemon_number": string,
-      "field_chatwork_api_room_id": [],
-      "field_chatwork_api_token": string,
-      "field_toggl_api_token": string,
-    }
-  },
-  included: RelatedType[]
-}
-
 interface RelatedType {
   id: string,
   "attributes": {
@@ -52,7 +33,7 @@ interface RelatedType {
 const MyDisplay: React.FC = () => {
   const usId = getUserSettingsIdFromLocalStorage();
   const { data: CategoryData } = useFetchData<CategoryType>(`${BASE_API_URL}/jsonapi/uc/status?fields[uc--status]=drupal_internal__id,title`);
-  const { data: USData } = useFetchData<UsData>(`${BASE_API_URL}/jsonapi/us/us/${usId}?include=field_ref_status_filter&fields[uc--settings]=drupal_internal__id`);  
+  const USData = useUser();
   const InitialData: Array<string> = [];
   if (USData) {
     USData.included.forEach((element: RelatedType) => (
