@@ -3,24 +3,28 @@ import { getUserSettingsIdFromLocalStorage } from '../../feature/AuthUser/utils/
 import { useFetchData } from '../fetchData';
 import { BASE_API_URL } from '../EndPoint';
 
+interface UserAttributes {
+  "display_name": string,
+  "drupal_internal__uid": number,
+  "name": string,
+  "mail": string,
+  "timezone": string,
+  "field_username": string,
+  "field_pokemon_number": string,
+  "field_chatwork_api_room_id": [],
+  "field_chatwork_api_token": string,
+  "field_toggl_api_token": string,
+  "field_slack_app_token": string,
+}
+
+interface UserData {
+  "type": "user--user",
+  "id": string,
+  "attributes": UserAttributes
+}
+
 interface User {
-  data: {
-    "type": "user--user",
-    "id": string,
-    "attributes": {
-      "display_name": string,
-      "drupal_internal__uid": number,
-      "name": string,
-      "mail": string,
-      "timezone": string,
-      "field_username": string,
-      "field_pokemon_number": string,
-      "field_chatwork_api_room_id": [],
-      "field_chatwork_api_token": string,
-      "field_toggl_api_token": string,
-      "field_slack_app_token": string,
-    }
-  }
+  data: UserData
   included: RelatedType[]
 }
 
