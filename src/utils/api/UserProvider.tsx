@@ -44,7 +44,7 @@ export const UserContext = createContext<UserContextType | undefined>(undefined)
 export function useUser() {
   const context = useContext(UserContext);
   if (context === undefined) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error('useUser hook is being used outside of the UserProvider context. Make sure to use this hook within a component that is wrapped with UserProvider.');
   }
   return context.user;
 }
