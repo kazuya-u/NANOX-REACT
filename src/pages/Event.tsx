@@ -4,6 +4,7 @@ import { useUser } from '../utils/api/UserProvider';
 import dayGridPlugin from '@fullcalendar/daygrid'
 import FullCalendar from '@fullcalendar/react';
 import googleCalendarPlugin from '@fullcalendar/google-calendar'
+import timeGridPlugin from '@fullcalendar/timegrid'
 
 const Event: React.FC = () => {
   const SettingsData = useUser();
@@ -44,7 +45,7 @@ const Event: React.FC = () => {
   return (
     <StyleCalendar>
       <FullCalendar
-        plugins={[dayGridPlugin, googleCalendarPlugin]}
+        plugins={[dayGridPlugin, timeGridPlugin, googleCalendarPlugin]}
         initialView="dayGridMonth"
         eventSources={eventData}
         eventDisplay='block'
