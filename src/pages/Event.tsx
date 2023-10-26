@@ -1,43 +1,14 @@
-
-import googleCalendarPlugin from '@fullcalendar/google-calendar'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import FullCalendar from '@fullcalendar/react';
-import { getUserSettingsIdFromLocalStorage } from '../feature/AuthUser/utils/LocalStorageUtils';
-import { useFetchDataNoMutate } from '../utils/fetchData';
-import { BASE_API_URL } from '../utils/EndPoint';
 import { Oval } from 'react-loader-spinner'
 import { StyleCalendar } from '../components/Calendar/styled';
-
-interface UsData {
-  data: {
-    "type": "user--user",
-    "id": string,
-    "attributes": {
-      "display_name": string,
-      "drupal_internal__uid": number,
-      "name": string,
-      "mail": string,
-      "timezone": string,
-      "field_username": string,
-      "field_pokemon_number": string,
-      "field_chatwork_api_room_id": [],
-      "field_google_calender": Array<KeyValueType>,
-      "field_chatwork_api_token": string,
-      "field_toggl_api_token": string,
-      "field_slack_app_token": string,
-    }
-  }
-}
-
-interface KeyValueType {
-  key: string,
-  value: string,
-}
+import { useUser } from '../utils/api/UserProvider';
+import dayGridPlugin from '@fullcalendar/daygrid'
+import FullCalendar from '@fullcalendar/react';
+import googleCalendarPlugin from '@fullcalendar/google-calendar'
+import timeGridPlugin from '@fullcalendar/timegrid'
 
 const Event: React.FC = () => {
-  const usId = getUserSettingsIdFromLocalStorage();
-  const { data: SettinsData } = useFetchDataNoMutate<UsData>(`${BASE_API_URL}/jsonapi/us/us/${usId}`);
-  if (!SettinsData) {
+  const SettingsData = useUser();
+  if (!SettingsData) {
     return (
       <>
         <div>
@@ -57,14 +28,14 @@ const Event: React.FC = () => {
       </>
     )
   }
-  if (!SettinsData?.data.attributes.field_google_calender) {
+  if (!SettingsData?.data.attributes.field_google_calender) {
     return (
       <>
         カレンダーの設定が不足しています。
       </>
     )
   }
-  const eventData = SettinsData?.data.attributes.field_google_calender.map(i => {
+  const eventData = SettingsData?.data.attributes.field_google_calender.map(i => {
     return {
       googleCalendarApiKey: i.key,
       googleCalendarId: i.value,
@@ -74,7 +45,7 @@ const Event: React.FC = () => {
   return (
     <StyleCalendar>
       <FullCalendar
-        plugins={[dayGridPlugin, googleCalendarPlugin]}
+        plugins={[dayGridPlugin, timeGridPlugin, googleCalendarPlugin]}
         initialView="dayGridMonth"
         eventSources={eventData}
         eventDisplay='block'
