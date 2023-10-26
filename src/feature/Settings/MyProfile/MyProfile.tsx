@@ -1,45 +1,24 @@
 import { getUserSettingsIdFromLocalStorage } from "../../../feature/AuthUser/utils/LocalStorageUtils";
-import { BASE_API_URL } from "../../../utils/EndPoint";
-import { useFetchDataNoMutate } from "../../../utils/fetchData";
 import styled from "styled-components";
 import { ProfileInputField } from "../components/input";
-
-interface UsData {
-  data: {
-    "type": "user--user",
-    "id": string,
-    "attributes": {
-      "display_name": string,
-      "drupal_internal__uid": number,
-      "name": string,
-      "mail": string,
-      "timezone": string,
-      "field_username": string,
-      "field_pokemon_number": string,
-      "field_chatwork_api_room_id": [],
-      "field_chatwork_api_token": string,
-      "field_toggl_api_token": string,
-      "field_slack_app_token": string,
-    }
-  }
-}
+import { useUser } from "../../../utils/api/UserProvider";
 
 const MyProfile: React.FC = () => {
   const usId = getUserSettingsIdFromLocalStorage();
-  const { data: SettinsData } = useFetchDataNoMutate<UsData>(`${BASE_API_URL}/jsonapi/us/us/${usId}`);
+  const SettingsData = useUser();
   return (
     <>
       <StyledHeadline>プロフィール</StyledHeadline>
       <StyledFormItemContainer>
         <StyledFormItemWrapper>
-          {SettinsData === undefined ? 'Loading...' : <ProfileInputField id={usId} defaultValue={SettinsData?.data.attributes.field_username} label="ユーザー名" fieldName="field_username" inputType="text" />}
+          {SettingsData === undefined ? 'Loading...' : <ProfileInputField id={usId} defaultValue={SettingsData?.data.attributes.field_username} label="ユーザー名" fieldName="field_username" inputType="text" />}
          
         </StyledFormItemWrapper>
       </StyledFormItemContainer>
       <StyledSpace />
       <StyledFormItemContainer>
         <StyledFormItemWrapper>
-          {SettinsData === undefined ? 'Loading...' : <ProfileInputField id={usId} defaultValue={SettinsData?.data.attributes.field_pokemon_number} label="アイコン" fieldName="field_pokemon_number" inputType="text" />}
+          {SettingsData === undefined ? 'Loading...' : <ProfileInputField id={usId} defaultValue={SettingsData?.data.attributes.field_pokemon_number} label="アイコン" fieldName="field_pokemon_number" inputType="text" />}
         </StyledFormItemWrapper>
       </StyledFormItemContainer>
     </>
