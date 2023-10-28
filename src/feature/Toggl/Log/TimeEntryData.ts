@@ -4,10 +4,10 @@ import { SchedulerDataItem, TogglEnttyDataItem } from "../Type/Index";
 
 function convertSchedulerData(datas: TogglEnttyDataItem[]): SchedulerDataItem[] {
   return datas.map(item => ({
+    id: item.id,
     start: item.start,
     end: item.stop,
     title: item.description,
-    // color: "#d7d7d7",
   }));
 }
 
@@ -29,6 +29,7 @@ export async function fetchTimeEntryData(): Promise<SchedulerDataItem[]> {
       }
 
       const responseData: TogglEnttyDataItem[] = await response.json();
+      
       TimeEntryData = convertSchedulerData(responseData);
       return TimeEntryData;
     } catch (error) {

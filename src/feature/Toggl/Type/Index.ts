@@ -20,6 +20,7 @@ export interface TogglEnttyDataItem {
 }
 
 export interface SchedulerDataItem {
+  id: string;
   start: string;
   end: string;
   title: string;

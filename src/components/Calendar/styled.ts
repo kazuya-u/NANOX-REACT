@@ -42,4 +42,14 @@ export const StyleCalendar = styled.div`
 .fc-event-time {
   font-weight: 400;
 }
+
+.fc-day-sun {
+  background: rgb(251, 251, 250);
+}
+.fc-day-sat {
+  background: rgb(251, 251, 250);
+}
+.fc-event-time {
+  display: none;
+}
 `;
