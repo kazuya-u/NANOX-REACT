@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { BASE_API_URL } from "../../../utils/EndPoint";
 import { useFetchData } from "../../../utils/fetchData";
 import styled from "styled-components";
-import { RenderCategory, RenderMultipleCategory } from "../../../feature/View/Utils/Utility";
+import { RenderCategory } from "../../../feature/View/Utils/Utility";
 
 interface FieldRef {
   color_label: string;
@@ -112,13 +112,6 @@ const List: React.FC = () => {
           ))}
         </StyledListWrapper>
       </StyledListContainer>
-      {/* <div>
-        <Select
-          defaultValue={filterParam}
-          onChange={handleOptionChange}
-          options={updatedData}
-        />
-      </div> */}
 
     </>
   );
