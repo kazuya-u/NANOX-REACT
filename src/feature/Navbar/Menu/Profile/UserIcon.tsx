@@ -12,8 +12,6 @@ type Props = {
 }
 
 export const UserIcon: React.FC<Props> = ({ iconNumber }) => {
-  // const { data: Data } = useFetchData<PokeApiType>('http://drupal.sandbox.dev.lando/sites/default/files/api/pokemon/0003/front_default.txt');
-  
   const POKE_URL = iconNumber ? `https://pokeapi.co/api/v2/pokemon/${iconNumber}/` : '';
   const { data: IconData, error } = useFetchData<PokeApiType>(POKE_URL);
   if (error) {
