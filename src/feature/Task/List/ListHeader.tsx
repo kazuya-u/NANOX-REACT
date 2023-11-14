@@ -102,14 +102,15 @@ const StyledItemWrapper = styled.div`
   position: relative;
 `;
 
-const StyledCell = styled.div<{ width: string; }>`
+const StyledCell = styled.div<{ width?: string; }>`
   display: flex;
   flex-shrink: 0;
   overflow: hidden;
   font-size: 14px;
   padding: 0px;
-  width: ${(props) => (props.width ? props.width : "auto")};
+  width: ${(props) => props.width || "auto"};
 `;
+
 const StyledItemInnerWrapper = styled.div`
   user-select: none;
   transition: background 20ms ease-in 0s;
