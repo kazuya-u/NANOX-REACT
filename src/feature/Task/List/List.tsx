@@ -42,84 +42,64 @@ const List: React.FC = () => {
 
   // const newItem = { label: 'All', value: '' };
   // const updatedData = [...ProjectFetchData, newItem];
-  
+
 
   return (
     <>
-      <StyledListContainer>
-        <StyledListWrapper>
-          {TaskData.map((item: NodeData) => (
-            <StyledListItem key={item.Nid}>
-              <StyledListItemRow to={`/tasks/${item.UUID}`}>
-                {/* About Title */}
-                <StyledCell1>
-                  <StyledCell1Wrapper>
-                    <StyledTitle>
-                      <StyledTitleWrapper>
-                        {item.Title}
-                      </StyledTitleWrapper>
-                    </StyledTitle>
-                  </StyledCell1Wrapper>
-                </StyledCell1>
+      <StyledListWrapper>
+        {TaskData.map((item: NodeData) => (
+          <StyledListItem key={item.Nid}>
+            <StyledListItemRow to={`/tasks/${item.UUID}`}>
+              {/* About Title */}
+              <StyledCell width="276px">
+                <StyledCellWrapper width="276px">
+                  <StyledTitle>
+                    <StyledTitleWrapper>
+                      {item.Title}
+                    </StyledTitleWrapper>
+                  </StyledTitle>
+                </StyledCellWrapper>
+              </StyledCell>
 
-                {/* About Project */}
-                <StyledCell2>
-                  <StyledCell2Wrapper>
-                    <StyledCategory>
-                      <StyledCategoryWrapper>
-                        <RenderCategory data={item.Project} />
-                      </StyledCategoryWrapper>
-                    </StyledCategory>
-                  </StyledCell2Wrapper>
-                </StyledCell2>
+              {/* About Project */}
+              <StyledCell width="112px">
+                <StyledCellWrapper width="112px">
+                  <StyledCategory>
+                    <StyledCategoryWrapper>
+                      <RenderCategory data={item.Project} />
+                    </StyledCategoryWrapper>
+                  </StyledCategory>
+                </StyledCellWrapper>
+              </StyledCell>
 
-                {/* About Tags */}
-                <StyledCell2>
-                  <StyledCell2Wrapper>
-                    <StyledCategory>
-                      <StyledCategoryWrapper>
-                        <RenderCategory data={item.Tag} isMultiple={true} />
-                      </StyledCategoryWrapper>
-                    </StyledCategory>
-                  </StyledCell2Wrapper>
-                </StyledCell2>
+              {/* About Tags */}
+              <StyledCell width="175px">
+                <StyledCellWrapper width="175px">
+                  <StyledCategory>
+                    <StyledCategoryWrapper>
+                      <RenderCategory data={item.Tag} isMultiple={true} />
+                    </StyledCategoryWrapper>
+                  </StyledCategory>
+                </StyledCellWrapper>
+              </StyledCell>
 
-                {/* About Status */}
-                <StyledCell2>
-                  <StyledCell2Wrapper>
-                    <StyledCategory>
-                      <StyledCategoryWrapper>
-                        <RenderCategory data={item.Status} />
-                      </StyledCategoryWrapper>
-                    </StyledCategory>
-                  </StyledCell2Wrapper>
-                </StyledCell2>
-
-              </StyledListItemRow>
-              {/* <StyledLink to={`/tasks/${item.uuid}`}>
-                    <TaskLeftWrapper>
-                      <TaskName>{item.title}</TaskName>
-                      <TaskDescription>{item.field_description}</TaskDescription>
-                      {item.TagName ? <TagContainer><Tag>{item.TagName}</Tag></TagContainer> : ''}
-                    </TaskLeftWrapper>
-                    <TaskRightWrapper>
-                      <Deadline>Due: {item.field_deadline}</Deadline>
-                      <Status>Status: {item.field_ref_status}</Status>
-                      <ProjectName>{item.ProjectName}</ProjectName>
-                    </TaskRightWrapper>
-                  </StyledLink> */}
-            </StyledListItem>
-          ))}
-        </StyledListWrapper>
-      </StyledListContainer>
-
+              {/* About Status */}
+              <StyledCell width="112px">
+                <StyledCellWrapper width="112px">
+                  <StyledCategory>
+                    <StyledCategoryWrapper>
+                      <RenderCategory data={item.Status} />
+                    </StyledCategoryWrapper>
+                  </StyledCategory>
+                </StyledCellWrapper>
+              </StyledCell>
+            </StyledListItemRow>
+          </StyledListItem>
+        ))}
+      </StyledListWrapper>
     </>
   );
 };
-
-const StyledListContainer = styled.div`
-  position: relative;
-`;
 
 const StyledListWrapper = styled.div`
   position: relative;
@@ -131,34 +111,24 @@ const StyledListItem = styled.div`
   height: calc(100% + 2px);
   border-bottom: 1px solid rgb(233, 233, 231);
 `;
+
 const StyledListItemRow = styled(Link)`
   display: flex;
 `;
-const StyledCell1 = styled.div`
+
+const StyledCell = styled.div<{ width: string; }>`
   display: flex;
-  width: 276px;
   height: calc(100% + 1px);
   position: relative;
   border-right: 1px solid rgb(233, 233, 231);
+  width: ${(props) => (props.width ? props.width : "auto")};
 `;
 
-const StyledCell1Wrapper = styled.div`
-  display: flex; overflow-x: clip; height: 100%; width: 276px;
-`;
-
-const StyledCell2 = styled.div`
-  display: flex;
-  width: 112px;
-  height: calc(100% + 1px);
-  position: relative;
-  border-right: 1px solid rgb(233, 233, 231);
-`;
-
-const StyledCell2Wrapper = styled.div`
+const StyledCellWrapper = styled.div<{ width: string; }>`
   display: flex;
   overflow-x: clip;
   height: 100%;
-  width: 112px;
+  width: ${(props) => (props.width ? props.width : "auto")};
 `;
 
 const StyledTitle = styled.div`
@@ -199,11 +169,11 @@ const StyledCategory = styled.div`
   min-height: 32px;
   padding: 6px 8px;
 `;
+
 const StyledCategoryWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 6px 8px;
 `;
-
 
 export default List;
