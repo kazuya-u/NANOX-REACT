@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import List from "./List";
+import ListHeader from "./ListHeader";
 
 const Index: React.FC = () => {
   return (
@@ -8,11 +9,12 @@ const Index: React.FC = () => {
         <StyledListWrapper>
           <StyledListInner>
             <StyledListInnerWrapper>
+              <ListHeader />
+              <StyledHeaderEmpty />
               <List />
             </StyledListInnerWrapper>
           </StyledListInner>
         </StyledListWrapper>
-        
       </StyledList>
     </>
   );
@@ -25,6 +27,7 @@ const StyledList = styled.div`
   flex-direction: column;
   position: relative;
 `;
+
 const StyledListWrapper = styled.div`
   z-index: 1;
   flex-grow: 1;
@@ -32,6 +35,7 @@ const StyledListWrapper = styled.div`
   margin-right: 0px;
   margin-bottom: 0px;
 `;
+
 const StyledListInner = styled.div`
   position: relative;
   float: left;
@@ -42,8 +46,13 @@ const StyledListInner = styled.div`
   padding-left: 96px;
   padding-right: 96px;
 `;
+
 const StyledListInnerWrapper = styled.div`
   position: relative;
+`;
+
+const StyledHeaderEmpty = styled.div`
+  height: 34px;
 `;
 
 export default Index;
