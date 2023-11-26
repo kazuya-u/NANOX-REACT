@@ -1,32 +1,19 @@
-import { useFetchData } from "../../../../utils/fetchData";
+import { BASE_API_URL } from "../../../../utils/EndPoint";
 import styled from "styled-components"
-
-interface PokeApiType {
-  sprites: {
-    front_default: string,
-  }
-}
 
 type Props = {
   iconNumber: string | undefined,
 }
 
 export const UserIcon: React.FC<Props> = ({ iconNumber }) => {
-  const POKE_URL = iconNumber ? `https://pokeapi.co/api/v2/pokemon/${iconNumber}/` : '';
-  const { data: IconData, error } = useFetchData<PokeApiType>(POKE_URL);
-  if (error) {
-    return (
-      <>
-        None...
-      </>
-    )
-  }
+  const POKE_URL = iconNumber ? `${BASE_API_URL}/sites/default/files/api/pokemon/${String(iconNumber).padStart(4, '0')}/front_default.png` : '';
+
   return (
     <StyledIcon>
       <StyledContainer>
         <StyledWrapper>
           <StyledInner>
-            {iconNumber ? <StyledImage src={IconData?.sprites.front_default} /> : ''}
+            <StyledImage src={POKE_URL} />
           </StyledInner>
         </StyledWrapper>
       </StyledContainer>
